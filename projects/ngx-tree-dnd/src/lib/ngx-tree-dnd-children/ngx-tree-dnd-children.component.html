@@ -4,7 +4,18 @@
       <div class='tree-title d-inline-flex pos-relative' [ngClass]="{destenationTop : element.options.destenationTop, destenationBottom: element.options.destenationBottom}" *ngIf="!element.options.edit;else onEdit">
         <div *ngIf="!config.setItemsAsLinks; else link" [ngClass]="{addOpacity : element.options.currentlyDragging}" libDropElement
           [item]='element' class='draggable-item'>
-          {{element.name}}
+          <div class="d-inline-flex pos-relative">
+            <div class="o-item-title">{{element.name}}</div>
+            <div class="o-item-options d-inline-flex">
+              <span class="item-type">{{element.contents.type | treeItemTypeTransform}}</span>
+              <div class= "item-dates">
+                <span>{{element.contents.startDate}}</span>
+                <span> | </span>
+                <span>{{element.contents.endDate}}</span>
+                <span class="badge badge-light">{{element.contents.duration}} days</span>
+              </div>
+            </div>
+          </div>
         </div>
         <ng-template #link>
           <div [ngClass]="{addOpacity : element.options.currentlyDragging}" libDropElement

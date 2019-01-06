@@ -29,8 +29,8 @@ export class NgxTreeParentComponent implements AfterViewInit {
       validationText: 'Enter valid name',
       minCharacterLength: 1,
       setItemsAsLinks: false,
-      setFontSize: 16,
-      setIconSize: 14
+      setFontSize: 14,
+      setIconSize: 12
     };
   showError: boolean;
   renameForm;
@@ -63,7 +63,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
   @Input()
   set treeData(item: TreeModel[]) {
     // get user tree data
-      this.getTreeData(item);
+    this.getTreeData(item);
   }
 
   constructor(public treeService: NgxTreeService, private fb: FormBuilder ) {

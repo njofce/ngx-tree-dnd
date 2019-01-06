@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TreeModel, TreeItemType } from 'ngx-tree-dnd';
 
 @Component({
   selector: 'app-root',
@@ -6,7 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  
   constructor() {}
+
   config = {
     showActionButtons: true,
     showAddButtons: true,
@@ -14,61 +17,73 @@ export class AppComponent {
     showDeleteButtons: true,
     enableExpandButtons: true,
     enableDragging: true,
-    rootTitle: 'My Tree',
-    validationText: 'need valid',
+    rootTitle: 'OP3 Project Tree',
+    validationText: 'Contents invalid',
     minCharacterLength: 7,
     setItemsAsLinks: false,
-    setFontSize: 24,
-    setIconSize: 16
+    setFontSize: 14,
+    setIconSize: 10
   };
-  myTree = [
+
+  myTree: TreeModel[] = [
     {
-      name: 'item - 1',
+      name: 'Task Group - 1',
+      id: 4561,
+      options: {},
+      contents: {
+        id: 4561,
+        title: 'Task Group - 2',
+        type: TreeItemType.Task,
+        startDate: '2019-01-27',
+        endDate: '2019-08-16',
+        duration: 250
+      },
+      childrens: []
+    },
+    {
+      name: 'Task Group - 2',
       id: 123,
+      contents: {
+        id: 123,
+        title: 'Task Group - 2',
+        type: TreeItemType.TaskGroup,
+        startDate: '2019-01-27',
+        endDate: '2019-02-12',
+        duration: 17
+      },
       options: {
-        href: 'FFFFFFFFFFF',
-        showActionButtons: true,
-        showDropChildZone: false,
-        showExpandButton: true,
-        draggable: false,
-        disabled: false,
-        hideChildrens: false,
+        showDeleteButton: true
       },
       childrens: [
         {
-          name: 'child - item - 1',
+          name: 'Task - 1',
           id: 456,
-          options: {
-
+          options: {},
+          contents: {
+            id: 456,
+            title: 'Task - 1',
+            type: TreeItemType.Task,
+            startDate: '2019-01-27',
+            endDate: '2019-02-05',
+            duration: 10
           },
-          childrens: [
-            {
-              name: 'deep - item - 1',
-              id: 1222,
-              options: {
-
-              },
-              childrens: []
-            },
-          ]
+          childrens: []
         },
+        {
+          name: 'Milestone - 1',
+          id: 1533,
+          options: {},
+          contents: {
+            id: 456,
+            title: 'Milestone - 1',
+            type: TreeItemType.Milestone,
+            startDate: '2019-02-12',
+            endDate: '2019-02-12',
+            duration: 0
+          },
+          childrens: []
+        }
       ]
-    },
-    {
-      name: 'item - 2',
-      id: 1533,
-      options: {
-
-      },
-      childrens: []
-    },
-    {
-      name: 'item - 3',
-      id: 9683,
-      options: {
-
-      },
-      childrens: []
     }
   ];
 

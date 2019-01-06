@@ -7,7 +7,8 @@
     "build": "ng build ngx-tree-dnd --prod",
     "test": "ng test ngx-tree-dnd",
     "lint": "ng lint ngx-tree-dnd",
-    "e2e": "ng e2e ngx-tree-dnd"
+    "e2e": "ng e2e ngx-tree-dnd",
+    "cp_assets": "cp \"./projects/ngx-tree-dnd/src/lib/styles-tree-dnd.css\" \"./dist/ngx-tree-dnd/styles-tree-dnd.css\""
   },
   "private": true,
   "dependencies": {
@@ -23,6 +24,7 @@
     "@fortawesome/angular-fontawesome": "^0.3.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.8",
     "@fortawesome/free-solid-svg-icons": "^5.5.0",
+    "bootstrap": "^3.3.7",
     "core-js": "^2.5.4",
     "karma-phantomjs-launcher": "^1.0.4",
     "ngx-tree-dnd": "^2.3.0",

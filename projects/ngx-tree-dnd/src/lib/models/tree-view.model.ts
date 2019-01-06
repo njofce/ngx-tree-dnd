@@ -1,3 +1,5 @@
+import { TreeItemType } from "./tree-view.enum";
+
 /*
  Copyright (C) 2018 Yaroslav Kikot
  This project is licensed under the terms of the MIT license.
@@ -9,7 +11,19 @@ export interface TreeModel {
     name: string;
     id: number;
     options?: TreeItemOptions;
+    contents?: TreeItemContents;
     childrens: TreeModel[];
+}
+
+// Contents of a tree item
+export interface TreeItemContents {
+    id: number;
+    title: string;
+    type: TreeItemType;
+    startDate: string;
+    endDate: string;
+    duration: number;
+    predecessors?: number []; // Array of ids of the predecessors
 }
 
 // Tree items options model

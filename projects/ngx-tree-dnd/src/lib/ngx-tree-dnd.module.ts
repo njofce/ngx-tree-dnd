@@ -9,6 +9,7 @@ import { NgxTreeChildrenComponent } from './ngx-tree-dnd-children/ngx-tree-dnd-c
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCoffee, faPlus, faEdit, faMinus, faTimes, faCheck, faArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { TreeItemTypeTransformPipe } from './pipes/tree-item-type-transform.pipe';
 
 library.add(faCoffee, faPlus, faEdit, faMinus, faTimes, faCheck, faArrowDown );
 
@@ -23,7 +24,8 @@ library.add(faCoffee, faPlus, faEdit, faMinus, faTimes, faCheck, faArrowDown );
     DragElementsDirective,
     DropElementsDirective,
     NgxTreeParentComponent,
-    NgxTreeChildrenComponent
+    NgxTreeChildrenComponent,
+    TreeItemTypeTransformPipe
   ],
   exports: [
     AutoFocusDirective,
