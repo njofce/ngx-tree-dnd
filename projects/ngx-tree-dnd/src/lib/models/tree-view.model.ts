@@ -6,6 +6,12 @@ import { TreeItemType } from "./tree-view.enum";
  https://github.com/Zicrael/ngx-tree-dnd
  */
 
+// Tree DTO
+export interface TreeDto {
+    rootTitle: string;
+    treeStorage: TreeModel[];
+}
+
 // Main tree model
 export interface TreeModel {
     name: string;

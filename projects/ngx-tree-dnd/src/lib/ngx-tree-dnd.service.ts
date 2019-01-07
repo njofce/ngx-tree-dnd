@@ -5,12 +5,13 @@
  */
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
-import { TreeModel, TreeConfig, FindingResults } from './models/tree-view.model';
+import { TreeModel, TreeConfig, FindingResults, TreeDto } from './models/tree-view.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NgxTreeService {
+  rootTitle: string = 'Root';
   treeStorage: TreeModel[] = [];
   private findingResults: FindingResults;
   // listOfSelectedElement: TreeModel[];
@@ -71,20 +72,13 @@ export class NgxTreeService {
     return data;
   }
 
-/**
- * Flatten the tree into a list collection
- * @param tree 
- * @param key 
- * @param collection 
- */
-  private bfs (tree, key, collection) {
-    if (!tree[key] || tree[key].length === 0) return;
-    for (var i = 0; i < tree[key].length; i++) {
-      var child = tree[key][i]
-      collection[child.id] = child;
-      this.bfs(child, key, collection);
-    }
-    return;
+  public getTreeData(): Observable<TreeDto> {
+    return new Observable(observer => {
+      observer.next({
+        rootTitle: this.rootTitle,
+        treeStorage: this.treeStorage
+      });
+    })
   }
 
   /*
@@ -186,14 +180,30 @@ export class NgxTreeService {
   }
 
   /*
+    Update root title
+    Replaces root title with the new one
+  */
+  public updateRootTitle(newTitle: string) {
+    this.rootTitle = newTitle;
+  }
+
+  /*
    Rename element.
-   It`s accepts 'name' and 'id' for find item on tree and set the name.
+   It`s accepts 'formValue' and 'id' for find item on tree and set the name.
    Emit onRenameItem Subject.
   */
-  public finishRenameItem(name, id) {
+  public finishEditItem(formValue, id) {
     this.elementFinder(this.treeStorage, id);
     // code
-    this.findingResults.foundItem.name = name;
+    this.findingResults.foundItem.name = formValue.name;
+    this.findingResults.foundItem.contents = {
+      id: this.findingResults.foundItem.id,
+      title: formValue.name,
+      startDate: formValue.startDate,
+      endDate: formValue.endDate,
+      duration: formValue.duration,
+      type: formValue.itemType
+    }
     this.findingResults.foundItem.options.edit = false;
     // event emit
     const eventEmit = {

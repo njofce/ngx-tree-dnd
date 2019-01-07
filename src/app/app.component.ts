@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TreeModel, TreeItemType } from 'ngx-tree-dnd';
+import { TreeModel, TreeItemType, NgxTreeService } from 'ngx-tree-dnd';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +8,7 @@ import { TreeModel, TreeItemType } from 'ngx-tree-dnd';
 })
 export class AppComponent {
   
-  constructor() {}
+  constructor(private treeService: NgxTreeService) {}
 
   config = {
     showActionButtons: true,
@@ -87,26 +87,32 @@ export class AppComponent {
     }
   ];
 
+  getLocalData() {
+    this.treeService.getTreeData().subscribe(val => {
+      console.log(val);
+    })
+  }
+
   onDrop(event) {
-    console.log(this.myTree);
-    console.log(event);
+    // console.log(this.myTree);
+    // console.log(event);
   }
   onDelete(event) {
-    console.log(this.myTree);
-    console.log(event);
+    // console.log(this.myTree);
+    // console.log(event);
   }
   onadditem(event) {
-    console.log(this.myTree);
-    console.log(event);
+    // console.log(this.myTree);
+    // console.log(event);
   }
   onStartRenameItem(event) {
-    console.log('start rename');
-    console.log(this.myTree);
-    console.log(event);
+    // console.log('start rename');
+    // console.log(this.myTree);
+    // console.log(event);
   }
   onFinishRenameItem(event) {
-    console.log('finish rename');
-    console.log(this.myTree);
-    console.log(event);
+    // console.log('finish rename');
+    // console.log(this.myTree);
+    // console.log(event);
   }
 }

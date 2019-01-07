@@ -13,11 +13,14 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^7.0.4",
+    "@angular/cdk": "~7.0.4",
     "@angular/common": "^7.0.4",
     "@angular/compiler": "^7.0.4",
     "@angular/core": "^7.0.4",
     "@angular/forms": "^7.0.4",
     "@angular/http": "^7.0.4",
+    "@angular/material": "^7.0.4",
+    "@angular/material-moment-adapter": "^7.0.4",
     "@angular/platform-browser": "^7.0.4",
     "@angular/platform-browser-dynamic": "^7.0.4",
     "@angular/router": "^7.0.4",
@@ -27,6 +30,7 @@
     "bootstrap": "^3.3.7",
     "core-js": "^2.5.4",
     "karma-phantomjs-launcher": "^1.0.4",
+    "moment": "^2.23.0",
     "ngx-tree-dnd": "^2.3.0",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"

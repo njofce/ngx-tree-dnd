@@ -1,4 +1,6 @@
+import { MY_FORMATS } from './util/date-format';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AutoFocusDirective } from './directives/ngx-tree-dnd-autofocus.directive';
@@ -13,11 +15,20 @@ import { TreeItemTypeTransformPipe } from './pipes/tree-item-type-transform.pipe
 
 library.add(faCoffee, faPlus, faEdit, faMinus, faTimes, faCheck, faArrowDown );
 
+import { MatDatepickerModule, MatSelectModule, MatFormFieldModule, MatInputModule, DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateFormatterPipe } from './pipes/date-formatter.pipe';
+
 @NgModule({
   imports: [
     CommonModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   declarations: [
     AutoFocusDirective,
@@ -25,7 +36,8 @@ library.add(faCoffee, faPlus, faEdit, faMinus, faTimes, faCheck, faArrowDown );
     DropElementsDirective,
     NgxTreeParentComponent,
     NgxTreeChildrenComponent,
-    TreeItemTypeTransformPipe
+    TreeItemTypeTransformPipe,
+    DateFormatterPipe
   ],
   exports: [
     AutoFocusDirective,
@@ -33,6 +45,11 @@ library.add(faCoffee, faPlus, faEdit, faMinus, faTimes, faCheck, faArrowDown );
     DropElementsDirective,
     NgxTreeParentComponent,
     NgxTreeChildrenComponent
+  ],
+  providers: [
+    DateFormatterPipe,
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
 export class NgxTreeDndModule { }

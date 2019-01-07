@@ -32,7 +32,10 @@
   },
   "peerDependencies": {
     "@angular/common": "^7.0.4",
-    "@angular/core": "^7.0.4"
+    "@angular/core": "^7.0.4",
+    "@angular/material": "^7.0.4",
+    "@angular/material-moment-adapter": "^7.0.4",
+    "moment": "^2.22.2"
   },
   "dependencies": {
     "@fortawesome/angular-fontawesome": "^0.2.1",

@@ -194,3 +194,8 @@
 .pos-relative {
     position: relative;
 }
+
+/* Material inputs */
+.input-material {
+    padding: 5px 10px;
+}
