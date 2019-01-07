@@ -2,16 +2,16 @@ import { FormBuilder, Validators } from '@angular/forms';
 /*
  Copyright (C) 2018 Yaroslav Kikot
  This project is licensed under the terms of the MIT license.
- https://github.com/Zicrael/ngx-tree-dnd
+ https://github.com/Zicrael/ngx-tree-dnd-fork
  */
 import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 
-import { NgxTreeService } from '../ngx-tree-dnd.service';
+import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { TreeModel, TreeConfig } from '../models/tree-view.model';
 
 @Component({
   selector: 'lib-ngx-tree-component',
-  templateUrl: './ngx-tree-dnd-parent.component.html'
+  templateUrl: './ngx-tree-dnd-fork-parent.component.html'
 })
 export class NgxTreeParentComponent implements AfterViewInit {
   treeView: TreeModel[];

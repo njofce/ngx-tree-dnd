@@ -1,4 +1,4 @@
-import { NgxTreeDndModule } from './ngx-tree-dnd.module';
+import { NgxTreeDndModule } from './ngx-tree-dnd-fork.module';
 
 describe('NgxTreeDndModule', () => {
   let ngxTreeDndModule: NgxTreeDndModule;

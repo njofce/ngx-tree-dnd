@@ -4,11 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build ngx-tree-dnd --prod",
-    "test": "ng test ngx-tree-dnd",
-    "lint": "ng lint ngx-tree-dnd",
-    "e2e": "ng e2e ngx-tree-dnd",
-    "cp_assets": "cp \"./projects/ngx-tree-dnd/src/lib/styles-tree-dnd.css\" \"./dist/ngx-tree-dnd/styles-tree-dnd.css\""
+    "build": "ng build ngx-tree-dnd-fork --prod",
+    "test": "ng test ngx-tree-dnd-fork",
+    "lint": "ng lint ngx-tree-dnd-fork",
+    "e2e": "ng e2e ngx-tree-dnd-fork",
+    "copy-license": "cp ./LICENSE ./dist/ngx-tree-dnd-fork",
+    "cp_assets": "cp \"./projects/ngx-tree-dnd-fork/src/lib/styles-tree-dnd-fork.css\" \"./dist/ngx-tree-dnd-fork/styles-tree-dnd-fork.css\"",
+    "npm_pack": "cd dist/ngx-tree-dnd-fork && npm pack"
   },
   "private": true,
   "dependencies": {
@@ -31,7 +33,7 @@
     "core-js": "^2.5.4",
     "karma-phantomjs-launcher": "^1.0.4",
     "moment": "^2.23.0",
-    "ngx-tree-dnd": "^2.3.0",
+    "ngx-tree-dnd-fork": "^2.3.0",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },

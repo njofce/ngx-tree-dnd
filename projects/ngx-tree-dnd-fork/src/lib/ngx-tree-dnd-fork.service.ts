@@ -1,7 +1,7 @@
 /*
  Copyright (C) 2018 Yaroslav Kikot
  This project is licensed under the terms of the MIT license.
- https://github.com/Zicrael/ngx-tree-dnd
+ https://github.com/Zicrael/ngx-tree-dnd-fork
  */
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject, Observable } from 'rxjs';

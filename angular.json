@@ -25,7 +25,7 @@
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.css",
-              "dist/ngx-tree-dnd/styles-tree-dnd.css",
+              "dist/ngx-tree-dnd-fork/styles-tree-dnd-fork.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": []
@@ -70,10 +70,10 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngx-tree-dnd/src/test.ts",
+            "main": "projects/ngx-tree-dnd-fork/src/test.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-tree-dnd/karma.conf.js",
+            "karmaConfig": "projects/ngx-tree-dnd-fork/karma.conf.js",
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.css"
@@ -126,31 +126,31 @@
         }
       }
     },
-    "ngx-tree-dnd": {
-      "root": "projects/ngx-tree-dnd",
-      "sourceRoot": "projects/ngx-tree-dnd/src",
+    "ngx-tree-dnd-fork": {
+      "root": "projects/ngx-tree-dnd-fork",
+      "sourceRoot": "projects/ngx-tree-dnd-fork/src",
       "projectType": "library",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/ngx-tree-dnd/tsconfig.lib.json",
-            "project": "projects/ngx-tree-dnd/ng-package.json"
+            "tsConfig": "projects/ngx-tree-dnd-fork/tsconfig.lib.json",
+            "project": "projects/ngx-tree-dnd-fork/ng-package.json"
           },
           "configurations": {
             "production": {
-              "project": "projects/ngx-tree-dnd/ng-package.prod.json"
+              "project": "projects/ngx-tree-dnd-fork/ng-package.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngx-tree-dnd/src/test.ts",
+            "main": "projects/ngx-tree-dnd-fork/src/test.ts",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "projects/ngx-tree-dnd/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-tree-dnd/karma.conf.js",
+            "tsConfig": "projects/ngx-tree-dnd-fork/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-tree-dnd-fork/karma.conf.js",
             "codeCoverage": true
           }
         },
@@ -158,8 +158,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/ngx-tree-dnd/tsconfig.lib.json",
-              "projects/ngx-tree-dnd/tsconfig.spec.json"
+              "projects/ngx-tree-dnd-fork/tsconfig.lib.json",
+              "projects/ngx-tree-dnd-fork/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

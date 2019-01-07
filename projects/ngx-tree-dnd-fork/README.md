@@ -1,21 +1,21 @@
-# ngx-tree-dnd  [![npm version](https://badge.fury.io/js/ngx-tree-dnd.svg)](https://badge.fury.io/js/ngx-tree-dnd) [![npm downloads](https://img.shields.io/npm/dt/ngx-tree-dnd.svg)](https://www.npmjs.com/package/ngx-tree-dnd)
+# ngx-tree-dnd-fork  [![npm version](https://badge.fury.io/js/ngx-tree-dnd-fork.svg)](https://badge.fury.io/js/ngx-tree-dnd-fork) [![npm downloads](https://img.shields.io/npm/dt/ngx-tree-dnd-fork.svg)](https://www.npmjs.com/package/ngx-tree-dnd-fork)
 
 Angular 7 support tree with drag-and-drop sortable data tree. It`s fast and smart.
 
-[![Dependency Status](https://david-dm.org/zicrael/ngx-tree-dnd.svg)](https://david-dm.org/zicrael/ngx-tree-dnd) [![Build status](https://api.travis-ci.org/Zicrael/ngx-tree-dnd.svg?branch=master)](https://travis-ci.org/Zicrael/ngx-tree-dnd) 
-[![codecov](https://codecov.io/gh/zicrael/ngx-tree-dnd/badge.svg)](https://codecov.io/gh/zicrael/ngx-tree-dnd)
-[![Known Vulnerabilities](https://snyk.io/test/github/zicrael/ngx-tree-dnd/badge.svg?targetFile=package.json)](https://snyk.io/test/github/zicrael/ngx-tree-dnd?targetFile=package.json)
-[![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/zicrael/ngx-tree-dnd/blob/master/LICENSE)
+[![Dependency Status](https://david-dm.org/zicrael/ngx-tree-dnd-fork.svg)](https://david-dm.org/zicrael/ngx-tree-dnd-fork) [![Build status](https://api.travis-ci.org/Zicrael/ngx-tree-dnd-fork.svg?branch=master)](https://travis-ci.org/Zicrael/ngx-tree-dnd-fork) 
+[![codecov](https://codecov.io/gh/zicrael/ngx-tree-dnd-fork/badge.svg)](https://codecov.io/gh/zicrael/ngx-tree-dnd-fork)
+[![Known Vulnerabilities](https://snyk.io/test/github/zicrael/ngx-tree-dnd-fork/badge.svg?targetFile=package.json)](https://snyk.io/test/github/zicrael/ngx-tree-dnd-fork?targetFile=package.json)
+[![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/zicrael/ngx-tree-dnd-fork/blob/master/LICENSE)
 
 #### Help the project and star it :3 ####
 
 ## Installation
-New ngx-tree-dnd with draggable/sortable tree data, easy for use.
+New ngx-tree-dnd-fork with draggable/sortable tree data, easy for use.
 
 To install library, run:
 
 ```bash
-$ npm install ngx-tree-dnd --save
+$ npm install ngx-tree-dnd-fork --save
 ```
 
 ## Import NgxTreeModule module
@@ -24,7 +24,7 @@ $ npm install ngx-tree-dnd --save
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { NgxTreeDndModule } from 'ngx-tree-dnd'; // here
+import { NgxTreeDndModule } from 'ngx-tree-dnd-fork'; // here
 
 @NgModule({
   declarations: [
@@ -72,7 +72,7 @@ You need to import default styles for tree ( you can change them by rewrite clas
       "prefix": "app",
       "styles": [
         "styles.css",
-        "node_modules/ngx-tree-dnd/styles-tree-dnd.css" 
+        "node_modules/ngx-tree-dnd-fork/styles-tree-dnd.css" 
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
@@ -88,13 +88,13 @@ You need to import default styles for tree ( you can change them by rewrite clas
 
 Demo with editor: 
 
-[Run on stackblitz.com](https://stackblitz.com/edit/ngx-tree-dnd)
+[Run on stackblitz.com](https://stackblitz.com/edit/ngx-tree-dnd-fork)
 
 Demo application: 
 
-[Run on stackblitz.com](https://ngx-tree-dnd.stackblitz.io)
+[Run on stackblitz.com](https://ngx-tree-dnd-fork.stackblitz.io)
 
-## NGX-TREE-DND DOCS
+## ngx-tree-dnd-fork DOCS
 
 With the development of the plug-in docs will be replenished. So do not forget update the packadge.
 

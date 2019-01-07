@@ -1,11 +1,11 @@
 /*
  Copyright (C) 2018 Yaroslav Kikot
  This project is licensed under the terms of the MIT license.
- https://github.com/Zicrael/ngx-tree-dnd
+ https://github.com/Zicrael/ngx-tree-dnd-fork
 */
 import { Directive, ElementRef, HostListener, Input, HostBinding, Output, EventEmitter } from '@angular/core';
 import { TreeModel } from '../models/tree-view.model';
-import { NgxTreeService } from '../ngx-tree-dnd.service';
+import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 @Directive({
   selector: '[libDropElement]'
 })

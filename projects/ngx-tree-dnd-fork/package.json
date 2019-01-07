@@ -1,34 +1,23 @@
 {
-  "name": "ngx-tree-dnd",
-  "version": "2.4.2",
+  "name": "ngx-tree-dnd-fork",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Zicrael/ngx-tree-dnd"
+    "url": "https://github.com/njofce/ngx-tree-dnd-fork"
   },
   "author": {
-    "name": "Yaroslav Kikot",
-    "email": "13ccdd@gmail.com"
+    "name": "Nasi Jofce",
+    "email": "nasi.jofce@yahoo.com"
   },
   "keywords": [
     "angular" ,
     "treeview",
     "angular-tree",
-    "angular-tree-dnd",
-    "anuglar-sortable-dnd",
-    "tree-view",
-    "tree-component",
-    "tree-links",
-    "tree-dnd",
-    "data-tree",
-    "ngx-tree-dnd",
-    "ngx-sortable-dnd",
-    "ngx-sortable-tree",
-    "data-tree",
-    "ngx-tree"
+    "ngx-tree-dnd-fork"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Zicrael/ngx-tree-dnd/issues"
+    "url": "https://github.com/njofce/ngx-tree-dnd-fork/issues"
   },
   "peerDependencies": {
     "@angular/common": "^7.0.4",

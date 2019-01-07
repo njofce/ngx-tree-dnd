@@ -3,7 +3,7 @@ import { TreeItemType } from "./tree-view.enum";
 /*
  Copyright (C) 2018 Yaroslav Kikot
  This project is licensed under the terms of the MIT license.
- https://github.com/Zicrael/ngx-tree-dnd
+ https://github.com/Zicrael/ngx-tree-dnd-fork
  */
 
 // Tree DTO

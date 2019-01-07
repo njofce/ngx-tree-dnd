@@ -2,13 +2,13 @@
 
 ## Introduction
 
-First, thank you for considering contributing to ngx-tree-dnd! It's people like you that make the open source community such a great community! 😊
+First, thank you for considering contributing to ngx-tree-dnd-fork! It's people like you that make the open source community such a great community! 😊
 
 I welcome any type of contribution, not only code. You can help with 
 - **QA**: file bug reports, the more details you can give the better (e.g. screenshots with the console open)
 - **Marketing**: writing blog posts, howto's, printing stickers, ...
 - **Community**: presenting the project at meetups, organizing a dedicated meetup for the local community, ...
-- **Code**: take a look at the [open issues](https://github.com/Zicrael/ngx-tree-dnd/issues). Even if you can't write code, commenting on them, showing that you care about a given issue matters. It helps us triage them.
+- **Code**: take a look at the [open issues](https://github.com/Zicrael/ngx-tree-dnd-fork/issues). Even if you can't write code, commenting on them, showing that you care about a given issue matters. It helps us triage them.
 - **Money**: I welcome financial contributions in full transparency on my [patreon](https://www.patreon.com/zicrael).
 
 ## Your First Contribution
@@ -26,12 +26,12 @@ It is also always helpful to have some context for your pull request. What was t
 
 ## Questions
 
-If you have any questions, create an [issue](https://github.com/Zicrael/ngx-tree-dnd/issues) (protip: do a quick search first to see if someone else didn't ask the same question before!).
+If you have any questions, create an [issue](https://github.com/Zicrael/ngx-tree-dnd-fork/issues) (protip: do a quick search first to see if someone else didn't ask the same question before!).
 You can also reach me at 13ccdd@gmail.com.
 
 ## Credits
 ### Contributors
 
-Thank you to all the people who have already contributed to ngx-tree-dnd!
+Thank you to all the people who have already contributed to ngx-tree-dnd-fork!
 
 Become first!

@@ -1,15 +1,15 @@
 /*
  Copyright (C) 2018 Yaroslav Kikot
  This project is licensed under the terms of the MIT license.
- https://github.com/Zicrael/ngx-tree-dnd
+ https://github.com/Zicrael/ngx-tree-dnd-fork
  */
 
 import { Component, Input, AfterViewInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
-import { NgxTreeService } from '../ngx-tree-dnd.service';
+import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { TreeModel, TreeConfig, TreeItemOptions } from '../models/tree-view.model';
-import { TreeItemType } from './../models/tree-view.enum';
+import { TreeItemType } from '../models/tree-view.enum';
 
 import * as moment_ from 'moment';
 import { Subscription } from 'rxjs';
@@ -18,7 +18,7 @@ const moment = moment_;
 
 @Component({
   selector: 'lib-ngx-tree-children',
-  templateUrl: './ngx-tree-dnd-children.component.html'
+  templateUrl: './ngx-tree-dnd-fork-children.component.html'
 })
 export class NgxTreeChildrenComponent implements AfterViewInit {
 

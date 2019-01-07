@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TreeModel, TreeItemType, NgxTreeService } from 'ngx-tree-dnd';
+import { TreeModel, TreeItemType, NgxTreeService } from 'dist/ngx-tree-dnd-fork';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +17,7 @@ export class AppComponent {
     showDeleteButtons: true,
     enableExpandButtons: true,
     enableDragging: true,
-    rootTitle: 'OP3 Project Tree',
+    rootTitle: 'Project Tree',
     validationText: 'Contents invalid',
     minCharacterLength: 7,
     setItemsAsLinks: false,

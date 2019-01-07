@@ -17,11 +17,11 @@
       "dom"
     ],
     "paths": {
-      "ngx-tree-dnd": [
-        "dist/ngx-tree-dnd"
+      "ngx-tree-dnd-fork": [
+        "dist/ngx-tree-dnd-fork"
       ],
-      "ngx-tree-dnd/*": [
-        "dist/ngx-tree-dnd/*"
+      "ngx-tree-dnd-fork/*": [
+        "dist/ngx-tree-dnd-fork/*"
       ]
     }
   }
