@@ -1,6 +1,6 @@
 {
   "name": "library-builder",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -33,7 +33,7 @@
     "core-js": "^2.5.4",
     "karma-phantomjs-launcher": "^1.0.4",
     "moment": "^2.23.0",
-    "ngx-tree-dnd-fork": "^2.3.0",
+    "ngx-tree-dnd-fork": "^1.0.1",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },

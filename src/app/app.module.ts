@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { NgxTreeDndModule } from 'dist/ngx-tree-dnd-fork';
+import { NgxTreeDndModule } from 'ngx-tree-dnd-fork';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

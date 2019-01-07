@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TreeModel, TreeItemType, NgxTreeService } from 'dist/ngx-tree-dnd-fork';
+import { TreeModel, TreeItemType, NgxTreeService } from 'ngx-tree-dnd-fork';
 
 @Component({
   selector: 'app-root',
