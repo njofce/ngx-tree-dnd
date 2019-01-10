@@ -22,7 +22,6 @@ import { DateFormatterPipe } from './pipes/date-formatter.pipe';
 @NgModule({
   imports: [
     CommonModule,
-    BrowserAnimationsModule,
     ReactiveFormsModule,
     FontAwesomeModule,
     MatSelectModule,
