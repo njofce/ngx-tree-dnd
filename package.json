@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build ngx-tree-dnd-fork --prod",
+    "build": "ng build ngx-tree-dnd-fork --prod && cp \"./projects/ngx-tree-dnd-fork/src/lib/styles-tree-dnd-fork.css\" \"./dist/ngx-tree-dnd-fork/styles-tree-dnd-fork.css\" && cp ./LICENSE ./dist/ngx-tree-dnd-fork",
     "test": "ng test ngx-tree-dnd-fork",
     "lint": "ng lint ngx-tree-dnd-fork",
     "e2e": "ng e2e ngx-tree-dnd-fork",
