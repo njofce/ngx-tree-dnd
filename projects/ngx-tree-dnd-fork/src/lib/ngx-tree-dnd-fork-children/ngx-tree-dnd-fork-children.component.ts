@@ -1,3 +1,4 @@
+import { ChangeDetectorRef } from '@angular/core';
 /*
  Copyright (C) 2018 Yaroslav Kikot
  This project is licensed under the terms of the MIT license.
@@ -68,7 +69,7 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
     this.createForm();
   }
 
-  constructor(private treeService: NgxTreeService, private fb: FormBuilder) {}
+  constructor(private treeService: NgxTreeService, private fb: FormBuilder, private cd: ChangeDetectorRef) {}
 
   // enable subscribe to config
   enableSubscribers() {
@@ -246,6 +247,7 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
         this.element.options.edit = false;
       }
     }
+    this.cd.detectChanges();
   }
 
   // after view init
