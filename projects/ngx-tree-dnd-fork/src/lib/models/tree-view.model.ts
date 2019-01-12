@@ -29,6 +29,7 @@ export interface TreeItemContents {
     startDate: string;
     endDate: string;
     duration: number;
+    // active: boolean;
     predecessors?: number []; // Array of ids of the predecessors
 }
 

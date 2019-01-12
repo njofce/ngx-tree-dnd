@@ -4,16 +4,19 @@
       <div class='tree-title d-inline-flex pos-relative' [ngClass]="{destenationTop : element.options.destenationTop, destenationBottom: element.options.destenationBottom}" *ngIf="!element.options.edit;else onEdit">
         <div *ngIf="!config.setItemsAsLinks; else link" [ngClass]="{addOpacity : element.options.currentlyDragging}" libDropElement
           [item]='element' class='draggable-item'>
-          <div class="d-inline-flex pos-relative">
+          <div class="d-inline-flex pos-relative o-item-display-contents">
             <div class="o-item-title">{{element.name}}</div>
             <div class="o-item-options d-inline-flex">
-              <span class="item-type">{{element.contents.type | treeItemTypeTransform}}</span>
               <div class= "item-dates">
                 <span>{{element.contents.startDate | dateFormatter}}</span>
                 <span> - </span>
                 <span>{{element.contents.endDate | dateFormatter}}</span>
                 <span class="badge badge-light">{{element.contents.duration}} days</span>
               </div>
+              <span class="item-type">{{element.contents.type | treeItemTypeTransform}}</span>
+              <span class="item-include">
+                <mat-checkbox [color]="'primary'">Include</mat-checkbox>
+              </span>
             </div>
           </div>
         </div>
@@ -64,20 +67,6 @@
               <input matInput placeholder="Title" formControlName="name">
             </mat-form-field>
 
-            <mat-form-field class="input-material" style="width: 120px;">
-              <mat-select placeholder="Type" [value]="treeItemType.TaskGroup" formControlName="itemType">
-                <mat-option [value]="treeItemType.TaskGroup">
-                  Task Group
-                </mat-option>
-                <mat-option [value]="treeItemType.Task">
-                  Task
-                </mat-option>
-                <mat-option [value]="treeItemType.Milestone">
-                  Milestone
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-
             <mat-form-field class="input-material" style="width: 170px;">
               <input matInput readonly="true" [matDatepicker]="startDatePicker" placeholder="Start Date" formControlName="startDate">
               <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
@@ -92,6 +81,20 @@
 
             <mat-form-field class="input-material" style="width: 80px;">
               <input matInput placeholder="Duration" formControlName="duration" type="number" min="0">
+            </mat-form-field>
+
+            <mat-form-field class="input-material" style="width: 120px;">
+              <mat-select placeholder="Type" [value]="treeItemType.TaskGroup" formControlName="itemType">
+                <mat-option [value]="treeItemType.TaskGroup">
+                  Task Group
+                </mat-option>
+                <mat-option [value]="treeItemType.Task">
+                  Task
+                </mat-option>
+                <mat-option [value]="treeItemType.Milestone">
+                  Milestone
+                </mat-option>
+              </mat-select>
             </mat-form-field>
 
           </form>

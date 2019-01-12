@@ -2,7 +2,7 @@ import { MY_FORMATS } from './util/date-format';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AutoFocusDirective } from './directives/ngx-tree-dnd-fork-autofocus.directive';
 import { DragElementsDirective } from './directives/ngx-tree-dnd-fork-drag.directive';
 import { DropElementsDirective } from './directives/ngx-tree-dnd-fork-drop.directive';
@@ -15,7 +15,7 @@ import { TreeItemTypeTransformPipe } from './pipes/tree-item-type-transform.pipe
 
 library.add(faCoffee, faPlus, faEdit, faMinus, faTimes, faCheck, faArrowDown );
 
-import { MatDatepickerModule, MatSelectModule, MatFormFieldModule, MatInputModule, DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
+import { MatDatepickerModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateFormatterPipe } from './pipes/date-formatter.pipe';
 
@@ -23,11 +23,13 @@ import { DateFormatterPipe } from './pipes/date-formatter.pipe';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     FontAwesomeModule,
     MatSelectModule,
     MatDatepickerModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatCheckboxModule
   ],
   declarations: [
     AutoFocusDirective,
