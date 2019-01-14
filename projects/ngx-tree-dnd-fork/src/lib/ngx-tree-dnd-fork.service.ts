@@ -204,7 +204,8 @@ export class NgxTreeService {
       startDate: formValue.startDate,
       endDate: formValue.endDate,
       duration: formValue.duration,
-      type: formValue.itemType
+      type: formValue.itemType,
+      active: formValue.itemActive
     }
     this.findingResults.foundItem.options.edit = false;
     // event emit

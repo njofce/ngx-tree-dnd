@@ -104,6 +104,7 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
     let itemType = this.element.contents ? this.element.contents.type : TreeItemType.TaskGroup;
     let startDate = this.element.contents ? moment(this.element.contents.startDate) : moment();
     let endDate = this.element.contents ? moment(this.element.contents.endDate) : moment().add(1, 'months');
+    let active = this.element.contents ? this.element.contents.active : false;
 
     this.itemEditForm = this.fb.group({
       name: [this.element.name || '' , [
@@ -113,7 +114,8 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
       duration: [endDate.diff(startDate, 'days'), Validators.required],
       startDate: [startDate, Validators.required],
       endDate: [endDate, Validators.required],
-      itemType: [itemType, Validators.required]
+      itemType: [itemType, Validators.required],
+      itemActive: active
     });
 
     this.onChanges();

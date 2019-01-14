@@ -36,6 +36,7 @@ export class AppComponent {
         type: TreeItemType.Task,
         startDate: '2019-01-27',
         endDate: '2019-08-16',
+        active: true,
         duration: 250
       },
       childrens: []
@@ -49,6 +50,7 @@ export class AppComponent {
         type: TreeItemType.TaskGroup,
         startDate: '2019-01-27',
         endDate: '2019-02-12',
+        active: false,
         duration: 17
       },
       options: {
@@ -65,6 +67,7 @@ export class AppComponent {
             type: TreeItemType.Task,
             startDate: '2019-01-27',
             endDate: '2019-02-05',
+            active: false,
             duration: 10
           },
           childrens: []
@@ -79,6 +82,7 @@ export class AppComponent {
             type: TreeItemType.Milestone,
             startDate: '2019-02-12',
             endDate: '2019-02-12',
+            active: true,
             duration: 0
           },
           childrens: []

@@ -15,7 +15,7 @@
               </div>
               <span class="item-type">{{element.contents.type | treeItemTypeTransform}}</span>
               <span class="item-include">
-                <mat-checkbox [color]="'primary'">Include</mat-checkbox>
+                <mat-checkbox [color]="'primary'" [checked]="element.contents.active" (change)="element.contents.active = !element.contents.active">Include</mat-checkbox>
               </span>
             </div>
           </div>
@@ -96,6 +96,8 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
+
+            <mat-checkbox style="padding: 21px 20px 0 20px;" [color]="'primary'" formControlName="itemActive">Include</mat-checkbox>
 
           </form>
 
