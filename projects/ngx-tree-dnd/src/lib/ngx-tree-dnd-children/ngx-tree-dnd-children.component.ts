@@ -146,9 +146,9 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
         this.treeService.deleteItem(item.id);
       } else {
         this.element.options.edit = false;
+        this.cd.detectChanges();
       }
     }
-    this.cd.detectChanges();
   }
 
   // after view init
