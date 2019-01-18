@@ -28,7 +28,7 @@
         </ng-template>
         <div class='d-flex buttons-bar' *ngIf="config.showActionButtons && element.options.showActionButtons && !element.options.disabled">
           <div class='d-flex'>
-            <button class="tree-btn add-btn" *ngIf="config.showAddButtons" (click)="submitAdd(null, element)">
+            <button class="tree-btn add-btn" *ngIf="config.showAddButtons && element.contents.type==treeItemType.TaskGroup" (click)="submitAdd(null, element)">
               <fa-icon icon="plus" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>
