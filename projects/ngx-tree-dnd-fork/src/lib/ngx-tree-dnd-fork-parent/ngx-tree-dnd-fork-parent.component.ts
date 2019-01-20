@@ -29,6 +29,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
       validationText: 'Enter valid name',
       minCharacterLength: 1,
       setItemsAsLinks: false,
+      dateFormat: "YYYY-MM-DD",
       setFontSize: 14,
       setIconSize: 12
     };

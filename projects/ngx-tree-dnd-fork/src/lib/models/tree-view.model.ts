@@ -69,6 +69,7 @@ export interface TreeConfig {
     validationText?: string;
     minCharacterLength?: number;
     setItemsAsLinks?: boolean;
+    dateFormat?: string;
     // size
     setFontSize?: number;
     setIconSize?: number;

@@ -50,6 +50,7 @@ export class NgxTreeService {
       validationText: 'Enter valid name',
       minCharacterLength: 1,
       setItemsAsLinks: false,
+      dateFormat: "YYYY-MM-DD",
       setFontSize: 16,
       setIconSize: 14
     };
@@ -201,8 +202,8 @@ export class NgxTreeService {
     this.findingResults.foundItem.contents = {
       id: this.findingResults.foundItem.id,
       title: formValue.name,
-      startDate: formValue.startDate,
-      endDate: formValue.endDate,
+      startDate: formValue.startDate.format(this.defaulConfig.dateFormat),
+      endDate: formValue.endDate.format(this.defaulConfig.dateFormat),
       duration: formValue.duration,
       type: formValue.itemType,
       active: formValue.itemActive
