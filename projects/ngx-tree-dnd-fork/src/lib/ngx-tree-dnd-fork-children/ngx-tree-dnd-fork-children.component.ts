@@ -18,11 +18,10 @@ import { Subscription } from 'rxjs';
 const moment = moment_;
 
 @Component({
-  selector: 'lib-ngx-tree-children',
-  templateUrl: './ngx-tree-dnd-fork-children.component.html'
+  selector: "lib-ngx-tree-children",
+  templateUrl: "./ngx-tree-dnd-fork-children.component.html"
 })
 export class NgxTreeChildrenComponent implements AfterViewInit {
-
   private formValueItemTypeChangesSubscription: Subscription;
   private formValueStartDateChangesSubscription: Subscription;
   private formValueEndDateChangesSubscription: Subscription;
@@ -37,12 +36,14 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
   itemEditForm: FormGroup;
   treeItemType = TreeItemType;
 
+  private selectedType: TreeItemType = TreeItemType.Milestone;
+
   // get item from parent component
   @Input()
   set setItem(data: TreeModel) {
     this.element = data;
     this.itemOptions = {
-      href: '#',
+      href: "#",
       hidden: false,
       hideChildrens: false,
       position: this.treeService.getItemPosition(this.element),
@@ -69,22 +70,24 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
     this.createForm();
   }
 
-  constructor(private treeService: NgxTreeService, private fb: FormBuilder, private cd: ChangeDetectorRef) {}
+  constructor(
+    private treeService: NgxTreeService,
+    private fb: FormBuilder,
+    private cd: ChangeDetectorRef
+  ) {}
 
   // enable subscribe to config
   enableSubscribers() {
-    this.treeService.config.subscribe(
-      (config) => {
-        if ( config !== null ) {
-          this.config = config;
-        } else {
-          this.config = this.treeService.defaulConfig;
-        }
-        if (this.element.options.draggable) {
-          this.element.options.draggable = this.config.enableDragging;
-        }
+    this.treeService.config.subscribe(config => {
+      if (config !== null) {
+        this.config = config;
+      } else {
+        this.config = this.treeService.defaulConfig;
       }
-    );
+      if (this.element.options.draggable) {
+        this.element.options.draggable = this.config.enableDragging;
+      }
+    });
   }
 
   // set options to item
@@ -101,100 +104,144 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
 
   // create edit form
   createForm() {
-    let itemType = this.element.contents ? this.element.contents.type : TreeItemType.TaskGroup;
-    let startDate = this.element.contents ? moment(this.element.contents.startDate) : moment();
-    let endDate = this.element.contents ? moment(this.element.contents.endDate) : moment().add(1, "months");
+    let itemType = this.element.contents
+      ? this.element.contents.type
+      : TreeItemType.TaskGroup;
+    let startDate = this.element.contents
+      ? moment(this.element.contents.startDate)
+      : moment();
+    let endDate = this.element.contents
+      ? moment(this.element.contents.endDate)
+      : moment().add(1, "months");
     let active = this.element.contents ? this.element.contents.active : false;
 
     this.itemEditForm = this.fb.group({
-      name: [this.element.name || '' , [
-        Validators.required,
-        Validators.minLength( this.config.minCharacterLength )
-      ]],
-      duration: [endDate.diff(startDate, 'days'), Validators.required],
+      name: [
+        this.element.name || "",
+        [
+          Validators.required,
+          Validators.minLength(this.config.minCharacterLength)
+        ]
+      ],
+      duration: [endDate.diff(startDate, "days"), Validators.required],
       startDate: [startDate, Validators.required],
       endDate: [endDate, Validators.required],
       itemType: [itemType, Validators.required],
       itemActive: active
     });
-
+    this.selectedType = itemType;
     this.onChanges();
   }
 
   onChanges(): void {
+    this.formValueItemTypeChangesSubscription = this.itemEditForm
+      .get("itemType")
+      .valueChanges.subscribe(val => {
+        // If changed to milestone, make end date equal to start date and duration to 0
+        // Else, add 1 day to start date
+        if (val == TreeItemType.Milestone) {
+          this.itemEditForm.patchValue(
+            {
+              endDate: moment(this.itemEditForm.get("startDate").value),
+              duration: 0
+            },
+            { emitEvent: false }
+          );
+        } else {
+          if (this.selectedType == TreeItemType.Milestone){
+            this.itemEditForm.patchValue(
+              {
+                endDate: moment(this.itemEditForm.get("startDate").value).add(
+                  1,
+                  "days"
+                ),
+                duration: 1
+              },
+              { emitEvent: false }
+            );
+          }
+        }
+        this.selectedType = val;
+      });
 
-    this.formValueItemTypeChangesSubscription = this.itemEditForm.get('itemType').valueChanges.subscribe(val => {
-      // If changed to milestone, make end date equal to start date and duration to 0
-      // Else, add 1 day to start date
-      if(val == TreeItemType.Milestone){
-        this.itemEditForm.patchValue({
-          endDate: moment(this.itemEditForm.get('startDate').value),
-          duration: 0
-        },
-        { emitEvent: false })
-      }
-      else {
-        this.itemEditForm.patchValue({
-          endDate: moment(this.itemEditForm.get('startDate').value).add(1, 'days'),
-          duration: 1
-        },
-        { emitEvent: false })
-      }
-    });
+    this.formValueStartDateChangesSubscription = this.itemEditForm
+      .get("startDate")
+      .valueChanges.subscribe(val => {
+        // If type == milestone, change end date to equal start date
+        // Else, update duration
+        if (this.itemEditForm.get("itemType").value == TreeItemType.Milestone) {
+          this.itemEditForm.patchValue(
+            {
+              endDate: moment(this.itemEditForm.get("startDate").value)
+            },
+            { emitEvent: false }
+          );
+        } else {
+          this.itemEditForm.patchValue(
+            {
+              duration: moment(this.itemEditForm.get("endDate").value).diff(
+                moment(this.itemEditForm.get("startDate").value),
+                "days"
+              )
+            },
+            { emitEvent: false }
+          );
+        }
+      });
 
-    this.formValueStartDateChangesSubscription = this.itemEditForm.get('startDate').valueChanges.subscribe(val => {
-      // If type == milestone, change end date to equal start date
-      // Else, update duration
-      if(this.itemEditForm.get('itemType').value == TreeItemType.Milestone) {
-        this.itemEditForm.patchValue({
-          endDate: moment(this.itemEditForm.get('startDate').value)
-        },
-        { emitEvent: false })
-      }
-      else {
-        this.itemEditForm.patchValue({
-          duration: moment(this.itemEditForm.get('endDate').value).diff(moment(this.itemEditForm.get('startDate').value), 'days')
-        },
-        { emitEvent: false })
-      }
-    });
+    this.formValueEndDateChangesSubscription = this.itemEditForm
+      .get("endDate")
+      .valueChanges.subscribe(val => {
+        // If type == milestone, change start date to equal end date
+        // Else, update duration
+        if (this.itemEditForm.get("itemType").value == TreeItemType.Milestone) {
+          this.itemEditForm.patchValue(
+            {
+              startDate: moment(this.itemEditForm.get("endDate").value)
+            },
+            { emitEvent: false }
+          );
+        } else {
+          this.itemEditForm.patchValue(
+            {
+              duration: moment(this.itemEditForm.get("endDate").value).diff(
+                moment(this.itemEditForm.get("startDate").value),
+                "days"
+              )
+            },
+            { emitEvent: false }
+          );
+        }
+      });
 
-    this.formValueEndDateChangesSubscription = this.itemEditForm.get('endDate').valueChanges.subscribe(val => {
-      // If type == milestone, change start date to equal end date
-      // Else, update duration
-      if (this.itemEditForm.get('itemType').value == TreeItemType.Milestone) {
-        this.itemEditForm.patchValue({
-          startDate: moment(this.itemEditForm.get('endDate').value)
-        },
-        { emitEvent: false })
-      }
-      else {
-        this.itemEditForm.patchValue({
-          duration: moment(this.itemEditForm.get('endDate').value).diff(moment(this.itemEditForm.get('startDate').value), 'days')
-        },
-        { emitEvent: false })
-      }
-    });
-
-    this.formValueDurationChangesSubscription = this.itemEditForm.get('duration').valueChanges.subscribe(val => {
-      // If milestone and duration > 0, change to task, add duration days to start date and update end date
-      // Else, add duration days to start date and update end date
-      if (this.itemEditForm.get('itemType').value == TreeItemType.Milestone) {
-        this.itemEditForm.patchValue({
-          itemType: TreeItemType.Task,
-          endDate: moment(this.itemEditForm.get('startDate').value).add(val, 'days')
-        },
-        { emitEvent: false })
-      }
-      else {
-        this.itemEditForm.patchValue({
-          endDate: moment(this.itemEditForm.get('startDate').value).add(val, 'days')
-        }, 
-        {emitEvent: false})
-      }
-
-    });
-
+    this.formValueDurationChangesSubscription = this.itemEditForm
+      .get("duration")
+      .valueChanges.subscribe(val => {
+        // If milestone and duration > 0, change to task, add duration days to start date and update end date
+        // Else, add duration days to start date and update end date
+        if (this.itemEditForm.get("itemType").value == TreeItemType.Milestone) {
+          this.itemEditForm.patchValue(
+            {
+              itemType: TreeItemType.Task,
+              endDate: moment(this.itemEditForm.get("startDate").value).add(
+                val,
+                "days"
+              )
+            },
+            { emitEvent: false }
+          );
+        } else {
+          this.itemEditForm.patchValue(
+            {
+              endDate: moment(this.itemEditForm.get("startDate").value).add(
+                val,
+                "days"
+              )
+            },
+            { emitEvent: false }
+          );
+        }
+      });
   }
 
   /*
@@ -212,11 +259,11 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
     Generate id by new Date() by 'full year + day + time'.
     Call addNewItem() from tree service.
   */
-  submitAdd(name, item ) {
-      const d = `${new Date().getFullYear()}${new Date().getDay()}${new Date().getTime()}`;
-      const elemId =  parseInt(d, null);
-      this.treeService.addNewItem(elemId, name, item);
-      this.element.options.hideChildrens = false;
+  submitAdd(name, item) {
+    const d = `${new Date().getFullYear()}${new Date().getDay()}${new Date().getTime()}`;
+    const elemId = parseInt(d, null);
+    this.treeService.addNewItem(elemId, name, item);
+    this.element.options.hideChildrens = false;
   }
 
   /*
@@ -243,7 +290,7 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
     if (!this.element.options.edit) {
       this.treeService.deleteItem(item.id);
     } else {
-      if ( item.name === null ) {
+      if (item.name === null) {
         this.treeService.deleteItem(item.id);
       } else {
         this.element.options.edit = false;
@@ -275,5 +322,6 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
       this.formValueDurationChangesSubscription.unsubscribe();
       this.formValueDurationChangesSubscription = null;
     }
+    this.cd.detach();
   }
 }
