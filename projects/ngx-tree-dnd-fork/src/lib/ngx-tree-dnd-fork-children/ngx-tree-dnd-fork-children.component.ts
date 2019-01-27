@@ -76,11 +76,7 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
     private cd: ChangeDetectorRef,
     private zone: NgZone
   ) {}
-
-  ngDoCheck() {
-    console.log('check');
-  }
-
+  
   // enable subscribe to config
   enableSubscribers() {
     this.treeService.config.subscribe(config => {
