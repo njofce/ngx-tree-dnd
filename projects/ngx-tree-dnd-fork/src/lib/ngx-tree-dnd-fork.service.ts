@@ -6,6 +6,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { TreeModel, TreeConfig, FindingResults, TreeDto } from './models/tree-view.model';
+import { TreeItemType } from './models/tree-view.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -78,7 +79,7 @@ export class NgxTreeService {
     return new Observable(observer => {
       observer.next({
         rootTitle: this.rootTitle,
-        treeStorage: this.treeStorage
+        treeStorage: this.treeStorage.filter(val => val.contents.type == TreeItemType.TaskGroup)
       });
     })
   }
