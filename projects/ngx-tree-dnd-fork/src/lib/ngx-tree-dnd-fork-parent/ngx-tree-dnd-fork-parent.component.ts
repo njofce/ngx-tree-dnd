@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
  This project is licensed under the terms of the MIT license.
  https://github.com/Zicrael/ngx-tree-dnd-fork
  */
-import { Component, Input, Output, EventEmitter, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, AfterViewInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { TreeModel, TreeConfig } from '../models/tree-view.model';
 
@@ -67,7 +67,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
     this.getTreeData(item);
   }
 
-  constructor(public treeService: NgxTreeService, private fb: FormBuilder, private cd: ChangeDetectorRef) {
+  constructor(public treeService: NgxTreeService, private fb: FormBuilder, private cd: ChangeDetectorRef, private _zone: NgZone) {
     this.enableSubscribers();
     this.createForm();
   }
@@ -126,13 +126,13 @@ export class NgxTreeParentComponent implements AfterViewInit {
     );
     this.treeService.onStartRenameItem.subscribe(
       (event) => {
-        this.cd.detectChanges();
+        // this.cd.detectChanges();
         this.onStartRenameItem.emit(event);
       }
     );
     this.treeService.onFinishRenameItem.subscribe(
       (event) => {
-        this.cd.detectChanges();
+        // this.cd.detectChanges();
         this.onFinishRenameItem.emit(event);
       }
     );
@@ -183,27 +183,37 @@ export class NgxTreeParentComponent implements AfterViewInit {
   }
 
   enableRootRenameMode() {
-    this.userConfig.options.edit = true;
+    this._zone.run(() => {
+      this.userConfig.options.edit = true;
+    })
   }
 
   submitAdd(name) {
-    const d = `${new Date().getFullYear()}${new Date().getDay()}${new Date().getTime()}`;
-    const elemId = parseInt(d, null);
-    this.treeService.addNewItem(elemId, name, null);
+    this._zone.run(() => {
+      const d = `${new Date().getFullYear()}${new Date().getDay()}${new Date().getTime()}`;
+      const elemId = parseInt(d, null);
+      this.treeService.addNewItem(elemId, name, null);
+      // this.cd.detectChanges();
+    })
   }
 
   submitRootRename() {
-    if (this.renameForm.valid) {
-      this.showError = false;
-      this.userConfig.rootTitle = this.renameForm.value.name;
-      this.userConfig.options.edit = false;
-      this.treeService.updateRootTitle(this.userConfig.rootTitle);
-    } else {
-      this.showError = true;
-    }
+    this._zone.run(() => {
+      if (this.renameForm.valid) {
+        this.showError = false;
+        this.userConfig.rootTitle = this.renameForm.value.name;
+        this.userConfig.options.edit = false;
+        this.treeService.updateRootTitle(this.userConfig.rootTitle);
+      } else {
+        this.showError = true;
+      }
+    })
   }
 
   ngAfterViewInit() {}
 
+  ngOnDestroy() {
+    this.cd.detach();
+  }
 
 }

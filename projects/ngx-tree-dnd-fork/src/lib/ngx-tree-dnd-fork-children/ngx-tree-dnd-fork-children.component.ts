@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, ChangeDetectionStrategy, NgZone } from '@angular/core';
 /*
  Copyright (C) 2018 Yaroslav Kikot
  This project is licensed under the terms of the MIT license.
@@ -73,8 +73,13 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
   constructor(
     private treeService: NgxTreeService,
     private fb: FormBuilder,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private zone: NgZone
   ) {}
+
+  ngDoCheck() {
+    console.log('check');
+  }
 
   // enable subscribe to config
   enableSubscribers() {
@@ -250,8 +255,10 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
     Call onStartRenameItem() from tree service.
   */
   enableRenameMode(element) {
-    element.options.edit = true;
-    this.treeService.startRenameItem(element);
+    this.zone.run(() => {
+      element.options.edit = true;
+      this.treeService.startRenameItem(element);
+    })
   }
 
   /*
@@ -260,10 +267,13 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
     Call addNewItem() from tree service.
   */
   submitAdd(name, item) {
-    const d = `${new Date().getFullYear()}${new Date().getDay()}${new Date().getTime()}`;
-    const elemId = parseInt(d, null);
-    this.treeService.addNewItem(elemId, name, item);
-    this.element.options.hideChildrens = false;
+    this.zone.run(() => {
+      const d = `${new Date().getFullYear()}${new Date().getDay()}${new Date().getTime()}`;
+      const elemId = parseInt(d, null);
+      this.treeService.addNewItem(elemId, name, item);
+      this.element.options.hideChildrens = false;
+      // this.cd.detectChanges();
+    })
   }
 
   /*
@@ -272,13 +282,16 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
     Call addNewItem() from tree service.
   */
   submitEdit(item) {
-    if (this.itemEditForm.valid) {
-      this.showError = false;
-      this.treeService.finishEditItem(this.itemEditForm.value, item.id);
-      this.element.options.edit = false;
-    } else {
-      this.showError = true;
-    }
+    this.zone.run(() => {
+      if (this.itemEditForm.valid) {
+        this.showError = false;
+        this.treeService.finishEditItem(this.itemEditForm.value, item.id);
+        this.element.options.edit = false;
+      } else {
+        this.showError = true;
+      }
+    })
+
   }
 
   /*
@@ -287,16 +300,18 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
     Call deleteItem() from tree service.
   */
   onSubmitDelete(item) {
-    if (!this.element.options.edit) {
-      this.treeService.deleteItem(item.id);
-    } else {
-      if (item.name === null) {
+    this.zone.run(() => {
+      if (!this.element.options.edit) {
         this.treeService.deleteItem(item.id);
       } else {
-        this.element.options.edit = false;
-        this.cd.detectChanges();
+        if (item.name === null) {
+          this.treeService.deleteItem(item.id);
+        } else {
+          this.element.options.edit = false;
+          // this.cd.detectChanges();
+        }
       }
-    }
+    })
   }
 
   // after view init
