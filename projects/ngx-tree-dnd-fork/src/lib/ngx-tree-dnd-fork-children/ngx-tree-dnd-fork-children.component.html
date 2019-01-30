@@ -29,32 +29,32 @@
         <div class='d-flex buttons-bar' *ngIf="config.showActionButtons && element.options.showActionButtons && !element.options.disabled">
           <div class='d-flex'>
             <button class="tree-btn add-btn" *ngIf="config.showAddButtons && element.contents.type==treeItemType.TaskGroup" (click)="submitAdd(null, element)">
-              <fa-icon icon="plus" [style.font-size.px]='config.setIconSize'></fa-icon>
+              <fa-icon [icon]="faPlus" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>
           <div class='d-flex'>
             <button class="tree-btn edit-btn" *ngIf="config.showRenameButtons" (click)="enableRenameMode(element)">
-              <fa-icon icon="edit" [style.font-size.px]='config.setIconSize'></fa-icon>
+              <fa-icon [icon]="faEdit" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>
           <div class='d-flex'>
             <button class="tree-btn delete-btn" *ngIf="config.showDeleteButtons && element.options.showDeleteButton" (click)="onSubmitDelete( element )">
-              <fa-icon icon="times" [style.font-size.px]='config.setIconSize'></fa-icon>
+              <fa-icon [icon]="faTimes" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>
         </div>
         <div class='child-drop-place' [attr.data-id]='element.id'  libDropElement *ngIf='element.options.showDropChildZone && !element.options.disabled && element.contents.type==treeItemType.TaskGroup'>
-          <fa-icon icon="arrow-down" [style.font-size.px]='config.setIconSize'></fa-icon>
+          <fa-icon [icon]="faArrowDown" [style.font-size.px]='config.setIconSize'></fa-icon>
         </div>
         <div class='show-hide-switch' *ngIf="config.enableExpandButtons && element.options.showExpandButton && element.childrens.length > 0 && !element.options.disabled">
           <div *ngIf="element.options.hideChildrens; else visible">
             <button class='tree-btn show-btn' (click)='element.options.hideChildrens = false'>
-              <fa-icon icon="plus" [style.font-size.px]='config.setIconSize'></fa-icon>
+              <fa-icon [icon]="faPlus" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>
           <ng-template #visible>
             <button class='tree-btn hide-btn' (click)='element.options.hideChildrens = true'>
-              <fa-icon icon="minus" [style.font-size.px]='config.setIconSize'></fa-icon>
+              <fa-icon [icon]="faTimes" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </ng-template>
         </div>
@@ -103,10 +103,10 @@
 
           <div class='d-flex'>
             <button class='tree-btn submit-btn' (click)='submitEdit(element)'>
-              <fa-icon icon="check" [style.font-size.px]='config.setIconSize'></fa-icon>
+              <fa-icon [icon]="faCheck" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
             <button class='tree-btn delete-btn' (click)='onSubmitDelete(element)'>
-              <fa-icon icon="times" [style.font-size.px]='config.setIconSize'></fa-icon>
+              <fa-icon [icon]="faMinus" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
             <div class='error-edit-wrap' *ngIf="showError">
               {{config.validationText}}

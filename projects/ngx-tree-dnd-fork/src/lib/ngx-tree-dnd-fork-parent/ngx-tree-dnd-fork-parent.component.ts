@@ -8,11 +8,18 @@ import { Component, Input, Output, EventEmitter, AfterViewInit, ChangeDetectorRe
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { TreeModel, TreeConfig } from '../models/tree-view.model';
 
+import { faPlus, faEdit, faCheck } from '@fortawesome/free-solid-svg-icons';
+
+
 @Component({
   selector: 'lib-ngx-tree-component',
   templateUrl: './ngx-tree-dnd-fork-parent.component.html'
 })
 export class NgxTreeParentComponent implements AfterViewInit {
+  faPlus = faPlus;
+  faCheck = faCheck;
+  faEdit = faEdit;
+  
   treeView: TreeModel[];
   userConfig: TreeConfig = {
       showActionButtons: true,

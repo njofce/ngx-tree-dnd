@@ -14,6 +14,7 @@ import { TreeItemType } from '../models/tree-view.enum';
 
 import * as moment_ from 'moment';
 import { Subscription } from 'rxjs';
+import { faPlus, faEdit, faTimes, faArrowDown, faMinus, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 const moment = moment_;
 
@@ -22,6 +23,13 @@ const moment = moment_;
   templateUrl: "./ngx-tree-dnd-fork-children.component.html"
 })
 export class NgxTreeChildrenComponent implements AfterViewInit {
+  faPlus = faPlus;
+  faEdit = faEdit;
+  faTimes = faTimes;
+  faArrowDown = faArrowDown;
+  faMinus = faMinus;
+  faCheck = faCheck;
+
   private formValueItemTypeChangesSubscription: Subscription;
   private formValueStartDateChangesSubscription: Subscription;
   private formValueEndDateChangesSubscription: Subscription;
