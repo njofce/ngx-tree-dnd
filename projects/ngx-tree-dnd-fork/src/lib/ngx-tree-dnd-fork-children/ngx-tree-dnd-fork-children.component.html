@@ -54,7 +54,7 @@
           </div>
           <ng-template #visible>
             <button class='tree-btn hide-btn' (click)='element.options.hideChildrens = true'>
-              <fa-icon [icon]="faTimes" [style.font-size.px]='config.setIconSize'></fa-icon>
+              <fa-icon [icon]="faMinus" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </ng-template>
         </div>
@@ -106,7 +106,7 @@
               <fa-icon [icon]="faCheck" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
             <button class='tree-btn delete-btn' (click)='onSubmitDelete(element)'>
-              <fa-icon [icon]="faMinus" [style.font-size.px]='config.setIconSize'></fa-icon>
+              <fa-icon [icon]="faTimes" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
             <div class='error-edit-wrap' *ngIf="showError">
               {{config.validationText}}
