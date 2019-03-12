@@ -8,6 +8,10 @@ import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { TreeModel, TreeConfig, FindingResults, TreeDto } from './models/tree-view.model';
 import { TreeItemType } from './models/tree-view.enum';
 
+import * as moment_ from 'moment';
+
+const moment = moment_;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -130,7 +134,10 @@ export class NgxTreeService {
         edit: true
       },
       contents: {
-        type: TreeItemType.Milestone,
+        type: TreeItemType.TaskGroup,
+        duration: 1,
+        startDate: moment().format(this.defaulConfig.dateFormat),
+        endDate: moment().add(1, "d").format(this.defaulConfig.dateFormat),
         active: true
       },
       childrens: []

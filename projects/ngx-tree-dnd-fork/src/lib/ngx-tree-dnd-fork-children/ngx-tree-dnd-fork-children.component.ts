@@ -199,7 +199,6 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
         }
 
         if (moment(val).isSame(moment(this.itemEditForm.get("endDate").value))) {
-          console.log('patchinn');
           this.itemEditForm.patchValue(
             {
               itemType: TreeItemType.Milestone
@@ -237,7 +236,6 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
         }
 
         if (moment(val).isSame(moment(this.itemEditForm.get("startDate").value))) {
-          console.log('patchin');
           this.itemEditForm.patchValue(
             {
               itemType: TreeItemType.Milestone
