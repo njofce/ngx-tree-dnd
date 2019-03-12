@@ -13,7 +13,7 @@
 }
 .tree-title {
     position: relative;
-    padding-left: 21px;
+    padding-left: 16px;
     align-items: center;
     border: 1px solid transparent;
     border-top: 5px solid transparent;
@@ -23,16 +23,16 @@
     position: absolute;
     left: -1px;
     top: calc(50% - 0.5px);
-    background-color: #444;
-    height: 3px;
-    width: 20px;
+    background-color: #484747;
+    height: 1px;
+    width: 15px;
     align-items: center;
     content: '';
 }
 
 .o-item-title {
-    border-right: 1.5px solid gray;
-    padding-right: 10px;
+    border-right: 1px solid #484747;
+    padding-right: 4px;
     padding-left: 5px;
     padding-top: 4px;
 }
@@ -42,23 +42,23 @@
 }
 
 .o-item-options > .item-type {
-    padding-right: 10px;
-    border-right: 1.5px solid gray;
+    padding-right: 4px;
+    border-right: 1px solid #484747;
     font-weight: bold;
-    padding-left: 10px;
+    padding-left: 4px;
     padding-top: 4px;
 }
 
 .o-item-options > .item-include {
     padding-left: 10px;
     padding-right: 10px;
-    padding-top: 2px;
+    padding-top: 5px;
 }
 
 .o-item-options > .item-dates {
     padding-top: 4px;
-    padding-right: 10px;
-    border-right: 1.5px solid gray;
+    padding-right: 4px;
+    border-right: 1px solid #484747;
 }
 
 .badge-light {
@@ -77,19 +77,19 @@
 }
 
 .tree-content {
-    margin-left: 50px;
-    border-left: 3px solid #444 ;
+    margin-left: 30px;
+    border-left: 1px solid #484747 ;
     position: relative;
 }
 .tree-content-main {
-    margin-left: 20px;
-    border-left: 3px solid #444 ;
+    margin-left: 15px;
+    border-left: 1px solid #484747 ;
     position: relative;
     width: 100%;
 }
 
 .draggable-item {
-    margin-right: 5px;
+    /* margin-right: 5px; */
 }
 
 .child-drop-place {
@@ -207,5 +207,6 @@
 }
 
 .o-item-display-contents {
-    border: 1.5px solid gray;
+    border: 1px solid #484747;
+    font-size: 0.9em;
 }

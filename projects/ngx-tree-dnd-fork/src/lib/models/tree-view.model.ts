@@ -23,13 +23,13 @@ export interface TreeModel {
 
 // Contents of a tree item
 export interface TreeItemContents {
-    id: number;
-    title: string;
-    type: TreeItemType;
-    startDate: string;
-    endDate: string;
-    duration: number;
-    active: boolean;
+    id?: number;
+    title?: string;
+    type?: TreeItemType;
+    startDate?: string;
+    endDate?: string;
+    duration?: number;
+    active?: boolean;
     predecessors?: number []; // Array of ids of the predecessors
 }
 

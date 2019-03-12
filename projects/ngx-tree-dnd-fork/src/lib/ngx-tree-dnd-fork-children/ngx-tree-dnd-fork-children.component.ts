@@ -185,7 +185,8 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
             },
             { emitEvent: false }
           );
-        } else {
+        }
+        else {
           this.itemEditForm.patchValue(
             {
               duration: moment(this.itemEditForm.get("endDate").value).diff(
@@ -195,6 +196,18 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
             },
             { emitEvent: false }
           );
+        }
+
+        if (moment(val).isSame(moment(this.itemEditForm.get("endDate").value))) {
+          console.log('patchinn');
+          this.itemEditForm.patchValue(
+            {
+              itemType: TreeItemType.Milestone
+            },
+            {
+              emitEvent: false
+            }
+          )
         }
       });
 
@@ -210,7 +223,8 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
             },
             { emitEvent: false }
           );
-        } else {
+        }
+        else {
           this.itemEditForm.patchValue(
             {
               duration: moment(this.itemEditForm.get("endDate").value).diff(
@@ -220,6 +234,18 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
             },
             { emitEvent: false }
           );
+        }
+
+        if (moment(val).isSame(moment(this.itemEditForm.get("startDate").value))) {
+          console.log('patchin');
+          this.itemEditForm.patchValue(
+            {
+              itemType: TreeItemType.Milestone
+            },
+            {
+              emitEvent: false
+            }
+          )
         }
       });
 

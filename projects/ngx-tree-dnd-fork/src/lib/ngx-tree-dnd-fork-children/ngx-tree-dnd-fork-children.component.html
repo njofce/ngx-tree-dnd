@@ -11,11 +11,11 @@
                 <span>{{element.contents.startDate | dateFormatter}}</span>
                 <span> - </span>
                 <span>{{element.contents.endDate | dateFormatter}}</span>
-                <span class="badge badge-light">{{element.contents.duration}} days</span>
+                <span class="badge badge-light" style="padding: 3px 3px !important">{{element.contents.duration}} days</span>
               </div>
               <span class="item-type">{{element.contents.type | treeItemTypeTransform}}</span>
               <span class="item-include">
-                <mat-checkbox [color]="'primary'" [checked]="element.contents.active" (change)="element.contents.active = !element.contents.active">Include</mat-checkbox>
+                <mat-checkbox [color]="'primary'" [checked]="element.contents.active" (change)="element.contents.active = !element.contents.active"></mat-checkbox>
               </span>
             </div>
           </div>
@@ -63,27 +63,27 @@
         <div class='tree-title d-inline-flex'>
           <form [formGroup]="itemEditForm" class='d-flex' (submit)='submitEdit(element)'>
 
-            <mat-form-field class="input-material" style="width: 150px;">
+            <mat-form-field class="input-material" style="width: 110px;">
               <input matInput placeholder="Title" formControlName="name">
             </mat-form-field>
 
-            <mat-form-field class="input-material" style="width: 170px;">
+            <mat-form-field class="input-material" style="width: 160px;">
               <input matInput readonly="true" [matDatepicker]="startDatePicker" placeholder="Start Date" formControlName="startDate">
               <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
               <mat-datepicker #startDatePicker></mat-datepicker>
             </mat-form-field>
 
-            <mat-form-field class="input-material" style="width: 170px;">
+            <mat-form-field class="input-material" style="width: 160px;">
               <input matInput readonly="true" [matDatepicker]="endDatePicker" placeholder="End Date" formControlName="endDate">
               <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
               <mat-datepicker #endDatePicker></mat-datepicker>
             </mat-form-field>
 
-            <mat-form-field class="input-material" style="width: 80px;">
+            <mat-form-field class="input-material" style="width: 73px;">
               <input matInput placeholder="Duration" formControlName="duration" type="number" min="0">
             </mat-form-field>
 
-            <mat-form-field class="input-material" style="width: 120px;">
+            <mat-form-field class="input-material" style="width: 109px;">
               <mat-select placeholder="Type" [value]="treeItemType.TaskGroup" formControlName="itemType">
                 <mat-option [value]="treeItemType.TaskGroup">
                   Task Group
@@ -97,7 +97,7 @@
               </mat-select>
             </mat-form-field>
 
-            <mat-checkbox style="padding: 21px 20px 0 20px;" [color]="'primary'" formControlName="itemActive">Include</mat-checkbox>
+            <mat-checkbox style="padding: 21px 20px 0 20px;" [color]="'primary'" formControlName="itemActive"></mat-checkbox>
 
           </form>
 

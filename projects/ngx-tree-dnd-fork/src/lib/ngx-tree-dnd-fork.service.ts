@@ -129,6 +129,10 @@ export class NgxTreeService {
         position: pos,
         edit: true
       },
+      contents: {
+        type: TreeItemType.Milestone,
+        active: true
+      },
       childrens: []
     };
     
