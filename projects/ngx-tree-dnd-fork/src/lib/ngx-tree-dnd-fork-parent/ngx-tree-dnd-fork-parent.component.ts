@@ -29,6 +29,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
       enableExpandButtons: true,
       enableDragging: true,
       rootTitle: 'Root',
+      showRootAddButton: true,
       options: {
         edit: false
       },
@@ -178,7 +179,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
     this.treeService.getLocalData(userTree).subscribe(
       (tree: TreeModel[]) => {
         this.treeView = tree;
-        this.treeService.sortTree();
+        // this.treeService.sortTree();
       }, (error) => {
         console.log(error);
       }

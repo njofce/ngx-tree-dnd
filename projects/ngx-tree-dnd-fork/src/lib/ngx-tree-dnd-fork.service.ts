@@ -46,6 +46,7 @@ export class NgxTreeService {
     showRenameButtons: true,
     showDeleteButtons: true,
     enableExpandButtons: true,
+    showRootAddButton: true,
     enableDragging: true,
     rootTitle: 'Root',
     validationText: 'Enter valid name',
@@ -79,7 +80,6 @@ export class NgxTreeService {
   }
 
   public updateItemDateConsistencyIndicators(itemIds: number[]) {
-    console.log('updating');
     let st = this.treeStorage;
     st.forEach(tg => {
       tg.contents.consistentDate = true;
@@ -95,7 +95,6 @@ export class NgxTreeService {
         
     })
     this.clearAction();
-    console.log(st);
   }
 
 
@@ -221,7 +220,6 @@ export class NgxTreeService {
 
     this.onAddItem.next(eventEmit);
     this.clearAction();
-    console.log(this.treeStorage);
   }
 
   /*
@@ -422,7 +420,7 @@ export class NgxTreeService {
     }
     copyItem.options.position = positionTarget;
     this.findingResults.itemsList.push(copyItem);
-    this.sortTree();
+    // this.sortTree();
   }
 
   // get position of item
@@ -437,7 +435,6 @@ export class NgxTreeService {
     this.sortElements(this.treeStorage);
   }
 
-  // part of sortTree()
   private sortElements (tree) {
     tree.sort( this.compate );
     for (const item of tree ) {
@@ -447,7 +444,6 @@ export class NgxTreeService {
     }
   }
 
-  // part of sortTree()
   private compate(a, b) {
       if (a.options.position < b.options.position) {
         return -1;

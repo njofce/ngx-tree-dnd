@@ -62,6 +62,7 @@ export interface TreeConfig {
     showRenameButtons?: boolean;
     showDeleteButtons?: boolean;
     enableExpandButtons?: boolean;
+    showRootAddButton?: boolean;
     // actions
     enableDragging?: boolean;
     rootTitle?: string;
