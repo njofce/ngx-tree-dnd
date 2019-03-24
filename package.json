@@ -34,7 +34,7 @@
     "karma": "3.1.4",
     "karma-phantomjs-launcher": "^1.0.4",
     "moment": "^2.23.0",
-    "ngx-tree-dnd-fork": "^1.0.89",
+    "ngx-tree-dnd-fork": "^1.0.96",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },

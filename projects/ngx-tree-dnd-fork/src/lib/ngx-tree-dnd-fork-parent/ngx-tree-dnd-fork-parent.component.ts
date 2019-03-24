@@ -37,7 +37,13 @@ export class NgxTreeParentComponent implements AfterViewInit {
       setItemsAsLinks: false,
       dateFormat: "YYYY-MM-DD",
       setFontSize: 14,
-      setIconSize: 12
+      setIconSize: 12,
+
+      autoDateInsert: false,
+      autoInsert: false,
+      autoInsertAutoOrder: false,
+      autoInsertDefaultString: '',
+      firstLevelLimit: 20
     };
   showError: boolean;
   renameForm;
@@ -63,7 +69,6 @@ export class NgxTreeParentComponent implements AfterViewInit {
       this.treeService.config.next(this.userConfig);
     } catch (error) {
       // if config invalid
-      console.log('Config is invalid! Default configuragion will be appeared');
       this.treeService.config.next(this.treeService.defaulConfig);
     }
   }
@@ -88,6 +93,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
       name: this.userConfig.rootTitle
     });
     this.treeService.updateRootTitle(this.userConfig.rootTitle);
+    this.treeService.updateDefaultConfig(this.userConfig);
   }
   // set value to keys of config
   setValue(item, config) {
@@ -196,6 +202,10 @@ export class NgxTreeParentComponent implements AfterViewInit {
   }
 
   submitAdd(name) {
+    if (this.treeService.countFirstLevelItems() >= this.userConfig.firstLevelLimit) {
+      this.treeService.displayErrorNotification("Maximum number of allowable task groups is reached");
+      return;
+    }
     this._zone.run(() => {
       const d = `${new Date().getFullYear()}${new Date().getDay()}${new Date().getTime()}`;
       const elemId = parseInt(d, null);

@@ -4,7 +4,7 @@
       <div class='tree-title d-inline-flex pos-relative' [ngClass]="{destenationTop : element.options.destenationTop, destenationBottom: element.options.destenationBottom}" *ngIf="!element.options.edit;else onEdit">
         <div *ngIf="!config.setItemsAsLinks; else link" [ngClass]="{addOpacity : element.options.currentlyDragging}" libDropElement
           [item]='element' class='draggable-item'>
-          <div class="d-inline-flex pos-relative o-item-display-contents">
+          <div class="d-inline-flex pos-relative o-item-display-contents" [ngClass]="element.contents.consistentDate == false ? 'o-item-invalid' : ''">
             <div class="o-item-title">{{element.name}}</div>
             <div class="o-item-options d-inline-flex">
               <div class= "item-dates">
@@ -15,7 +15,7 @@
               </div>
               <span class="item-type">{{element.contents.type | treeItemTypeTransform}}</span>
               <span class="item-include">
-                <mat-checkbox [color]="'primary'" [checked]="element.contents.active" (change)="element.contents.active = !element.contents.active"></mat-checkbox>
+                <mat-checkbox [color]="'primary'" [checked]="element.contents.active" (change)="element.contents.active = !element.contents.active">Include</mat-checkbox>
               </span>
             </div>
           </div>
@@ -97,7 +97,7 @@
               </mat-select>
             </mat-form-field>
 
-            <mat-checkbox style="padding: 21px 20px 0 20px;" [color]="'primary'" formControlName="itemActive"></mat-checkbox>
+            <mat-checkbox style="padding: 21px 20px 0 20px;" [color]="'primary'" formControlName="itemActive">Include</mat-checkbox>
 
           </form>
 

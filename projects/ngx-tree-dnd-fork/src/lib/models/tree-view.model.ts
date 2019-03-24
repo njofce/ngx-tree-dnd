@@ -31,6 +31,7 @@ export interface TreeItemContents {
     duration?: number;
     active?: boolean;
     predecessors?: number []; // Array of ids of the predecessors
+    consistentDate?: boolean;
 }
 
 // Tree items options model
@@ -73,6 +74,12 @@ export interface TreeConfig {
     // size
     setFontSize?: number;
     setIconSize?: number;
+    // extra
+    autoDateInsert?: boolean;
+    autoInsert?: boolean;
+    autoInsertDefaultString?: string;
+    autoInsertAutoOrder?: boolean;
+    firstLevelLimit: number;
 }
 
 export interface FindingResults {

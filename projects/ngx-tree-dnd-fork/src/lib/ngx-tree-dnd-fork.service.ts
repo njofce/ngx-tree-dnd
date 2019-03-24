@@ -40,26 +40,64 @@ export class NgxTreeService {
   onRemoveItem = new Subject<any>();
   onDeleteEnd = new Subject<any>();
   config = new BehaviorSubject<any>(null);
-  defaulConfig: TreeConfig;
+  defaulConfig: TreeConfig = {
+    showActionButtons: true,
+    showAddButtons: true,
+    showRenameButtons: true,
+    showDeleteButtons: true,
+    enableExpandButtons: true,
+    enableDragging: true,
+    rootTitle: 'Root',
+    validationText: 'Enter valid name',
+    minCharacterLength: 1,
+    setItemsAsLinks: false,
+    dateFormat: "YYYY-MM-DD",
+    setFontSize: 16,
+    setIconSize: 14,
+    autoDateInsert: false,
+    autoInsert: false,
+    firstLevelLimit: 20
+  };
 
-  constructor() {
-    // set default config
-    this.defaulConfig = {
-      showActionButtons: true,
-      showAddButtons: true,
-      showRenameButtons: true,
-      showDeleteButtons: true,
-      enableExpandButtons: true,
-      enableDragging: true,
-      rootTitle: 'Root',
-      validationText: 'Enter valid name',
-      minCharacterLength: 1,
-      setItemsAsLinks: false,
-      dateFormat: "YYYY-MM-DD",
-      setFontSize: 16,
-      setIconSize: 14
-    };
+  errorNotification = new Subject<string>();
+
+  constructor() {}
+
+  public updateDefaultConfig(config:TreeConfig) {
+    for (const key of Object.keys(config)) {
+      this.setValue(key, config);
+    }
   }
+
+  // set value to keys of config
+  setValue(item, config) {
+    this.defaulConfig[item] = config[item];
+  }
+
+  public countFirstLevelItems() {
+    return this.treeStorage.length;
+  }
+
+  public updateItemDateConsistencyIndicators(itemIds: number[]) {
+    console.log('updating');
+    let st = this.treeStorage;
+    st.forEach(tg => {
+      tg.contents.consistentDate = true;
+
+      if(itemIds.indexOf(tg.id) != -1)
+        tg.contents.consistentDate = false;
+
+      tg.childrens.forEach(ch => {
+        ch.contents.consistentDate = true;
+        if(itemIds.indexOf(ch.id) != -1)
+          tg.contents.consistentDate = false;
+      })
+        
+    })
+    this.clearAction();
+    console.log(st);
+  }
+
 
   /*
     get data and set it on observable.
@@ -120,24 +158,49 @@ export class NgxTreeService {
    Emit onAddItem Subject.
   */
   public addNewItem(id, name, parent?) {
+    let text = null;
+    let startDate = moment().format(this.defaulConfig.dateFormat);
+    let endDate = moment().add(1, "d").format(this.defaulConfig.dateFormat);
+    let duration = moment(endDate).diff(moment(startDate), 'days');
+    
     let pos = 1;
     if (parent && parent.childrens.length !== 0) {
       const parentPrevChildren = parent.childrens.length - 1;
       const newItemPosition = parent.childrens[parentPrevChildren].options.position + 1;
       pos = newItemPosition;
     }
+
+
+    // Text auto Insert
+    if (this.defaulConfig.autoInsert && !parent) {
+      text = this.defaulConfig.autoInsertDefaultString + " " + (this.treeStorage.length + 1);
+    }
+    if (this.defaulConfig.autoDateInsert) {
+      // Task Group Level
+      if (!parent) {
+        if (this.treeStorage.length > 0) {
+          startDate = this.treeStorage[this.treeStorage.length - 1].contents.startDate;
+          endDate = this.treeStorage[this.treeStorage.length - 1].contents.endDate;
+          duration = moment(endDate).diff(moment(startDate), 'days');
+        }
+      }
+    }
+
+
+    name = text != null ? text : name;
     const createObj: TreeModel = {
       id,
       name,
       options:  {
         position: pos,
-        edit: true
+        edit: text == null
       },
       contents: {
+        title: name,
         type: TreeItemType.TaskGroup,
-        duration: 1,
-        startDate: moment().format(this.defaulConfig.dateFormat),
-        endDate: moment().add(1, "d").format(this.defaulConfig.dateFormat),
+        duration: duration,
+        startDate: startDate,
+        endDate: endDate,
         active: true
       },
       childrens: []
@@ -158,6 +221,7 @@ export class NgxTreeService {
 
     this.onAddItem.next(eventEmit);
     this.clearAction();
+    console.log(this.treeStorage);
   }
 
   /*
@@ -325,6 +389,10 @@ export class NgxTreeService {
     this.clearAction();
     this.checkTreeLength();
     this.onDragEnd.next();
+  }
+
+  displayErrorNotification(message: string) {
+    this.errorNotification.next(message);
   }
 
   /*

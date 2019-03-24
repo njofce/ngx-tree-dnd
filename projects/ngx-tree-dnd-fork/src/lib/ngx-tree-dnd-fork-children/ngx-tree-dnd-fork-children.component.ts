@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, ChangeDetectionStrategy, NgZone } from '@angular/core';
+import { ChangeDetectorRef, NgZone } from '@angular/core';
 /*
  Copyright (C) 2018 Yaroslav Kikot
  This project is licensed under the terms of the MIT license.
@@ -218,7 +218,11 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
         if (this.itemEditForm.get("itemType").value == TreeItemType.Milestone) {
           this.itemEditForm.patchValue(
             {
-              startDate: moment(this.itemEditForm.get("endDate").value)
+              itemType: TreeItemType.Task,
+              duration: moment(this.itemEditForm.get("endDate").value).diff(
+                moment(this.itemEditForm.get("startDate").value),
+                "days"
+              )
             },
             { emitEvent: false }
           );

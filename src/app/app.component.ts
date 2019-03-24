@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TreeModel, TreeItemType, NgxTreeService } from 'ngx-tree-dnd-fork';
+import { TreeModel, TreeItemType, NgxTreeService, TreeConfig } from 'ngx-tree-dnd-fork';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +10,7 @@ export class AppComponent {
   
   constructor(private treeService: NgxTreeService) {}
 
-  config = {
+  config: TreeConfig = {
     showActionButtons: true,
     showAddButtons: true,
     showRenameButtons: true,
@@ -22,7 +22,11 @@ export class AppComponent {
     minCharacterLength: 7,
     setItemsAsLinks: false,
     setFontSize: 14,
-    setIconSize: 10
+    setIconSize: 10,
+    firstLevelLimit: 10,
+    autoInsert: true,
+    autoInsertDefaultString: 'Task Group',
+    autoDateInsert: true
   };
 
   myTree: TreeModel[] = [
@@ -92,9 +96,14 @@ export class AppComponent {
   ];
 
   getLocalData() {
+    this.treeService.updateItemDateConsistencyIndicators([4561]);
     this.treeService.getTreeData().subscribe(val => {
       console.log(val);
     })
+  }
+
+  ngOnInit() {
+    
   }
 
 
@@ -120,4 +129,5 @@ export class AppComponent {
     // console.log(this.myTree);
     // console.log(event);
   }
+   
 }

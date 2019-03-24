@@ -52,7 +52,10 @@
 .o-item-options > .item-include {
     padding-left: 10px;
     padding-right: 10px;
-    padding-top: 5px;
+}
+
+label{
+    margin-bottom: 0 !important;
 }
 
 .o-item-options > .item-dates {
@@ -208,5 +211,12 @@
 
 .o-item-display-contents {
     border: 1px solid #484747;
+    border-radius: 5px;
     font-size: 0.9em;
+}
+
+.o-item-invalid {
+    background-color: #dc3c3c;
+    color: white;
+    border-color: #dc3c3c;
 }
