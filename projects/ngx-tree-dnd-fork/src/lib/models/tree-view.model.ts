@@ -16,6 +16,7 @@ export interface TreeDto {
 export interface TreeModel {
     name: string;
     id: number;
+    parentId: number;
     options?: TreeItemOptions;
     contents?: TreeItemContents;
     childrens: TreeModel[];

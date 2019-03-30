@@ -81,20 +81,28 @@ export class NgxTreeService {
 
   public updateItemDateConsistencyIndicators(itemIds: number[]) {
     let st = this.treeStorage;
-    st.forEach(tg => {
+    this.updateDateConsistency(st, itemIds);
+    this.clearAction();
+  }
+
+  private updateDateConsistency(treeStorage: TreeModel[], itemIds: number[]) {
+    treeStorage.forEach(tg => {
       tg.contents.consistentDate = true;
 
-      if(itemIds.indexOf(tg.id) != -1)
+      if (itemIds.indexOf(tg.id) != -1)
         tg.contents.consistentDate = false;
 
       tg.childrens.forEach(ch => {
         ch.contents.consistentDate = true;
-        if(itemIds.indexOf(ch.id) != -1)
-          tg.contents.consistentDate = false;
+        if(itemIds.indexOf(ch.id) != -1) {
+          ch.contents.consistentDate = false;
+        }
+        if(ch.contents.type == TreeItemType.TaskGroup) {
+          this.updateDateConsistency(ch.childrens, itemIds);
+        }
       })
-        
+
     })
-    this.clearAction();
   }
 
 
@@ -190,6 +198,7 @@ export class NgxTreeService {
     const createObj: TreeModel = {
       id,
       name,
+      parentId: parent ? parent.id : null,
       options:  {
         position: pos,
         edit: text == null
