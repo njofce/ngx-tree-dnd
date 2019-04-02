@@ -1,10 +1,11 @@
+import { NgxTreeChildrenComponent } from './../ngx-tree-dnd-fork-children/ngx-tree-dnd-fork-children.component';
 import { FormBuilder, Validators } from '@angular/forms';
 /*
  Copyright (C) 2018 Yaroslav Kikot
  This project is licensed under the terms of the MIT license.
  https://github.com/Zicrael/ngx-tree-dnd-fork
  */
-import { Component, Input, Output, EventEmitter, AfterViewInit, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, Input, Output, EventEmitter, AfterViewInit, ChangeDetectorRef, NgZone, ViewChildren, QueryList } from '@angular/core';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { TreeModel, TreeConfig } from '../models/tree-view.model';
 
@@ -16,6 +17,9 @@ import { faPlus, faEdit, faCheck } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './ngx-tree-dnd-fork-parent.component.html'
 })
 export class NgxTreeParentComponent implements AfterViewInit {
+
+  @ViewChildren(NgxTreeChildrenComponent) childrenElementList: QueryList<NgxTreeChildrenComponent>;
+  
   faPlus = faPlus;
   faCheck = faCheck;
   faEdit = faEdit;
@@ -181,7 +185,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
         this.treeView = tree;
         // this.treeService.sortTree();
       }, (error) => {
-        console.log(error);
+        // console.log(error);
       }
     );
   }
@@ -228,10 +232,17 @@ export class NgxTreeParentComponent implements AfterViewInit {
     })
   }
 
-  ngAfterViewInit() {}
+
+  ngAfterViewInit() {
+      this.treeService.registerChildListReference(this.childrenElementList);
+  }
 
   ngOnDestroy() {
     this.cd.detach();
+  }
+
+  ngDoCheck() {
+    
   }
 
 }

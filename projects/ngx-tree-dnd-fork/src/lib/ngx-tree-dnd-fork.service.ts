@@ -3,12 +3,13 @@
  This project is licensed under the terms of the MIT license.
  https://github.com/Zicrael/ngx-tree-dnd-fork
  */
-import { Injectable } from '@angular/core';
+import { Injectable, QueryList } from '@angular/core';
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { TreeModel, TreeConfig, FindingResults, TreeDto } from './models/tree-view.model';
 import { TreeItemType } from './models/tree-view.enum';
 
 import * as moment_ from 'moment';
+import { NgxTreeChildrenComponent } from './ngx-tree-dnd-fork-children/ngx-tree-dnd-fork-children.component';
 
 const moment = moment_;
 
@@ -16,6 +17,9 @@ const moment = moment_;
   providedIn: 'root'
 })
 export class NgxTreeService {
+
+  private childrenElementList: QueryList<NgxTreeChildrenComponent>;
+
   rootTitle: string = 'Root';
   treeStorage: TreeModel[] = [];
   private findingResults: FindingResults;
@@ -125,11 +129,24 @@ export class NgxTreeService {
   }
 
   public getTreeData(): Observable<TreeDto> {
+    this.autoSaveItems(this.childrenElementList);
+    // console.log(this.childrenElementList);
+
     return new Observable(observer => {
       observer.next({
         rootTitle: this.rootTitle,
         treeStorage: this.treeStorage.filter(val => val.contents.type == TreeItemType.TaskGroup)
       });
+    })
+  }
+
+  private autoSaveItems(list: QueryList<NgxTreeChildrenComponent>) {
+    list.forEach((ch: NgxTreeChildrenComponent) => {
+      if(ch.childrenElementList.length != 0)
+        this.autoSaveItems(ch.childrenElementList);
+      if (ch.element.options.edit){
+        this.finishEditItem(ch.itemEditForm.value, ch.element.id);
+      }
     })
   }
 
@@ -192,7 +209,6 @@ export class NgxTreeService {
         }
       }
     }
-
 
     name = text != null ? text : name;
     const createObj: TreeModel = {
@@ -271,6 +287,10 @@ export class NgxTreeService {
   */
   public updateRootTitle(newTitle: string) {
     this.rootTitle = newTitle;
+  }
+
+  public registerChildListReference(childrenElementList: QueryList<NgxTreeChildrenComponent>) {
+    this.childrenElementList = childrenElementList;
   }
 
   /*

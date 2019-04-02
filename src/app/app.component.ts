@@ -24,7 +24,7 @@ export class AppComponent {
     setFontSize: 14,
     setIconSize: 10,
     firstLevelLimit: 10,
-    autoInsert: true,
+    autoInsert: false,
     autoInsertDefaultString: 'Task Group',
     autoDateInsert: true
   };
@@ -34,6 +34,7 @@ export class AppComponent {
       name: 'Task Group - 1',
       id: 4561,
       options: {},
+      parentId: null,
       contents: {
         id: 4561,
         title: 'Task Group - 2',
@@ -48,6 +49,7 @@ export class AppComponent {
     {
       name: 'Task Group - 2',
       id: 123,
+      parentId: null,
       contents: {
         id: 123,
         title: 'Task Group - 2',
@@ -65,6 +67,7 @@ export class AppComponent {
           name: 'Task - 1',
           id: 456,
           options: {},
+          parentId: 123,
           contents: {
             id: 456,
             title: 'Task - 1',
@@ -80,6 +83,7 @@ export class AppComponent {
           name: 'Milestone - 1',
           id: 1533,
           options: {},
+          parentId: 123,
           contents: {
             id: 456,
             title: 'Milestone - 1',
@@ -96,7 +100,6 @@ export class AppComponent {
   ];
 
   getLocalData() {
-    this.treeService.updateItemDateConsistencyIndicators([4561]);
     this.treeService.getTreeData().subscribe(val => {
       console.log(val);
     })

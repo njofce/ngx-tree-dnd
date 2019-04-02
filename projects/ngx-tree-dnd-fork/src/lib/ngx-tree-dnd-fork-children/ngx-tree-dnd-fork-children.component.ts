@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, NgZone } from '@angular/core';
+import { ChangeDetectorRef, NgZone, ViewChildren, QueryList } from '@angular/core';
 /*
  Copyright (C) 2018 Yaroslav Kikot
  This project is licensed under the terms of the MIT license.
  https://github.com/Zicrael/ngx-tree-dnd-fork
  */
 
-import { Component, Input, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, Input, AfterViewInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
@@ -22,7 +22,10 @@ const moment = moment_;
   selector: "lib-ngx-tree-children",
   templateUrl: "./ngx-tree-dnd-fork-children.component.html"
 })
-export class NgxTreeChildrenComponent implements AfterViewInit {
+export class NgxTreeChildrenComponent {
+
+  @ViewChildren(NgxTreeChildrenComponent) childrenElementList: QueryList<NgxTreeChildrenComponent>;
+
   faPlus = faPlus;
   faEdit = faEdit;
   faTimes = faTimes;
@@ -347,7 +350,9 @@ export class NgxTreeChildrenComponent implements AfterViewInit {
   }
 
   // after view init
-  ngAfterViewInit() {}
+  ngAfterViewCheck() {
+    console.log('check');
+  }
 
   ngOnDestroy() {
     if (this.formValueItemTypeChangesSubscription) {
