@@ -221,7 +221,7 @@ export class NgxTreeService {
       },
       contents: {
         title: name,
-        type: TreeItemType.TaskGroup,
+        type: !parent ? TreeItemType.TaskGroup : TreeItemType.Task,
         duration: duration,
         startDate: startDate,
         endDate: endDate,

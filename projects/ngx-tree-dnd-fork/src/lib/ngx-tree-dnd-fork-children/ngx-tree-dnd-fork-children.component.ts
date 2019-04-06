@@ -33,6 +33,12 @@ export class NgxTreeChildrenComponent {
   faMinus = faMinus;
   faCheck = faCheck;
 
+  startMinDate = null;
+  startMaxDate = null;
+
+  endMinDate = null;
+  endMaxDate = null;
+
   private formValueItemTypeChangesSubscription: Subscription;
   private formValueStartDateChangesSubscription: Subscription;
   private formValueEndDateChangesSubscription: Subscription;
@@ -141,6 +147,13 @@ export class NgxTreeChildrenComponent {
       itemType: [itemType, Validators.required],
       itemActive: active
     });
+
+    this.startMinDate = null;
+    this.startMaxDate = endDate;
+
+    this.endMinDate = startDate;
+    this.endMaxDate = null;
+
     this.selectedType = itemType;
     this.onChanges();
   }
@@ -181,10 +194,11 @@ export class NgxTreeChildrenComponent {
       .valueChanges.subscribe(val => {
         // If type == milestone, change end date to equal start date
         // Else, update duration
+        let v = this.itemEditForm.get("startDate").value;
         if (this.itemEditForm.get("itemType").value == TreeItemType.Milestone) {
           this.itemEditForm.patchValue(
             {
-              endDate: moment(this.itemEditForm.get("startDate").value)
+              endDate: moment(v)
             },
             { emitEvent: false }
           );
@@ -193,13 +207,16 @@ export class NgxTreeChildrenComponent {
           this.itemEditForm.patchValue(
             {
               duration: moment(this.itemEditForm.get("endDate").value).diff(
-                moment(this.itemEditForm.get("startDate").value),
+                moment(v),
                 "days"
               )
             },
             { emitEvent: false }
           );
         }
+
+        this.endMinDate = v;
+
 
         if (moment(val).isSame(moment(this.itemEditForm.get("endDate").value))) {
           this.itemEditForm.patchValue(
@@ -218,11 +235,12 @@ export class NgxTreeChildrenComponent {
       .valueChanges.subscribe(val => {
         // If type == milestone, change start date to equal end date
         // Else, update duration
+        let v = this.itemEditForm.get("endDate").value;
         if (this.itemEditForm.get("itemType").value == TreeItemType.Milestone) {
           this.itemEditForm.patchValue(
             {
               itemType: TreeItemType.Task,
-              duration: moment(this.itemEditForm.get("endDate").value).diff(
+              duration: moment(v).diff(
                 moment(this.itemEditForm.get("startDate").value),
                 "days"
               )
@@ -233,7 +251,7 @@ export class NgxTreeChildrenComponent {
         else {
           this.itemEditForm.patchValue(
             {
-              duration: moment(this.itemEditForm.get("endDate").value).diff(
+              duration: moment(v).diff(
                 moment(this.itemEditForm.get("startDate").value),
                 "days"
               )
@@ -241,6 +259,8 @@ export class NgxTreeChildrenComponent {
             { emitEvent: false }
           );
         }
+
+        this.startMaxDate = v;
 
         if (moment(val).isSame(moment(this.itemEditForm.get("startDate").value))) {
           this.itemEditForm.patchValue(
@@ -257,6 +277,8 @@ export class NgxTreeChildrenComponent {
     this.formValueDurationChangesSubscription = this.itemEditForm
       .get("duration")
       .valueChanges.subscribe(val => {
+        if(val < 0)
+          return;
         // If milestone and duration > 0, change to task, add duration days to start date and update end date
         // Else, add duration days to start date and update end date
         if (this.itemEditForm.get("itemType").value == TreeItemType.Milestone) {
@@ -351,7 +373,7 @@ export class NgxTreeChildrenComponent {
 
   // after view init
   ngAfterViewCheck() {
-    console.log('check');
+    // console.log('check');
   }
 
   ngOnDestroy() {

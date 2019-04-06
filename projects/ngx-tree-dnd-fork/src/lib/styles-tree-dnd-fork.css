@@ -220,3 +220,8 @@ label{
     color: white;
     border-color: #dc3c3c;
 }
+
+.mat-checkbox-label {
+    font-weight: 400 !important;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+}

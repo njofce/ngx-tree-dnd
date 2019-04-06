@@ -68,13 +68,13 @@
             </mat-form-field>
 
             <mat-form-field class="input-material" style="width: 160px;">
-              <input matInput readonly="true" [matDatepicker]="startDatePicker" placeholder="Start Date" formControlName="startDate">
+              <input matInput readonly="true" [matDatepicker]="startDatePicker" [min]="startMinDate" [max]="startMaxDate" placeholder="Start Date" formControlName="startDate">
               <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
               <mat-datepicker #startDatePicker></mat-datepicker>
             </mat-form-field>
 
             <mat-form-field class="input-material" style="width: 160px;">
-              <input matInput readonly="true" [matDatepicker]="endDatePicker" placeholder="End Date" formControlName="endDate">
+              <input matInput readonly="true" [matDatepicker]="endDatePicker" [min]="endMinDate" [max]="endMaxDate" placeholder="End Date" formControlName="endDate">
               <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
               <mat-datepicker #endDatePicker></mat-datepicker>
             </mat-form-field>
