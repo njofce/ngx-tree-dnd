@@ -148,11 +148,11 @@ export class NgxTreeChildrenComponent {
       itemActive: active
     });
 
-    this.startMinDate = null;
-    this.startMaxDate = endDate;
+    // this.startMinDate = null;
+    // this.startMaxDate = endDate;
 
-    this.endMinDate = startDate;
-    this.endMaxDate = null;
+    // this.endMinDate = startDate;
+    // this.endMaxDate = null;
 
     this.selectedType = itemType;
     this.onChanges();
@@ -215,7 +215,7 @@ export class NgxTreeChildrenComponent {
           );
         }
 
-        this.endMinDate = v;
+        // this.endMinDate = v;
 
 
         if (moment(val).isSame(moment(this.itemEditForm.get("endDate").value))) {
@@ -260,7 +260,7 @@ export class NgxTreeChildrenComponent {
           );
         }
 
-        this.startMaxDate = v;
+        // this.startMaxDate = v;
 
         if (moment(val).isSame(moment(this.itemEditForm.get("startDate").value))) {
           this.itemEditForm.patchValue(
