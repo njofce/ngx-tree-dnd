@@ -181,7 +181,7 @@ export class NgxTreeService {
    Its accepts 'type' for detect add root element or children.
    Emit onAddItem Subject.
   */
-  public addNewItem(id, name, parent?) {
+  public addNewItem(id, name, parent, type: TreeItemType) {
     let text = null;
     let startDate = moment().format(this.defaulConfig.dateFormat);
     let endDate = moment().add(1, "d").format(this.defaulConfig.dateFormat);
@@ -221,7 +221,7 @@ export class NgxTreeService {
       },
       contents: {
         title: name,
-        type: !parent ? TreeItemType.TaskGroup : TreeItemType.Task,
+        type: type,
         duration: duration,
         startDate: startDate,
         endDate: endDate,

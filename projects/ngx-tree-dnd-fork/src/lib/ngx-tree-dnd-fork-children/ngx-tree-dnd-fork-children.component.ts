@@ -1,3 +1,4 @@
+import { MILESTONE_CREATE_MESSAGE, EDIT_ITEM_MESSAGE, DELETE_ITEM_MESSAGE, TASK_GROUP_CREATE_MESSAGE, TASK_CREATE_MESSAGE } from './../messages';
 import { ChangeDetectorRef, NgZone, ViewChildren, QueryList } from '@angular/core';
 /*
  Copyright (C) 2018 Yaroslav Kikot
@@ -5,17 +6,15 @@ import { ChangeDetectorRef, NgZone, ViewChildren, QueryList } from '@angular/cor
  https://github.com/Zicrael/ngx-tree-dnd-fork
  */
 
-import { Component, Input, AfterViewInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { TreeModel, TreeConfig, TreeItemOptions } from '../models/tree-view.model';
 import { TreeItemType } from '../models/tree-view.enum';
+import { Subscription } from 'rxjs';
+import { faPlus, faEdit, faTimes, faArrowDown, faMinus, faCheck, faThumbtack, faStickyNote } from '@fortawesome/free-solid-svg-icons';
 
 import * as moment_ from 'moment';
-import { Subscription } from 'rxjs';
-import { faPlus, faEdit, faTimes, faArrowDown, faMinus, faCheck } from '@fortawesome/free-solid-svg-icons';
-
 const moment = moment_;
 
 @Component({
@@ -23,6 +22,12 @@ const moment = moment_;
   templateUrl: "./ngx-tree-dnd-fork-children.component.html"
 })
 export class NgxTreeChildrenComponent {
+
+  tgMessage = TASK_GROUP_CREATE_MESSAGE;
+  tMessage = TASK_CREATE_MESSAGE;
+  mMessage = MILESTONE_CREATE_MESSAGE;
+  eMessage = EDIT_ITEM_MESSAGE;
+  dMessage = DELETE_ITEM_MESSAGE;
 
   @ViewChildren(NgxTreeChildrenComponent) childrenElementList: QueryList<NgxTreeChildrenComponent>;
 
@@ -32,6 +37,8 @@ export class NgxTreeChildrenComponent {
   faArrowDown = faArrowDown;
   faMinus = faMinus;
   faCheck = faCheck;
+  faThumb = faThumbtack;
+  faSticky = faStickyNote;
 
   startMinDate = null;
   startMaxDate = null;
@@ -323,11 +330,11 @@ export class NgxTreeChildrenComponent {
     Generate id by new Date() by 'full year + day + time'.
     Call addNewItem() from tree service.
   */
-  submitAdd(name, item) {
+  submitAdd(name, item, type) {
     this.zone.run(() => {
       const d = `${new Date().getFullYear()}${new Date().getDay()}${new Date().getTime()}`;
       const elemId = parseInt(d, null);
-      this.treeService.addNewItem(elemId, name, item);
+      this.treeService.addNewItem(elemId, name, item, type);
       this.element.options.hideChildrens = false;
       // this.cd.detectChanges();
     })

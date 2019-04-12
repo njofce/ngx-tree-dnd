@@ -10,6 +10,8 @@ import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { TreeModel, TreeConfig } from '../models/tree-view.model';
 
 import { faPlus, faEdit, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { TreeItemType } from '../models/tree-view.enum';
+import { TASK_GROUP_CREATE_MESSAGE, EDIT_ITEM_MESSAGE } from '../messages';
 
 
 @Component({
@@ -19,6 +21,9 @@ import { faPlus, faEdit, faCheck } from '@fortawesome/free-solid-svg-icons';
 export class NgxTreeParentComponent implements AfterViewInit {
 
   @ViewChildren(NgxTreeChildrenComponent) childrenElementList: QueryList<NgxTreeChildrenComponent>;
+
+  tgMessage = TASK_GROUP_CREATE_MESSAGE;
+  editMessage = EDIT_ITEM_MESSAGE;
   
   faPlus = faPlus;
   faCheck = faCheck;
@@ -214,7 +219,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
     this._zone.run(() => {
       const d = `${new Date().getFullYear()}${new Date().getDay()}${new Date().getTime()}`;
       const elemId = parseInt(d, null);
-      this.treeService.addNewItem(elemId, name, null);
+      this.treeService.addNewItem(elemId, name, null, TreeItemType.TaskGroup);
       // this.cd.detectChanges();
     })
   }

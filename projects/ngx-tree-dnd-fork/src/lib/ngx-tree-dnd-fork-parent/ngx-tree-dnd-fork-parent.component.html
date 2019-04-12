@@ -6,12 +6,12 @@
       
       <div class='d-flex buttons-bar' *ngIf="userConfig.showActionButtons">
         <div class='d-flex'>
-          <button class="tree-btn add-btn" *ngIf="userConfig.showAddButtons && userConfig.showRootAddButton" (click)="submitAdd(null)">
+          <button class="tree-btn add-btn" *ngIf="userConfig.showAddButtons && userConfig.showRootAddButton" (click)="submitAdd(null)"  [matTooltip]="tgMessage">
             <fa-icon [icon]="faPlus" [style.font-size.px]='userConfig.setIconSize'></fa-icon>
           </button>
         </div>
         <div class='d-flex'>
-          <button class="tree-btn edit-btn" *ngIf="userConfig.showRenameButtons" (click)="enableRootRenameMode()">
+          <button class="tree-btn edit-btn" *ngIf="userConfig.showRenameButtons" (click)="enableRootRenameMode()" [matTooltip]="editMessage">
             <fa-icon [icon]="faEdit" [style.font-size.px]='userConfig.setIconSize'></fa-icon>
           </button>
         </div>
