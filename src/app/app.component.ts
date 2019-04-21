@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { TreeModel, TreeItemType, NgxTreeService, TreeConfig } from 'ngx-tree-dnd-fork';
+import { TreeModel, NgxTreeService, TreeConfig, TreeItemType } from 'ngx-tree-dnd-fork';
+// import data from './test.json';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,9 @@ import { TreeModel, TreeItemType, NgxTreeService, TreeConfig } from 'ngx-tree-dn
 })
 export class AppComponent {
   
-  constructor(private treeService: NgxTreeService) {}
+  constructor(private treeService: NgxTreeService) {
+    // this.myTree.push(data);
+  }
 
   config: TreeConfig = {
     showActionButtons: true,

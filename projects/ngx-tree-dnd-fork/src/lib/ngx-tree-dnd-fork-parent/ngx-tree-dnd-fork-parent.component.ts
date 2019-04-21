@@ -240,6 +240,10 @@ export class NgxTreeParentComponent implements AfterViewInit {
 
   ngAfterViewInit() {
       this.treeService.registerChildListReference(this.childrenElementList);
+
+    // this.virtualScroll.renderedRangeStream.subscribe(range => {
+    //   console.log(range, 'range')
+    // })
   }
 
   ngOnDestroy() {

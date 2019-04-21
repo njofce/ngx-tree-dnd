@@ -200,41 +200,21 @@ export class NgxTreeChildrenComponent {
       .get("startDate")
       .valueChanges.subscribe(val => {
         // If type == milestone, change end date to equal start date
-        // Else, update duration
+        // Else, update end date
         let v = this.itemEditForm.get("startDate").value;
+        let ed = null;
         if (this.itemEditForm.get("itemType").value == TreeItemType.Milestone) {
-          this.itemEditForm.patchValue(
-            {
-              endDate: moment(v)
-            },
-            { emitEvent: false }
-          );
+          ed = moment(v);
         }
         else {
-          this.itemEditForm.patchValue(
-            {
-              duration: moment(this.itemEditForm.get("endDate").value).diff(
-                moment(v),
-                "days"
-              )
-            },
-            { emitEvent: false }
-          );
+          ed = moment(v).add(this.itemEditForm.get('duration').value, 'days');
         }
 
-        // this.endMinDate = v;
-
-
-        if (moment(val).isSame(moment(this.itemEditForm.get("endDate").value))) {
-          this.itemEditForm.patchValue(
-            {
-              itemType: TreeItemType.Milestone
-            },
-            {
-              emitEvent: false
-            }
-          )
-        }
+        this.itemEditForm.patchValue(
+          {
+            endDate: ed
+          },
+          { emitEvent: false });
       });
 
     this.formValueEndDateChangesSubscription = this.itemEditForm
@@ -243,42 +223,27 @@ export class NgxTreeChildrenComponent {
         // If type == milestone, change start date to equal end date
         // Else, update duration
         let v = this.itemEditForm.get("endDate").value;
-        if (this.itemEditForm.get("itemType").value == TreeItemType.Milestone) {
-          this.itemEditForm.patchValue(
-            {
-              itemType: TreeItemType.Task,
-              duration: moment(v).diff(
-                moment(this.itemEditForm.get("startDate").value),
-                "days"
-              )
-            },
-            { emitEvent: false }
-          );
+        if(moment(v).isBefore(this.itemEditForm.get('startDate').value)){
+          this.itemEditForm.patchValue({
+            endDate: moment(this.itemEditForm.get('startDate').value)
+          });
+          v = this.itemEditForm.get("endDate").value;
         }
-        else {
-          this.itemEditForm.patchValue(
-            {
-              duration: moment(v).diff(
-                moment(this.itemEditForm.get("startDate").value),
-                "days"
-              )
-            },
-            { emitEvent: false }
-          );
-        }
+        let newItemType = this.itemEditForm.get("itemType").value;
+        let newDuration = moment(v).diff(
+          moment(this.itemEditForm.get("startDate").value),
+          "days"
+        );
 
-        // this.startMaxDate = v;
+        newItemType = newDuration > 0 ? (newItemType == TreeItemType.Milestone ? TreeItemType.Task : newItemType) : TreeItemType.Milestone; 
+        this.itemEditForm.patchValue(
+          {
+            itemType: newItemType,
+            duration: newDuration
+          },
+          { emitEvent: false }
+        );
 
-        if (moment(val).isSame(moment(this.itemEditForm.get("startDate").value))) {
-          this.itemEditForm.patchValue(
-            {
-              itemType: TreeItemType.Milestone
-            },
-            {
-              emitEvent: false
-            }
-          )
-        }
       });
 
     this.formValueDurationChangesSubscription = this.itemEditForm

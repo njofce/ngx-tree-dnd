@@ -184,7 +184,7 @@ export class NgxTreeService {
   public addNewItem(id, name, parent, type: TreeItemType) {
     let text = null;
     let startDate = moment().format(this.defaulConfig.dateFormat);
-    let endDate = moment().add(1, "d").format(this.defaulConfig.dateFormat);
+    let endDate = moment().add(type == TreeItemType.Milestone ? 0 : 1, "d").format(this.defaulConfig.dateFormat);
     let duration = moment(endDate).diff(moment(startDate), 'days');
     
     let pos = 1;
