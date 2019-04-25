@@ -60,8 +60,6 @@ export class NgxTreeChildrenComponent {
   itemEditForm: FormGroup;
   treeItemType = TreeItemType;
 
-  private selectedType: TreeItemType = TreeItemType.Milestone;
-
   // get item from parent component
   @Input()
   set setItem(data: TreeModel) {
@@ -154,14 +152,6 @@ export class NgxTreeChildrenComponent {
       itemType: [itemType, Validators.required],
       itemActive: active
     });
-
-    // this.startMinDate = null;
-    // this.startMaxDate = endDate;
-
-    // this.endMinDate = startDate;
-    // this.endMaxDate = null;
-
-    this.selectedType = itemType;
     this.onChanges();
   }
 
@@ -180,7 +170,7 @@ export class NgxTreeChildrenComponent {
             { emitEvent: false }
           );
         } else {
-          if (this.selectedType == TreeItemType.Milestone){
+          if (this.itemEditForm.get('duration').value == 0){
             this.itemEditForm.patchValue(
               {
                 endDate: moment(this.itemEditForm.get("startDate").value).add(
@@ -193,7 +183,6 @@ export class NgxTreeChildrenComponent {
             );
           }
         }
-        this.selectedType = val;
       });
 
     this.formValueStartDateChangesSubscription = this.itemEditForm
@@ -253,24 +242,20 @@ export class NgxTreeChildrenComponent {
           return;
         // If milestone and duration > 0, change to task, add duration days to start date and update end date
         // Else, add duration days to start date and update end date
+        let endDate = moment(this.itemEditForm.get("startDate").value).add(val, "days");
         if (this.itemEditForm.get("itemType").value == TreeItemType.Milestone) {
           this.itemEditForm.patchValue(
             {
-              itemType: TreeItemType.Task,
-              endDate: moment(this.itemEditForm.get("startDate").value).add(
-                val,
-                "days"
-              )
+              itemType: val == 0 ? TreeItemType.Milestone : TreeItemType.Task,
+              endDate: endDate
             },
             { emitEvent: false }
           );
         } else {
           this.itemEditForm.patchValue(
             {
-              endDate: moment(this.itemEditForm.get("startDate").value).add(
-                val,
-                "days"
-              )
+              itemType: val == 0 ? TreeItemType.Milestone : this.itemEditForm.get("itemType").value,
+              endDate: endDate
             },
             { emitEvent: false }
           );
