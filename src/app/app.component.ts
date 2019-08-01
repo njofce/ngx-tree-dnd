@@ -59,46 +59,31 @@ export class AppComponent {
         type: TreeItemType.TaskGroup,
         startDate: '2019-01-27',
         endDate: '2019-02-12',
-        active: false,
+        active: true,
         duration: 17
       },
       options: {
         showDeleteButton: true
       },
-      childrens: [
-        {
-          name: 'Task - 1',
-          id: 456,
-          options: {},
-          parentId: 123,
-          contents: {
-            id: 456,
-            title: 'Task - 1',
-            type: TreeItemType.Task,
-            startDate: '2019-01-27',
-            endDate: '2019-02-05',
-            active: false,
-            duration: 10
-          },
-          childrens: []
-        },
-        {
-          name: 'Milestone - 1',
-          id: 1533,
-          options: {},
-          parentId: 123,
-          contents: {
-            id: 456,
-            title: 'Milestone - 1',
-            type: TreeItemType.Milestone,
-            startDate: '2019-02-12',
-            endDate: '2019-02-12',
-            active: true,
-            duration: 0
-          },
-          childrens: []
-        }
-      ]
+      childrens: []
+    },
+    {
+      name: 'Task Group - 3',
+      id: 124,
+      parentId: null,
+      contents: {
+        id: 124,
+        title: 'Task Group - 3',
+        type: TreeItemType.TaskGroup,
+        startDate: '2019-01-27',
+        endDate: '2019-02-12',
+        active: true,
+        duration: 17
+      },
+      options: {
+        showDeleteButton: true
+      },
+      childrens: []
     }
   ];
 

@@ -28,29 +28,29 @@
         </ng-template>
         <div class='d-flex buttons-bar' *ngIf="config.showActionButtons && element.options.showActionButtons && !element.options.disabled">
           <div class='d-flex'>
-            <button class="tree-btn add-btn" *ngIf="config.showAddButtons && element.contents.type==treeItemType.TaskGroup" (click)="submitAdd(null, element, treeItemType.TaskGroup)" [matTooltip]="tgMessage">
+            <button class="tree-btn add-btn" *ngIf="config.showAddButtons && element.contents.type==treeItemType.TaskGroup" (click)="submitAdd(null, element, treeItemType.TaskGroup)" [title]="tgMessage">
               <fa-icon [icon]="faPlus" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>
           <div class='d-flex'>
             <button class="tree-btn add-btn" *ngIf="config.showAddButtons && element.contents.type==treeItemType.TaskGroup"
-              (click)="submitAdd(null, element, treeItemType.Task)" [matTooltip]="tMessage">
+              (click)="submitAdd(null, element, treeItemType.Task)" [title]="tMessage">
               <fa-icon [icon]="faSticky" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>
           <div class='d-flex'>
             <button class="tree-btn add-btn" *ngIf="config.showAddButtons && element.contents.type==treeItemType.TaskGroup"
-              (click)="submitAdd(null, element, treeItemType.Milestone)" [matTooltip]="mMessage">
+              (click)="submitAdd(null, element, treeItemType.Milestone)" [title]="mMessage">
               <fa-icon [icon]="faThumb" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>
           <div class='d-flex'>
-            <button class="tree-btn edit-btn" *ngIf="config.showRenameButtons" (click)="enableRenameMode(element)" [matTooltip]="eMessage">
+            <button class="tree-btn edit-btn" *ngIf="config.showRenameButtons" (click)="enableRenameMode(element)" [title]="eMessage">
               <fa-icon [icon]="faEdit" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>
           <div class='d-flex'>
-            <button class="tree-btn delete-btn" *ngIf="config.showDeleteButtons && element.options.showDeleteButton" (click)="onSubmitDelete(element)" [matTooltip]="dMessage">
+            <button class="tree-btn delete-btn" *ngIf="config.showDeleteButtons && element.options.showDeleteButton" (click)="onSubmitDelete(element)" [title]="dMessage">
               <fa-icon [icon]="faTimes" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>

@@ -149,13 +149,13 @@ export class NgxTreeParentComponent implements AfterViewInit {
     );
     this.treeService.onStartRenameItem.subscribe(
       (event) => {
-        // this.cd.detectChanges();
+        this.cd.detectChanges();
         this.onStartRenameItem.emit(event);
       }
     );
     this.treeService.onFinishRenameItem.subscribe(
       (event) => {
-        // this.cd.detectChanges();
+        this.cd.detectChanges();
         this.onFinishRenameItem.emit(event);
       }
     );
@@ -177,7 +177,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
     );
     this.treeService.onDragLeave.subscribe(
       (event) => {
-        this.cd.detectChanges();
+        // this.cd.detectChanges();
         this.ondragleave.emit(event);
       }
     );
