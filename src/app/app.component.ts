@@ -97,7 +97,6 @@ export class AppComponent {
     
   }
 
-
   onDrop(event) {
     // console.log(this.myTree);
     // console.log(event);

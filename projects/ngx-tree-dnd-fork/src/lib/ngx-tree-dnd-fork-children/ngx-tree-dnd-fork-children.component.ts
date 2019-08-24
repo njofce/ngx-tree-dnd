@@ -1,18 +1,12 @@
-import { MILESTONE_CREATE_MESSAGE, EDIT_ITEM_MESSAGE, DELETE_ITEM_MESSAGE, TASK_GROUP_CREATE_MESSAGE, TASK_CREATE_MESSAGE } from './../messages';
+import { MILESTONE_CREATE_MESSAGE, EDIT_ITEM_MESSAGE, DELETE_ITEM_MESSAGE, TASK_GROUP_CREATE_MESSAGE, TASK_CREATE_MESSAGE, ITEM_INDENT_MESSAGE, ITEM_OUTDENT_MESSAGE } from './../messages';
 import { ChangeDetectorRef, NgZone, ViewChildren, QueryList } from '@angular/core';
-/*
- Copyright (C) 2018 Yaroslav Kikot
- This project is licensed under the terms of the MIT license.
- https://github.com/Zicrael/ngx-tree-dnd-fork
- */
-
 import { Component, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { TreeModel, TreeConfig, TreeItemOptions } from '../models/tree-view.model';
 import { TreeItemType } from '../models/tree-view.enum';
 import { Subscription } from 'rxjs';
-import { faPlus, faEdit, faTimes, faArrowDown, faMinus, faCheck, faThumbtack, faStickyNote } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEdit, faTimes, faArrowDown, faMinus, faCheck, faThumbtack, faStickyNote, faIndent, faOutdent } from '@fortawesome/free-solid-svg-icons';
 
 import * as moment_ from 'moment';
 const moment = moment_;
@@ -24,6 +18,8 @@ const moment = moment_;
 export class NgxTreeChildrenComponent {
 
   tgMessage = TASK_GROUP_CREATE_MESSAGE;
+  iIndent = ITEM_INDENT_MESSAGE;
+  iOutdent = ITEM_OUTDENT_MESSAGE;
   tMessage = TASK_CREATE_MESSAGE;
   mMessage = MILESTONE_CREATE_MESSAGE;
   eMessage = EDIT_ITEM_MESSAGE;
@@ -39,6 +35,8 @@ export class NgxTreeChildrenComponent {
   faCheck = faCheck;
   faThumb = faThumbtack;
   faSticky = faStickyNote;
+  faIndent = faIndent;
+  faOutdent = faOutdent;
 
   startMinDate = null;
   startMaxDate = null;
@@ -328,6 +326,22 @@ export class NgxTreeChildrenComponent {
     })
   }
 
+  canIndent(item) {
+    return true;
+  }
+
+  canOutdent(item) {
+    return true;
+  }
+
+  submitIndent(item) {
+    console.log(item);
+  }
+
+  submitOutdent(item) {
+    console.log(item);
+  }
+
   // after view init
   ngAfterViewCheck() {
     // console.log('check');
@@ -355,4 +369,5 @@ export class NgxTreeChildrenComponent {
     }
     this.cd.detach();
   }
+
 }

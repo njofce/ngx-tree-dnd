@@ -1,13 +1,7 @@
-/*
- Copyright (C) 2018 Yaroslav Kikot
- This project is licensed under the terms of the MIT license.
- https://github.com/Zicrael/ngx-tree-dnd-fork
- */
 import { Injectable, QueryList } from '@angular/core';
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { TreeModel, TreeConfig, FindingResults, TreeDto } from './models/tree-view.model';
 import { TreeItemType } from './models/tree-view.enum';
-
 import * as moment_ from 'moment';
 import { NgxTreeChildrenComponent } from './ngx-tree-dnd-fork-children/ngx-tree-dnd-fork-children.component';
 
@@ -23,9 +17,6 @@ export class NgxTreeService {
   rootTitle: string = 'Root';
   treeStorage: TreeModel[] = [];
   private findingResults: FindingResults;
-  // listOfSelectedElement: TreeModel[];
-  // parentOfSelected: TreeModel;
-  // private selectedElement: TreeModel;
   isDragging: TreeModel;
   dragEvent: {};
   direction: string;
@@ -109,7 +100,6 @@ export class NgxTreeService {
     })
   }
 
-
   /*
     get data and set it on observable.
     if data = null set empty data array
@@ -152,7 +142,7 @@ export class NgxTreeService {
 
   /*
    Element finder, it`s find element by id in tree.
-   Returns: finded element, parent array.
+   Returns: found element, parent array.
    Watch out, this is recursive method.
   */
    private elementFinder(list, id, parent?) {
@@ -348,19 +338,10 @@ export class NgxTreeService {
     this.onDragEnd.next(eventObj);
   }
 
-  /*
-    Event: enterdropzone;
-    Entering drop zone for styling items.
-  */
   public enterDropZone(eventObj) {
     this.onDragEnter.next(eventObj);
   }
 
-
-  /*
-    Event: dragover;
-    Detect hover on dropable elements
-  */
   public onDragOver(eventObj) {
     const el = (eventObj.target as TreeModel);
     if (el && el.id !== this.isDragging.id ) {
@@ -376,21 +357,11 @@ export class NgxTreeService {
     }
   }
 
-  /*
-    Event: leavedropzone;
-    Leave drop zone for restyling items.
-  */
   public leaveDropZone(eventObj) {
-      this.removeDestenationBorders(this.treeStorage);
-      this.onDragLeave.next(eventObj);
+    this.removeDestenationBorders(this.treeStorage);
+    this.onDragLeave.next(eventObj);
   }
 
-  /*
-    Event: ondrop;
-    Its use where draggable item drop not on allowed for drop zone:
-    set item option currentlyDragging false.
-    return false.
- */
   public onDropItem(eventObj) {
     if ( eventObj.target ) {
       const elementHalfHeight = eventObj.event.toElement.offsetHeight / 2;
@@ -422,10 +393,6 @@ export class NgxTreeService {
     this.errorNotification.next(message);
   }
 
-  /*
-    change position of items
-    need set direction before use
-  */
   private changeItemPosition(el, direction) {
     this.elementFinder(this.treeStorage, this.isDragging.id);
     const i = this.findingResults.itemsList.indexOf(this.findingResults.foundItem);
@@ -452,14 +419,12 @@ export class NgxTreeService {
     // this.sortTree();
   }
 
-  // get position of item
   getItemPosition(item) {
     this.elementFinder(this.treeStorage, item.id);
     let position = this.findingResults.itemsList.indexOf(this.findingResults.foundItem);
     return ++position;
   }
 
-  // sort tree byposition
   public sortTree() {
     this.sortElements(this.treeStorage);
   }
@@ -483,7 +448,6 @@ export class NgxTreeService {
       return 0;
   }
 
-  // clear selectedElement && isDragging from element finder.
   private clearAction() {
     this.findingResults = null;
   }
@@ -521,4 +485,20 @@ export class NgxTreeService {
       }
     }
   }
+
+  public canIndent(item: TreeModel) {
+    let isItemAboveATaskGroup: boolean = false;
+
+    
+    
+    return isItemAboveATaskGroup;
+  }
+
+  public canOutdent(item: TreeModel) {
+    if (item.parentId == null)
+      return false;
+    return true;
+  }
+
+
 }

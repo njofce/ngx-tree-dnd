@@ -1,18 +1,11 @@
 import { NgxTreeChildrenComponent } from './../ngx-tree-dnd-fork-children/ngx-tree-dnd-fork-children.component';
 import { FormBuilder, Validators } from '@angular/forms';
-/*
- Copyright (C) 2018 Yaroslav Kikot
- This project is licensed under the terms of the MIT license.
- https://github.com/Zicrael/ngx-tree-dnd-fork
- */
 import { Component, Input, Output, EventEmitter, AfterViewInit, ChangeDetectorRef, NgZone, ViewChildren, QueryList } from '@angular/core';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { TreeModel, TreeConfig } from '../models/tree-view.model';
-
 import { faPlus, faEdit, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { TreeItemType } from '../models/tree-view.enum';
 import { TASK_GROUP_CREATE_MESSAGE, EDIT_ITEM_MESSAGE } from '../messages';
-
 
 @Component({
   selector: 'lib-ngx-tree-component',
@@ -31,30 +24,29 @@ export class NgxTreeParentComponent implements AfterViewInit {
   
   treeView: TreeModel[];
   userConfig: TreeConfig = {
-      showActionButtons: true,
-      showAddButtons: true,
-      showRenameButtons: true,
-      showDeleteButtons: true,
-      enableExpandButtons: true,
-      enableDragging: true,
-      rootTitle: 'Root',
-      showRootAddButton: true,
-      options: {
-        edit: false
-      },
-      validationText: 'Enter valid name',
-      minCharacterLength: 1,
-      setItemsAsLinks: false,
-      dateFormat: "YYYY-MM-DD",
-      setFontSize: 14,
-      setIconSize: 12,
-
-      autoDateInsert: false,
-      autoInsert: false,
-      autoInsertAutoOrder: false,
-      autoInsertDefaultString: '',
-      firstLevelLimit: 20
-    };
+    showActionButtons: true,
+    showAddButtons: true,
+    showRenameButtons: true,
+    showDeleteButtons: true,
+    enableExpandButtons: true,
+    enableDragging: true,
+    rootTitle: 'Root',
+    showRootAddButton: true,
+    options: {
+      edit: false
+    },
+    validationText: 'Enter valid name',
+    minCharacterLength: 1,
+    setItemsAsLinks: false,
+    dateFormat: "YYYY-MM-DD",
+    setFontSize: 14,
+    setIconSize: 12,
+    autoDateInsert: false,
+    autoInsert: false,
+    autoInsertAutoOrder: false,
+    autoInsertDefaultString: '',
+    firstLevelLimit: 20
+  };
   showError: boolean;
   renameForm;
   @Output() ondragstart: EventEmitter<any> = new EventEmitter();
