@@ -1,10 +1,11 @@
+import { Tree } from './../util/tree';
 import { NgxTreeChildrenComponent } from './../ngx-tree-dnd-fork-children/ngx-tree-dnd-fork-children.component';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Component, Input, Output, EventEmitter, AfterViewInit, ChangeDetectorRef, NgZone, ViewChildren, QueryList } from '@angular/core';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { TreeModel, TreeConfig } from '../models/tree-view.model';
-import { faPlus, faEdit, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { TreeItemType } from '../models/tree-view.enum';
+import { faPlus, faEdit, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { TASK_GROUP_CREATE_MESSAGE, EDIT_ITEM_MESSAGE } from '../messages';
 
 @Component({
@@ -22,7 +23,9 @@ export class NgxTreeParentComponent implements AfterViewInit {
   faCheck = faCheck;
   faEdit = faEdit;
   
-  treeView: TreeModel[];
+  tree: Tree = null;
+  ddCh: number = 1;
+  
   userConfig: TreeConfig = {
     showActionButtons: true,
     showAddButtons: true,
@@ -47,8 +50,10 @@ export class NgxTreeParentComponent implements AfterViewInit {
     autoInsertDefaultString: '',
     firstLevelLimit: 20
   };
+
   showError: boolean;
   renameForm;
+
   @Output() ondragstart: EventEmitter<any> = new EventEmitter();
   @Output() ondragenter: EventEmitter<any> = new EventEmitter();
   @Output() ondragleave: EventEmitter<any> = new EventEmitter();
@@ -77,13 +82,16 @@ export class NgxTreeParentComponent implements AfterViewInit {
 
   @Input()
   set treeData(item: TreeModel[]) {
-    // get user tree data
-    this.getTreeData(item);
+    this.setTreeData(item);
   }
 
   constructor(public treeService: NgxTreeService, private fb: FormBuilder, private cd: ChangeDetectorRef, private _zone: NgZone) {
     this.enableSubscribers();
     this.createForm();
+  }
+
+  ngAfterViewInit() {
+    this.treeService.registerChildListReference(this.childrenElementList);
   }
 
   // set user config
@@ -97,12 +105,11 @@ export class NgxTreeParentComponent implements AfterViewInit {
     this.treeService.updateRootTitle(this.userConfig.rootTitle);
     this.treeService.updateDefaultConfig(this.userConfig);
   }
+
   // set value to keys of config
   setValue(item, config) {
     this.userConfig[item] = config[item];
   }
-
-  ddCh: number = 1;
 
   // subscribe to all events and emit them to user.
   enableSubscribers() {
@@ -176,15 +183,9 @@ export class NgxTreeParentComponent implements AfterViewInit {
   }
 
   // get tree data from treeService.
-  getTreeData(userTree) {
-    this.treeService.getLocalData(userTree).subscribe(
-      (tree: TreeModel[]) => {
-        this.treeView = tree;
-        // this.treeService.sortTree();
-      }, (error) => {
-        // console.log(error);
-      }
-    );
+  setTreeData(treeModel: TreeModel[]) {
+    this.tree = this.treeService.transformLocalData(treeModel);
+    console.log(this.tree);
   }
 
   // create edit form
@@ -203,7 +204,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
     })
   }
 
-  submitAdd(name) {
+  submitAdd() {
     if (this.treeService.countFirstLevelItems() >= this.userConfig.firstLevelLimit) {
       this.treeService.displayErrorNotification("Maximum number of allowable task groups is reached");
       return;
@@ -211,8 +212,8 @@ export class NgxTreeParentComponent implements AfterViewInit {
     this._zone.run(() => {
       const d = `${new Date().getFullYear()}${new Date().getDay()}${new Date().getTime()}`;
       const elemId = parseInt(d, null);
-      this.treeService.addNewItem(elemId, name, null, TreeItemType.TaskGroup);
-      // this.cd.detectChanges();
+      this.treeService.addNewItem(elemId, null, null, TreeItemType.TaskGroup);
+      this.cd.detectChanges();
     })
   }
 
@@ -227,15 +228,6 @@ export class NgxTreeParentComponent implements AfterViewInit {
         this.showError = true;
       }
     })
-  }
-
-
-  ngAfterViewInit() {
-      this.treeService.registerChildListReference(this.childrenElementList);
-
-    // this.virtualScroll.renderedRangeStream.subscribe(range => {
-    //   console.log(range, 'range')
-    // })
   }
 
   ngOnDestroy() {

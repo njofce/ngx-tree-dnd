@@ -1,32 +1,32 @@
-<div class='tree-child' id={{element.id}} libDragElement [draggableValue]='element.options.draggable' [item]='element' [ngClass]="{disabled : element.options.disabled}">
-  <div *ngIf="element && element.options" class='d-flex'>
-    <div *ngIf='config' [ngClass]="{hidden : element.options.hidden}">
-      <div class='tree-title d-inline-flex pos-relative' [ngClass]="{destenationTop : element.options.destenationTop, destenationBottom: element.options.destenationBottom}" *ngIf="!element.options.edit;else onEdit">
-        <div *ngIf="!config.setItemsAsLinks; else link" [ngClass]="{addOpacity : element.options.currentlyDragging}" libDropElement
-          [item]='element' class='draggable-item'>
-          <div class="d-inline-flex pos-relative o-item-display-contents" [ngClass]="element.contents.consistentDate == false ? 'o-item-invalid' : ''">
-            <div class="o-item-title">{{element.name}}</div>
+<div class='tree-child' id={{treeNode.data.id}} libDragElement [draggableValue]='treeNode.data.options.draggable' [item]='treeNode' [ngClass]="{disabled : treeNode.data.options.disabled}">
+  <div *ngIf="treeNode.data && treeNode.data.options" class='d-flex'>
+    <div *ngIf='config' [ngClass]="{hidden : treeNode.data.options.hidden}">
+      <div class='tree-title d-inline-flex pos-relative' [ngClass]="{destenationTop : treeNode.data.options.destenationTop, destenationBottom: treeNode.data.options.destenationBottom}" *ngIf="!treeNode.data.options.edit;else onEdit">
+        <div *ngIf="!config.setItemsAsLinks; else link" [ngClass]="{addOpacity : treeNode.data.options.currentlyDragging}" libDropElement
+          [item]='treeNode' class='draggable-item'>
+          <div class="d-inline-flex pos-relative o-item-display-contents" [ngClass]="treeNode.data.contents.consistentDate == false ? 'o-item-invalid' : ''">
+            <div class="o-item-title">{{treeNode.data.name}}</div>
             <div class="o-item-options d-inline-flex">
               <div class= "item-dates">
-                <span>{{element.contents.startDate | dateFormatter}}</span>
+                <span>{{treeNode.data.contents.startDate | dateFormatter}}</span>
                 <span> - </span>
-                <span>{{element.contents.endDate | dateFormatter}}</span>
-                <span class="badge badge-light" style="padding: 3px 3px !important">{{element.contents.duration}} days</span>
+                <span>{{treeNode.data.contents.endDate | dateFormatter}}</span>
+                <span class="badge badge-light" style="padding: 3px 3px !important">{{treeNode.data.contents.duration}} days</span>
               </div>
-              <span class="item-type">{{element.contents.type | treeItemTypeTransform}}</span>
+              <span class="item-type">{{treeNode.data.contents.type | treeItemTypeTransform}}</span>
               <span class="item-include">
-                <mat-checkbox [color]="'primary'" [checked]="element.contents.active" (change)="element.contents.active = !element.contents.active">Include</mat-checkbox>
+                <mat-checkbox [color]="'primary'" [checked]="treeNode.data.contents.active" (change)="treeNode.data.contents.active = !treeNode.data.contents.active">Include</mat-checkbox>
               </span>
             </div>
           </div>
         </div>
         <ng-template #link>
-          <div [ngClass]="{addOpacity : element.options.currentlyDragging}" libDropElement
-          [item]='element' class='draggable-item'>
-            <a [href]="element.options.href" class='tree-link'>{{element.name}}</a>
+          <div [ngClass]="{addOpacity : treeNode.data.options.currentlyDragging}" libDropElement
+          [item]='treeNode' class='draggable-item'>
+            <a [href]="treeNode.data.options.href" class='tree-link'>{{treeNode.data.name}}</a>
           </div>
         </ng-template>
-        <div class='d-flex buttons-bar' *ngIf="config.showActionButtons && element.options.showActionButtons && !element.options.disabled">
+        <div class='d-flex buttons-bar' *ngIf="config.showActionButtons && treeNode.data.options.showActionButtons && !treeNode.data.options.disabled">
           <!-- <div class='d-flex'>
             <button class="tree-btn add-btn" *ngIf="canIndent(element)" (click)="submitIndent(element)" [title]="iIndent">
               <fa-icon [icon]="faIndent" [style.font-size.px]='config.setIconSize'></fa-icon>
@@ -38,44 +38,44 @@
             </button>
           </div> -->
           <div class='d-flex'>
-            <button class="tree-btn add-btn" *ngIf="config.showAddButtons && element.contents.type==treeItemType.TaskGroup" (click)="submitAdd(null, element, treeItemType.TaskGroup)" [title]="tgMessage">
+            <button class="tree-btn add-btn" *ngIf="config.showAddButtons && treeNode.data.contents.type==treeItemType.TaskGroup" (click)="submitAdd(null, treeItemType.TaskGroup)" [title]="tgMessage">
               <fa-icon [icon]="faPlus" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>
           <div class='d-flex'>
-            <button class="tree-btn add-btn" *ngIf="config.showAddButtons && element.contents.type==treeItemType.TaskGroup"
-              (click)="submitAdd(null, element, treeItemType.Task)" [title]="tMessage">
+            <button class="tree-btn add-btn" *ngIf="config.showAddButtons && treeNode.data.contents.type==treeItemType.TaskGroup"
+              (click)="submitAdd(null, treeItemType.Task)" [title]="tMessage">
               <fa-icon [icon]="faSticky" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>
           <div class='d-flex'>
-            <button class="tree-btn add-btn" *ngIf="config.showAddButtons && element.contents.type==treeItemType.TaskGroup"
-              (click)="submitAdd(null, element, treeItemType.Milestone)" [title]="mMessage">
+            <button class="tree-btn add-btn" *ngIf="config.showAddButtons && treeNode.data.contents.type==treeItemType.TaskGroup"
+              (click)="submitAdd(null, treeItemType.Milestone)" [title]="mMessage">
               <fa-icon [icon]="faThumb" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>
           <div class='d-flex'>
-            <button class="tree-btn edit-btn" *ngIf="config.showRenameButtons" (click)="enableRenameMode(element)" [title]="eMessage">
+            <button class="tree-btn edit-btn" *ngIf="config.showRenameButtons" (click)="enableRenameMode()" [title]="eMessage">
               <fa-icon [icon]="faEdit" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>
           <div class='d-flex'>
-            <button class="tree-btn delete-btn" *ngIf="config.showDeleteButtons && element.options.showDeleteButton" (click)="onSubmitDelete(element)" [title]="dMessage">
+            <button class="tree-btn delete-btn" *ngIf="config.showDeleteButtons && treeNode.data.options.showDeleteButton" (click)="onSubmitDelete()" [title]="dMessage">
               <fa-icon [icon]="faTimes" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>
         </div>
-        <div class='child-drop-place' [attr.data-id]='element.id'  libDropElement *ngIf='element.options.showDropChildZone && !element.options.disabled && element.contents.type==treeItemType.TaskGroup'>
+        <div class='child-drop-place' [attr.data-id]='treeNode.data.id'  libDropElement *ngIf='treeNode.data.options.showDropChildZone && !treeNode.data.options.disabled && treeNode.data.contents.type==treeItemType.TaskGroup'>
           <fa-icon [icon]="faArrowDown" [style.font-size.px]='config.setIconSize'></fa-icon>
         </div>
-        <div class='show-hide-switch' *ngIf="config.enableExpandButtons && element.options.showExpandButton && element.childrens.length > 0 && !element.options.disabled">
-          <div *ngIf="element.options.hideChildrens; else visible">
-            <button class='tree-btn show-btn' (click)='element.options.hideChildrens = false'>
+        <div class='show-hide-switch' *ngIf="config.enableExpandButtons && treeNode.data.options.showExpandButton && treeNode.children.length > 0 && !treeNode.data.options.disabled">
+          <div *ngIf="treeNode.data.options.hideChildrens; else visible">
+            <button class='tree-btn show-btn' (click)='treeNode.data.options.hideChildrens = false'>
               <fa-icon [icon]="faPlus" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>
           <ng-template #visible>
-            <button class='tree-btn hide-btn' (click)='element.options.hideChildrens = true'>
+            <button class='tree-btn hide-btn' (click)='treeNode.data.options.hideChildrens = true'>
               <fa-icon [icon]="faMinus" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </ng-template>
@@ -83,7 +83,7 @@
       </div>
       <ng-template #onEdit>
         <div class='tree-title d-inline-flex'>
-          <form [formGroup]="itemEditForm" class='d-flex' (submit)='submitEdit(element)'>
+          <form [formGroup]="itemEditForm" class='d-flex' (submit)='submitEdit()'>
 
             <mat-form-field class="input-material" style="width: 110px;">
               <input matInput placeholder="Title" formControlName="name">
@@ -124,10 +124,10 @@
           </form>
 
           <div class='d-flex'>
-            <button class='tree-btn submit-btn' (click)='submitEdit(element)'>
+            <button class='tree-btn submit-btn' (click)='submitEdit()'>
               <fa-icon [icon]="faCheck" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
-            <button class='tree-btn delete-btn' (click)='onSubmitDelete(element)'>
+            <button class='tree-btn delete-btn' (click)='onSubmitDelete()'>
               <fa-icon [icon]="faTimes" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
             <div class='error-edit-wrap' *ngIf="showError">
@@ -136,8 +136,8 @@
           </div>
         </div>
       </ng-template>
-      <div class="tree-content" *ngIf="element.childrens && !element.options.hideChildrens">
-        <lib-ngx-tree-children [setItem]="child" *ngFor='let child of element.childrens'></lib-ngx-tree-children>
+      <div class="tree-content" *ngIf="treeNode.children && !treeNode.data.options.hideChildrens">
+        <lib-ngx-tree-children [setItem]="child" *ngFor='let child of treeNode.children'></lib-ngx-tree-children>
       </div>
     </div>
   </div>

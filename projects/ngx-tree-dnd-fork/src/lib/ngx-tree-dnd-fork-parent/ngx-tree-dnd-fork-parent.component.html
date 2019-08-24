@@ -1,4 +1,4 @@
-<div id='threeWrapper' *ngIf="treeView" [style.font-size.px]='userConfig.setFontSize'>
+<div id='threeWrapper' *ngIf="tree" [style.font-size.px]='userConfig.setFontSize'>
     <div class='root-title d-inline-flex pos-relative' *ngIf="!userConfig.options.edit;else onEdit">
       <div>
         {{userConfig.rootTitle}}
@@ -6,7 +6,7 @@
       
       <div class='d-flex buttons-bar' *ngIf="userConfig.showActionButtons">
         <div class='d-flex'>
-          <button class="tree-btn add-btn" *ngIf="userConfig.showAddButtons && userConfig.showRootAddButton" (click)="submitAdd(null)"  [matTooltip]="tgMessage">
+          <button class="tree-btn add-btn" *ngIf="userConfig.showAddButtons && userConfig.showRootAddButton" (click)="submitAdd()"  [matTooltip]="tgMessage">
             <fa-icon [icon]="faPlus" [style.font-size.px]='userConfig.setIconSize'></fa-icon>
           </button>
         </div>
@@ -34,7 +34,7 @@
     </ng-template>
     <div class='tree-child'>
       <div class="tree-content-main">
-        <lib-ngx-tree-children [setItem]="clild" *ngFor='let clild of treeView'></lib-ngx-tree-children>
+        <lib-ngx-tree-children [setItem]="child" *ngFor='let child of tree.getRoot().children'></lib-ngx-tree-children>
       </div>
     </div>
   </div>

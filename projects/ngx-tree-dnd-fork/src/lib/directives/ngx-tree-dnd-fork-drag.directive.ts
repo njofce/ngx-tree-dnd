@@ -4,9 +4,9 @@
  https://github.com/Zicrael/ngx-tree-dnd-fork
 */
 import { Directive, ElementRef, Input, HostBinding, NgZone } from '@angular/core';
-import { TreeModel } from '../models/tree-view.model';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { fromEvent, Subscription } from 'rxjs';
+import { Node } from '../util/tree';
 
 
 @Directive({
@@ -18,7 +18,7 @@ export class DragElementsDirective {
 
     constructor(private el: ElementRef, private  treeService: NgxTreeService, private zone: NgZone) {}
 
-    @Input() item: TreeModel;
+    @Input() item: Node;
     @Input() draggableValue: boolean;
 
     @HostBinding('draggable')
@@ -50,9 +50,9 @@ export class DragElementsDirective {
         target: this.item
       };
       this.treeService.isDragging = this.item;
-      this.treeService.lastExpandState = this.item.options.hideChildrens;
-      this.item.options.hideChildrens = true;
-      this.item.options.currentlyDragging = true;
+      this.treeService.lastExpandState = this.item.data.options.hideChildrens;
+      this.item.data.options.hideChildrens = true;
+      this.item.data.options.currentlyDragging = true;
       // call service func
       this.treeService.startDragging(eventObj);
       event.stopPropagation();
@@ -81,8 +81,8 @@ export class DragElementsDirective {
         event,
         target: this.item
       };
-      this.item.options.hideChildrens = this.treeService.lastExpandState;
-      this.item.options.currentlyDragging = false;
+      this.item.data.options.hideChildrens = this.treeService.lastExpandState;
+      this.item.data.options.currentlyDragging = false;
       this.treeService.dragEndAction(eventObj);
       event.stopPropagation();
     }

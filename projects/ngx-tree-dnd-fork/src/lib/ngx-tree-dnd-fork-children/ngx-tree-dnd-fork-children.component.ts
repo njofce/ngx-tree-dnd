@@ -1,9 +1,10 @@
+import { Node } from './../util/tree';
 import { MILESTONE_CREATE_MESSAGE, EDIT_ITEM_MESSAGE, DELETE_ITEM_MESSAGE, TASK_GROUP_CREATE_MESSAGE, TASK_CREATE_MESSAGE, ITEM_INDENT_MESSAGE, ITEM_OUTDENT_MESSAGE } from './../messages';
 import { ChangeDetectorRef, NgZone, ViewChildren, QueryList } from '@angular/core';
 import { Component, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
-import { TreeModel, TreeConfig, TreeItemOptions } from '../models/tree-view.model';
+import { TreeConfig, TreeItemOptions } from '../models/tree-view.model';
 import { TreeItemType } from '../models/tree-view.enum';
 import { Subscription } from 'rxjs';
 import { faPlus, faEdit, faTimes, faArrowDown, faMinus, faCheck, faThumbtack, faStickyNote, faIndent, faOutdent } from '@fortawesome/free-solid-svg-icons';
@@ -51,22 +52,21 @@ export class NgxTreeChildrenComponent {
 
   showError: boolean;
   config: TreeConfig;
-  element: TreeModel;
+  treeNode: Node;
   dragable: boolean;
   itemOptions: TreeItemOptions;
-  childrensArray: TreeModel[];
   itemEditForm: FormGroup;
   treeItemType = TreeItemType;
 
   // get item from parent component
   @Input()
-  set setItem(data: TreeModel) {
-    this.element = data;
+  set setItem(node: Node) {
+    this.treeNode = node;
     this.itemOptions = {
       href: "#",
       hidden: false,
       hideChildrens: false,
-      position: this.treeService.getItemPosition(this.element),
+      position: this.treeService.getItemPosition(node.data.id),
       draggable: true,
       edit: false,
       showActionButtons: true,
@@ -77,12 +77,10 @@ export class NgxTreeChildrenComponent {
       showExpandButton: true,
       showDeleteButton: true
     };
-    if (this.element.options) {
-      this.setOptions(this.element.options);
-      this.element.options = this.itemOptions;
-    } else {
-      this.element.options = this.itemOptions;
+    if (node.data.options) {
+      this.setOptions(node.data.options);
     }
+    node.data.options = this.itemOptions;
 
     // enable subscribers
     this.enableSubscribers();
@@ -97,7 +95,6 @@ export class NgxTreeChildrenComponent {
     private zone: NgZone
   ) {}
   
-  // enable subscribe to config
   enableSubscribers() {
     this.treeService.config.subscribe(config => {
       if (config !== null) {
@@ -105,40 +102,37 @@ export class NgxTreeChildrenComponent {
       } else {
         this.config = this.treeService.defaulConfig;
       }
-      if (this.element.options.draggable) {
-        this.element.options.draggable = this.config.enableDragging;
+      if (this.treeNode.data.options.draggable) {
+        this.treeNode.data.options.draggable = this.config.enableDragging;
       }
     });
   }
 
-  // set options to item
   setOptions(options) {
     for (const key of Object.keys(options)) {
       this.setValue(key, options);
     }
   }
 
-  // set value to options keys
   setValue(item, options) {
     this.itemOptions[item] = options[item];
   }
 
-  // create edit form
   createForm() {
-    let itemType = this.element.contents
-      ? this.element.contents.type
+    let itemType = this.treeNode.data.contents
+      ? this.treeNode.data.contents.type
       : TreeItemType.TaskGroup;
-    let startDate = this.element.contents
-      ? moment(this.element.contents.startDate)
+    let startDate = this.treeNode.data.contents
+      ? moment(this.treeNode.data.contents.startDate)
       : moment();
-    let endDate = this.element.contents
-      ? moment(this.element.contents.endDate)
+    let endDate = this.treeNode.data.contents
+      ? moment(this.treeNode.data.contents.endDate)
       : moment().add(1, "months");
-    let active = this.element.contents ? this.element.contents.active : false;
+    let active = this.treeNode.data.contents ? this.treeNode.data.contents.active : false;
 
     this.itemEditForm = this.fb.group({
       name: [
-        this.element.name || "",
+        this.treeNode.data.name || "",
         [
           Validators.required,
           Validators.minLength(this.config.minCharacterLength)
@@ -261,15 +255,11 @@ export class NgxTreeChildrenComponent {
       });
   }
 
-  /*
-    Event: onStartRenameItem;
-    Enable rename mode in element
-    Call onStartRenameItem() from tree service.
-  */
-  enableRenameMode(element) {
+  enableRenameMode() {
+    const self = this;
     this.zone.run(() => {
-      element.options.edit = true;
-      this.treeService.startRenameItem(element);
+      self.treeNode.data.options.edit = true;
+      self.treeService.startRenameItem(self.treeNode);
     })
   }
 
@@ -278,27 +268,22 @@ export class NgxTreeChildrenComponent {
     Generate id by new Date() by 'full year + day + time'.
     Call addNewItem() from tree service.
   */
-  submitAdd(name, item, type) {
+  submitAdd(name: string, type: TreeItemType) {
     this.zone.run(() => {
       const d = `${new Date().getFullYear()}${new Date().getDay()}${new Date().getTime()}`;
       const elemId = parseInt(d, null);
-      this.treeService.addNewItem(elemId, name, item, type);
-      this.element.options.hideChildrens = false;
+      this.treeService.addNewItem(elemId, name, this.treeNode.data.id, type);
+      this.treeNode.data.options.hideChildrens = false;
       // this.cd.detectChanges();
     })
   }
 
-  /*
-    Event: onFinishRenameItem;
-    Check is form valid.
-    Call addNewItem() from tree service.
-  */
-  submitEdit(item) {
+  submitEdit() {
     this.zone.run(() => {
       if (this.itemEditForm.valid) {
         this.showError = false;
-        this.treeService.finishEditItem(this.itemEditForm.value, item.id);
-        this.element.options.edit = false;
+        this.treeService.finishEditItem(this.itemEditForm.value, this.treeNode.data.id);
+        this.treeNode.data.options.edit = false;
       } else {
         this.showError = true;
       }
@@ -306,20 +291,16 @@ export class NgxTreeChildrenComponent {
 
   }
 
-  /*
-    Event: onremoveitem;
-    Check is item edit, then if name empty delete item.
-    Call deleteItem() from tree service.
-  */
-  onSubmitDelete(item) {
+
+  onSubmitDelete() {
     this.zone.run(() => {
-      if (!this.element.options.edit) {
-        this.treeService.deleteItem(item.id);
+      if (!this.treeNode.data.options.edit) {
+        this.treeService.deleteItem(this.treeNode.data.id);
       } else {
-        if (item.name === null) {
-          this.treeService.deleteItem(item.id);
+        if (this.treeNode.data.name === null) {
+          this.treeService.deleteItem(this.treeNode.data.id);
         } else {
-          this.element.options.edit = false;
+          this.treeNode.data.options.edit = false;
           // this.cd.detectChanges();
         }
       }

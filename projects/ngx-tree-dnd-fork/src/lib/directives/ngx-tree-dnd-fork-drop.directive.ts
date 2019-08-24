@@ -1,10 +1,10 @@
+import { Node } from './../util/tree';
 /*
  Copyright (C) 2018 Yaroslav Kikot
  This project is licensed under the terms of the MIT license.
  https://github.com/Zicrael/ngx-tree-dnd-fork
 */
 import { Directive, ElementRef, Input, Output, EventEmitter, NgZone } from '@angular/core';
-import { TreeModel } from '../models/tree-view.model';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { fromEvent, Subscription } from 'rxjs';
 
@@ -19,7 +19,7 @@ export class DropElementsDirective {
         
     }
 
-    @Input() item: TreeModel;
+    @Input() item: Node;
     @Output() drop = new EventEmitter();
 
 
@@ -61,8 +61,8 @@ export class DropElementsDirective {
             event,
             target: this.item
         };
-        dragItem.options.hideChildrens = this.treeService.lastExpandState;
-        dragItem.options.currentlyDragging = false;
+        dragItem.data.options.hideChildrens = this.treeService.lastExpandState;
+        dragItem.data.options.currentlyDragging = false;
         if (dragItem !== eventObj.target) {
             this.treeService.onDropItem(eventObj);
         }
