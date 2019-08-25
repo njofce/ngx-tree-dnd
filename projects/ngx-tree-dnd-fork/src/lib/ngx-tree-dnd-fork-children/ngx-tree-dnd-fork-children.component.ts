@@ -288,9 +288,7 @@ export class NgxTreeChildrenComponent {
         this.showError = true;
       }
     })
-
   }
-
 
   onSubmitDelete() {
     this.zone.run(() => {
@@ -307,20 +305,20 @@ export class NgxTreeChildrenComponent {
     })
   }
 
-  canIndent(item) {
-    return true;
+  canIndent() {
+    return this.treeService.canIndent(this.treeNode);
   }
 
-  canOutdent(item) {
-    return true;
+  canOutdent() {
+    return this.treeService.canOutdent(this.treeNode);
   }
 
-  submitIndent(item) {
-    console.log(item);
+  submitIndent() {
+    this.treeService.performIndent(this.treeNode);
   }
 
-  submitOutdent(item) {
-    console.log(item);
+  submitOutdent() {
+    this.treeService.performOutdent(this.treeNode);
   }
 
   // after view init

@@ -16,6 +16,10 @@
           </button>
         </div>
       </div>
+
+      <div class='child-drop-place' [attr.data-id]="'0'" libDropElement>
+        <fa-icon [icon]="faArrowDown" [style.font-size.px]='userConfig.setIconSize'></fa-icon>
+      </div>
     </div>
     <ng-template #onEdit>
       <div class='tree-title d-inline-flex'>

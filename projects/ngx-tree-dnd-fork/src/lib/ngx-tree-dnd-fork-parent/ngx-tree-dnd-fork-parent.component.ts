@@ -5,7 +5,7 @@ import { Component, Input, Output, EventEmitter, AfterViewInit, ChangeDetectorRe
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { TreeModel, TreeConfig } from '../models/tree-view.model';
 import { TreeItemType } from '../models/tree-view.enum';
-import { faPlus, faEdit, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEdit, faCheck, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { TASK_GROUP_CREATE_MESSAGE, EDIT_ITEM_MESSAGE } from '../messages';
 
 @Component({
@@ -22,6 +22,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
   faPlus = faPlus;
   faCheck = faCheck;
   faEdit = faEdit;
+  faArrowDown = faArrowDown;
   
   tree: Tree = null;
   ddCh: number = 1;
@@ -123,6 +124,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
       (event) => {
         this.ddCh = 1;
         this.ondragstart.emit(event);
+        this.cd.detectChanges();
       }
     );
     this.treeService.onAllowDrop.subscribe(
@@ -212,7 +214,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
     this._zone.run(() => {
       const d = `${new Date().getFullYear()}${new Date().getDay()}${new Date().getTime()}`;
       const elemId = parseInt(d, null);
-      this.treeService.addNewItem(elemId, null, null, TreeItemType.TaskGroup);
+      this.treeService.addNewItem(elemId, null, 0, TreeItemType.TaskGroup);
       this.cd.detectChanges();
     })
   }

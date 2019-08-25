@@ -1,5 +1,25 @@
 import { TreeItemContents, TreeItemOptions } from "../models/tree-view.model";
 
+export class Queue<T> {
+    private _data: T[];
+
+    constructor() {
+        this._data = [];
+    }
+
+    public add(item: T) {
+        this._data.unshift(item);
+    }
+
+    public remove(): T {
+        return this._data.pop();
+    }
+
+    public size(): number {
+        return this._data.length;
+    }
+}
+
 export interface INodeData {
     id: number;
     name: string;
@@ -38,6 +58,10 @@ export class Node {
         this._children.push(child);
     }
 
+    addChildAtIndex(child: Node, index: number) {
+        this._children.splice(index, 0, child);
+    }
+
     removeChild(childId: number) {
         let indexOfChild = this._children.findIndex(c => c.data.id == childId);
         if(indexOfChild != -1)
@@ -56,12 +80,22 @@ export class Tree {
         return this._root;
     }
 
-    getNode(currentNode: Node, nodeId: number):Node {
-        for(let c of currentNode.children) {
-            if(c.data.id == nodeId)
-                return c;
-            return this.getNode(c, nodeId);
+    getNode(currentNode: Node, nodeId: number): Node {
+
+        if(currentNode.data.id == nodeId)
+            return currentNode;
+
+        let queue: Queue<Node> = new Queue();
+        currentNode.children.forEach(c => queue.add(c));
+
+        while(queue.size() != 0) {
+            let n: Node = queue.remove();
+            if(n.data.id == nodeId)
+                return n;
+            n.children.forEach(c => queue.add(c));
         }
+
+        return null;
     }
 
     add(child: Node, parentId: number) {

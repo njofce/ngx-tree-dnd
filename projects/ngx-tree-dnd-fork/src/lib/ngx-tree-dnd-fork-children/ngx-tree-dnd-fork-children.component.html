@@ -27,16 +27,16 @@
           </div>
         </ng-template>
         <div class='d-flex buttons-bar' *ngIf="config.showActionButtons && treeNode.data.options.showActionButtons && !treeNode.data.options.disabled">
-          <!-- <div class='d-flex'>
-            <button class="tree-btn add-btn" *ngIf="canIndent(element)" (click)="submitIndent(element)" [title]="iIndent">
+          <div class='d-flex'>
+            <button class="tree-btn add-btn" *ngIf="canIndent()" (click)="submitIndent()" [title]="iIndent">
               <fa-icon [icon]="faIndent" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>
           <div class='d-flex'>
-            <button class="tree-btn add-btn" *ngIf="canOutdent(element)" (click)="submitOutdent(element)" [title]="iOutdent">
+            <button class="tree-btn add-btn" *ngIf="canOutdent()" (click)="submitOutdent()" [title]="iOutdent">
               <fa-icon [icon]="faOutdent" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
-          </div> -->
+          </div>
           <div class='d-flex'>
             <button class="tree-btn add-btn" *ngIf="config.showAddButtons && treeNode.data.contents.type==treeItemType.TaskGroup" (click)="submitAdd(null, treeItemType.TaskGroup)" [title]="tgMessage">
               <fa-icon [icon]="faPlus" [style.font-size.px]='config.setIconSize'></fa-icon>

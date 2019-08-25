@@ -22,8 +22,6 @@ export class NgxTreeService {
     return this._tree;
   }
 
-  // treeStorage: TreeModel[] = [];
-  // private findingResults: FindingResults;
   isDragging: Node;
   dragEvent: {};
   direction: string;
@@ -200,14 +198,13 @@ export class NgxTreeService {
       pos = newItemPosition;
     }
 
-
     // Text auto Insert
     if (this.defaulConfig.autoInsert && !parent) {
       text = this.defaulConfig.autoInsertDefaultString + " " + (this.tree.getLevelItemCount() + 1);
     }
     if (this.defaulConfig.autoDateInsert) {
       // Task Group Level
-      if (!parent) {
+      if (parent.data.id == 0) {
         if (this.tree.getLevelItemCount() > 0) {
           startDate = this.tree.getRoot().children[this.tree.getLevelItemCount() - 1].data.contents.startDate;
           endDate = this.tree.getRoot().children[this.tree.getLevelItemCount() - 1].data.contents.endDate;
@@ -237,6 +234,7 @@ export class NgxTreeService {
     let newNode: Node = new Node(nodeData, parent);
     this._tree.add(newNode, parentId);
 
+    this.checkTreeLength();
     this.onAddItem.next(null);
   }
 
@@ -244,6 +242,7 @@ export class NgxTreeService {
     let node: Node = this._tree.getNode(this._tree.getRoot(), id);
     this._tree.remove(node, node.parent.data.id);
 
+    this.checkTreeLength();
     this.onDeleteEnd.next(null);
   }
 
@@ -274,6 +273,7 @@ export class NgxTreeService {
     }
     node.data.options.edit = false;
 
+    this.checkTreeLength();
     this.onFinishRenameItem.next(null);
   }
 
@@ -297,15 +297,16 @@ export class NgxTreeService {
   }
 
   public onDragOver(eventObj) {
-    const el = (eventObj.target as TreeModel);
-    if (el && el.id !== this.isDragging.data.id ) {
+    const el = (eventObj.target as Node);
+
+    if (el && el.data.id !== this.isDragging.data.id ) {
       const elementHalfHeight = eventObj.event.toElement.offsetHeight / 2;
       if (eventObj.event.offsetY < elementHalfHeight) {
-        el.options.destenationBottom = false;
-        el.options.destenationTop = true;
+        el.data.options.destenationBottom = false;
+        el.data.options.destenationTop = true;
       } else  {
-        el.options.destenationBottom = true;
-        el.options.destenationTop = false;
+        el.data.options.destenationBottom = true;
+        el.data.options.destenationTop = false;
       }
       this.onAllowDrop.next(eventObj);
     }
@@ -318,57 +319,33 @@ export class NgxTreeService {
 
   public onDropItem(eventObj) {
     console.log(eventObj);
-    // if ( eventObj.target ) {
-    //   const elementHalfHeight = eventObj.event.toElement.offsetHeight / 2;
-    //     if (  eventObj.event.offsetY < elementHalfHeight ) {
-    //       this.changeItemPosition(eventObj.target, 'up');
-    //     } else {
-    //       this.changeItemPosition(eventObj.target, 'down');
-    //     }
-    //     this.onDrop.next(eventObj);
-    // } else {
-    //   const dropZoneId = parseInt(eventObj.event.target.getAttribute('data-id'), null);
-    //   this.elementFinder(this.treeStorage, this.isDragging.id);
-    //   const i = this.findingResults.itemsList.indexOf(this.findingResults.foundItem);
-    //   const copyItem = this.findingResults.itemsList.splice(i, 1)[0];
-    //   this.elementFinder(this.treeStorage, dropZoneId);
-    //   this.findingResults.foundItem.childrens.push(copyItem);
-    //   eventObj.target = this.findingResults.foundItem;
-    //   this.onDrop.next(eventObj);
-    // }
-    // this.removeDestenationBorders(this._tree.getRoot());
-    // this.switchDropButton(false, this._tree.getRoot());
-    // this.checkTreeLength();
-    // this.onDragEnd.next();
+    const el = (eventObj.target as Node);
+
+    if ( el != undefined ) {
+      // TODO: handle index
+    } 
+    else {
+      const dropZoneId = parseInt(eventObj.event.target.getAttribute('data-id'), null);
+      
+      let parentNode: Node = this._tree.getNode(this._tree.getRoot(), dropZoneId);
+      
+      this.changeItemParent(this.isDragging, parentNode);
+    }
+    this.onDrop.next(eventObj);
+    this.removeDestenationBorders(this._tree.getRoot());
+    this.switchDropButton(false, this._tree.getRoot());
+    this.checkTreeLength();
+    this.onDragEnd.next();
   }
 
   displayErrorNotification(message: string) {
     this.errorNotification.next(message);
   }
 
-  private changeItemPosition(el: Node, direction: string) {
-    // this.elementFinder(this.treeStorage, this.isDragging.id);
-    // const i = this.findingResults.itemsList.indexOf(this.findingResults.foundItem);
-    // const copyItem = this.findingResults.itemsList.splice(i, 1)[0];
-    // // end test
-    // const positionTarget = el.options.position;
-    // this.elementFinder(this.treeStorage, el.id);
-    // if (direction === 'up') {
-    //   for (const items of this.findingResults.itemsList) {
-    //     if ( items.options.position >= positionTarget ) {
-    //       items.options.position = items.options.position + 1;
-    //       copyItem.options.position = positionTarget;
-    //     }
-    //   }
-    // } else {
-    //   for (const items of this.findingResults.itemsList) {
-    //     if ( items.options.position <=  positionTarget ) {
-    //       items.options.position = items.options.position - 1;
-    //     }
-    //   }
-    // }
-    // copyItem.options.position = positionTarget;
-
+  private changeItemParent(item: Node, newParent: Node) {
+    item.parent.removeChild(item.data.id);
+    item.parent = newParent;
+    newParent.addChild(item);
   }
 
   getItemPosition(itemId: number) {
@@ -379,19 +356,24 @@ export class NgxTreeService {
   }
 
   private removeDestenationBorders(node: Node) {
+    node.data.options.destenationBottom = false;
+    node.data.options.destenationTop = false;
+
     node.children.forEach(c => {
-      for (const item of c.children) {
-        item.data.options.destenationBottom = false;
-        item.data.options.destenationTop = false;
+        c.data.options.destenationBottom = false;
+        c.data.options.destenationTop = false;
         this.removeDestenationBorders(c);
-      }
     })
   }
 
   private switchDropButton(sw: boolean, node: Node) {
+    node.data.options.showActionButtons = !sw;
+    if (node.data.id != this.isDragging.data.id)
+      node.data.options.showDropChildZone = sw;
+
     node.children.forEach(n => {
       n.data.options.showActionButtons = !sw;
-      if(n.data.id == this.isDragging.data.id)
+      if(n.data.id != this.isDragging.data.id)
         n.data.options.showDropChildZone = sw;
       
       this.switchDropButton(sw, n);
@@ -399,7 +381,7 @@ export class NgxTreeService {
   }
 
   public checkTreeLength() {
-    if (this.tree.getLevelItemCount() < 2) {
+    if (this.tree.getRoot().children.filter(c => !c.data.options.edit).length < 2) {
       this.tree.getRoot().children[0].data.options.showDeleteButton = false;
     } else {
       for (const el of this.tree.getRoot().children) {
@@ -410,16 +392,34 @@ export class NgxTreeService {
     }
   }
 
-  public canIndent(item: TreeModel) {
-    let isItemAboveATaskGroup: boolean = false;
-
-
-    
-    return isItemAboveATaskGroup;
+  public performIndent(item: Node) {
+    let indexOfCurrentItem = item.parent.children.findIndex(i => i.data.id == item.data.id);
+    this.changeItemParent(item, item.parent.children[indexOfCurrentItem - 1]);
   }
 
-  public canOutdent(item: TreeModel) {
-    if (item.parentId == null)
+  public performOutdent(item: Node) {
+    this.changeItemParent(item, item.parent.parent);
+  }
+
+  public canIndent(item: Node): boolean {
+    if(item.parent == null)
+      return false;
+
+      let indexOfCurrentItem = item.parent.children.findIndex(i => i.data.id == item.data.id);
+
+      if(indexOfCurrentItem == 0)
+        return false;
+
+    if (item.parent.children[indexOfCurrentItem - 1].data.contents.type == TreeItemType.TaskGroup)
+      return true;
+
+    return false;
+  }
+
+  public canOutdent(item: Node): boolean {
+    if(item.parent == null)
+      return false;
+    if(item.parent.data.id == 0)
       return false;
     return true;
   }
