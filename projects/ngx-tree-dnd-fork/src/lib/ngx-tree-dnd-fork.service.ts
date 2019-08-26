@@ -33,6 +33,8 @@ export class NgxTreeService {
   onDrag = new Subject<any>();
   onAllowDrop = new Subject<any>();
   onDragEnd = new Subject<any>();
+  onIndent = new Subject<any>();
+  onOutdent = new Subject<any>();
   onAddItem = new Subject<any>();
   onRenameItem = new Subject<any>();
   onStartRenameItem = new Subject<any>();
@@ -318,17 +320,19 @@ export class NgxTreeService {
   }
 
   public onDropItem(eventObj) {
-    console.log(eventObj);
     const el = (eventObj.target as Node);
-
     if ( el != undefined ) {
-      // TODO: handle index
+      let elementIndex: number = el.parent.children.findIndex(c => c.data.id == el.data.id);
+      const elementHalfHeight = eventObj.event.toElement.offsetHeight / 2;
+      if (eventObj.event.offsetY < elementHalfHeight) {
+        this.changeItemParent(this.isDragging, el.parent, elementIndex);
+      } else {
+        this.changeItemParent(this.isDragging, el.parent, elementIndex + 1);
+      }
     } 
     else {
       const dropZoneId = parseInt(eventObj.event.target.getAttribute('data-id'), null);
-      
       let parentNode: Node = this._tree.getNode(this._tree.getRoot(), dropZoneId);
-      
       this.changeItemParent(this.isDragging, parentNode);
     }
     this.onDrop.next(eventObj);
@@ -342,10 +346,13 @@ export class NgxTreeService {
     this.errorNotification.next(message);
   }
 
-  private changeItemParent(item: Node, newParent: Node) {
+  private changeItemParent(item: Node, newParent: Node, newIndex: number = null) {
     item.parent.removeChild(item.data.id);
     item.parent = newParent;
     newParent.addChild(item);
+
+    if(newIndex != null)
+      newParent.moveChildToNewPosition(item.data.id, newIndex);
   }
 
   getItemPosition(itemId: number) {
@@ -395,10 +402,13 @@ export class NgxTreeService {
   public performIndent(item: Node) {
     let indexOfCurrentItem = item.parent.children.findIndex(i => i.data.id == item.data.id);
     this.changeItemParent(item, item.parent.children[indexOfCurrentItem - 1]);
+    this.onIndent.next();
   }
 
   public performOutdent(item: Node) {
-    this.changeItemParent(item, item.parent.parent);
+    let parentIndex = item.parent.parent.children.findIndex(c => c.data.id == item.parent.data.id);
+    this.changeItemParent(item, item.parent.parent, parentIndex + 1);
+    this.onOutdent.next();
   }
 
   public canIndent(item: Node): boolean {

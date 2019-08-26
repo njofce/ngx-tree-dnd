@@ -37,7 +37,8 @@ export class NgxTreeParentComponent implements AfterViewInit {
     rootTitle: 'Root',
     showRootAddButton: true,
     options: {
-      edit: false
+      edit: false,
+      showDropChildZone: false
     },
     validationText: 'Enter valid name',
     minCharacterLength: 1,
@@ -122,6 +123,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
     );
     this.treeService.onDragStart.subscribe(
       (event) => {
+        this.userConfig.options.showDropChildZone = true;
         this.ddCh = 1;
         this.ondragstart.emit(event);
         this.cd.detectChanges();
@@ -138,6 +140,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
     );
     this.treeService.onDragEnd.subscribe(
       (event) => {
+        this.userConfig.options.showDropChildZone = false;
         this.ddCh = 1;
         this.cd.detectChanges();
         this.ondragend.emit(event);
@@ -182,12 +185,23 @@ export class NgxTreeParentComponent implements AfterViewInit {
         this.ondragleave.emit(event);
       }
     );
+
+    this.treeService.onIndent.subscribe(
+      (event) => {
+        this.cd.detectChanges();
+      }
+    );
+
+    this.treeService.onOutdent.subscribe(
+      (event) => {
+        this.cd.detectChanges();
+      }
+    );
   }
 
   // get tree data from treeService.
   setTreeData(treeModel: TreeModel[]) {
     this.tree = this.treeService.transformLocalData(treeModel);
-    console.log(this.tree);
   }
 
   // create edit form

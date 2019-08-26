@@ -62,6 +62,12 @@ export class Node {
         this._children.splice(index, 0, child);
     }
 
+    moveChildToNewPosition(nodeId: number, newIndex: number) {
+        let child: Node = this._children.find(c => c.data.id == nodeId);
+        this.removeChild(nodeId);
+        this.addChildAtIndex(child, newIndex);
+    }
+
     removeChild(childId: number) {
         let indexOfChild = this._children.findIndex(c => c.data.id == childId);
         if(indexOfChild != -1)

@@ -29,7 +29,10 @@ export class AppComponent {
     firstLevelLimit: 10,
     autoInsert: false,
     autoInsertDefaultString: 'Task Group',
-    autoDateInsert: true
+    autoDateInsert: true,
+    options: {
+      showDropChildZone: false
+    }
   };
 
   myTree: TreeModel[] = [
