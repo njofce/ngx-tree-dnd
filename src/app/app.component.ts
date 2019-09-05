@@ -25,7 +25,7 @@ export class AppComponent {
     minCharacterLength: 7,
     setItemsAsLinks: false,
     setFontSize: 14,
-    setIconSize: 10,
+    setIconSize: 12,
     firstLevelLimit: 10,
     autoInsert: false,
     autoInsertDefaultString: 'Task Group',

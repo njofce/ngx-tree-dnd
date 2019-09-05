@@ -48,9 +48,7 @@ import { DateFormatterPipe } from './pipes/date-formatter.pipe';
     NgxTreeChildrenComponent
   ],
   providers: [
-    DateFormatterPipe,
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    DateFormatterPipe
   ]
 })
 export class NgxTreeDndModule { }

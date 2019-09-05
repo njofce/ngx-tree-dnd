@@ -83,19 +83,19 @@
       </div>
       <ng-template #onEdit>
         <div class='tree-title d-inline-flex'>
-          <form [formGroup]="itemEditForm" class='d-flex' (submit)='submitEdit()'>
+          <form [formGroup]="itemEditForm" class='d-flex edit-form' (submit)='submitEdit()'>
 
             <mat-form-field class="input-material" style="width: 110px;">
-              <input matInput placeholder="Title" formControlName="name">
+              <input matInput placeholder="Name" formControlName="name">
             </mat-form-field>
 
-            <mat-form-field class="input-material" style="width: 160px;">
+            <mat-form-field class="input-material" style="width: 120px;">
               <input matInput readonly="true" [matDatepicker]="startDatePicker" [min]="startMinDate" [max]="startMaxDate" placeholder="Start Date" formControlName="startDate">
               <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
               <mat-datepicker #startDatePicker></mat-datepicker>
             </mat-form-field>
 
-            <mat-form-field class="input-material" style="width: 160px;">
+            <mat-form-field class="input-material" style="width: 120px;">
               <input matInput readonly="true" [matDatepicker]="endDatePicker" [min]="endMinDate" [max]="endMaxDate" placeholder="End Date" formControlName="endDate">
               <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
               <mat-datepicker #endDatePicker></mat-datepicker>

@@ -55,8 +55,8 @@ export class NgxTreeService {
     minCharacterLength: 1,
     setItemsAsLinks: false,
     dateFormat: "YYYY-MM-DD",
-    setFontSize: 16,
-    setIconSize: 14,
+    setFontSize: 12,
+    setIconSize: 12,
     autoDateInsert: false,
     autoInsert: false,
     firstLevelLimit: 20

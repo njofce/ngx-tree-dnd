@@ -13,7 +13,7 @@
 }
 .tree-title {
     position: relative;
-    padding-left: 16px;
+    padding-left: 8px;
     align-items: center;
     border: 1px solid transparent;
     border-top: 5px solid transparent;
@@ -25,7 +25,7 @@
     top: calc(50% - 0.5px);
     background-color: #484747;
     height: 1px;
-    width: 15px;
+    width: 7px;
     align-items: center;
     content: '';
 }
@@ -72,6 +72,10 @@ label{
     color: #2f99cc !important;
 }
 
+.edit-form {
+    font-size: 12px;
+}
+
 .destenationTop {
     border-top: 5px solid rgba(255, 0, 0, 0.5);
 }
@@ -80,7 +84,7 @@ label{
 }
 
 .tree-content {
-    margin-left: 30px;
+    margin-left: 15px;
     border-left: 1px solid #484747 ;
     position: relative;
 }
@@ -157,8 +161,8 @@ label{
 .show-btn, .hide-btn {
     background-color: #ccc;
     color: #000;
-    height: 18px;
-    width: 18px;
+    height: 13px;
+    width: 13px;
     padding: 0;
     font-size: 14px;
     align-items: center;

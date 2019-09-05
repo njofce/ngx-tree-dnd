@@ -1,3 +1,6 @@
+import { MY_FORMATS } from './../util/date-format';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
 import { Node } from './../util/tree';
 import { MILESTONE_CREATE_MESSAGE, EDIT_ITEM_MESSAGE, DELETE_ITEM_MESSAGE, TASK_GROUP_CREATE_MESSAGE, TASK_CREATE_MESSAGE, ITEM_INDENT_MESSAGE, ITEM_OUTDENT_MESSAGE } from './../messages';
 import { ChangeDetectorRef, NgZone, ViewChildren, QueryList } from '@angular/core';
@@ -14,7 +17,12 @@ const moment = moment_;
 
 @Component({
   selector: "lib-ngx-tree-children",
-  templateUrl: "./ngx-tree-dnd-fork-children.component.html"
+  templateUrl: "./ngx-tree-dnd-fork-children.component.html",
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
+  ]
 })
 export class NgxTreeChildrenComponent {
 
