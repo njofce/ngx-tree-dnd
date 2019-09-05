@@ -103,7 +103,8 @@ label{
 }
 
 .item-title-container {
-    width: 150px;
+    width: 200px;
+    overflow: hidden;
 }
 
 .mat-form-field-infix {
@@ -202,6 +203,7 @@ label{
     max-width: 200px;
     font-family: inherit;
     outline: none;
+    border: none;
 }
 .show-hide-switch {
     position: absolute;
@@ -269,4 +271,44 @@ label{
 
 .mat-form-field-wrapper {
     padding-bottom: 0 !important;
+}
+
+.bottom-ctrl-btn {
+    padding: 5px;
+}
+
+.o-tree-header {
+    width: 675px;
+    margin-left: 10px;
+    margin-top: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.o-tree-header div div:nth-child(1) {
+    width: 200px;
+    border-right: 1px solid #aba9a9;
+}
+
+.o-tree-header div div:nth-child(2) {
+    width: 120px;
+    border-right: 1px solid #aba9a9;
+}
+
+.o-tree-header div div:nth-child(3) {
+    width: 120px;
+    border-right: 1px solid #aba9a9;
+}
+
+.o-tree-header div div:nth-child(4) {
+    width: 70px;
+    border-right: 1px solid #aba9a9;
+}
+
+.o-tree-header div div:nth-child(5) {
+    width: 109px;
+    border-right: 1px solid #aba9a9;
+}
+.o-tree-header div div:nth-child(6) {
+    width: 56px;
 }

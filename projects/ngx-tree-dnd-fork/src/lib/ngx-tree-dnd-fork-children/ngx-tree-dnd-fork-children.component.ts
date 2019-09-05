@@ -53,10 +53,12 @@ export class NgxTreeChildrenComponent {
   endMinDate = null;
   endMaxDate = null;
 
+  private formValueItemTitleChangesSubscription: Subscription;
   private formValueItemTypeChangesSubscription: Subscription;
   private formValueStartDateChangesSubscription: Subscription;
   private formValueEndDateChangesSubscription: Subscription;
   private formValueDurationChangesSubscription: Subscription;
+  private formValueItemActiveChangesSubscription: Subscription;
 
   showError: boolean;
   config: TreeConfig;
@@ -104,7 +106,7 @@ export class NgxTreeChildrenComponent {
   ) {}
   
   getNodeLevel() {
-    return this.treeService.getNodeLevel(this.treeNode.data.id);
+    return this.treeService.getNodeLevel(this.treeNode.data.id) - 1;
   }
 
   enableSubscribers() {
@@ -160,6 +162,10 @@ export class NgxTreeChildrenComponent {
   }
 
   onChanges(): void {
+    this.formValueItemTitleChangesSubscription = this.itemEditForm
+      .get("name")
+      .valueChanges.subscribe(val =>this.submitEdit());
+    
     this.formValueItemTypeChangesSubscription = this.itemEditForm
       .get("itemType")
       .valueChanges.subscribe(val => {
@@ -187,6 +193,7 @@ export class NgxTreeChildrenComponent {
             );
           }
         }
+        this.submitEdit();
       });
 
     this.formValueStartDateChangesSubscription = this.itemEditForm
@@ -208,6 +215,7 @@ export class NgxTreeChildrenComponent {
             endDate: ed
           },
           { emitEvent: false });
+        this.submitEdit();
       });
 
     this.formValueEndDateChangesSubscription = this.itemEditForm
@@ -236,8 +244,13 @@ export class NgxTreeChildrenComponent {
           },
           { emitEvent: false }
         );
+        this.submitEdit();
 
       });
+
+    this.formValueItemActiveChangesSubscription = this.itemEditForm
+      .get("itemActive")
+      .valueChanges.subscribe(val => this.submitEdit());
 
     this.formValueDurationChangesSubscription = this.itemEditForm
       .get("duration")
@@ -264,6 +277,7 @@ export class NgxTreeChildrenComponent {
             { emitEvent: false }
           );
         }
+        this.submitEdit();
       });
   }
 
@@ -286,7 +300,6 @@ export class NgxTreeChildrenComponent {
       const elemId = parseInt(d, null);
       this.treeService.addNewItem(elemId, name, this.treeNode.data.id, type);
       this.treeNode.data.options.hideChildrens = false;
-      // this.cd.detectChanges();
     })
   }
 
@@ -339,6 +352,7 @@ export class NgxTreeChildrenComponent {
   }
 
   ngOnDestroy() {
+
     if (this.formValueItemTypeChangesSubscription) {
       this.formValueItemTypeChangesSubscription.unsubscribe();
       this.formValueItemTypeChangesSubscription = null;
@@ -358,6 +372,17 @@ export class NgxTreeChildrenComponent {
       this.formValueDurationChangesSubscription.unsubscribe();
       this.formValueDurationChangesSubscription = null;
     }
+
+    if (this.formValueItemActiveChangesSubscription){
+      this.formValueItemActiveChangesSubscription.unsubscribe();
+      this.formValueItemActiveChangesSubscription = null;
+    }
+
+    if (this.formValueItemTitleChangesSubscription) {
+      this.formValueItemTitleChangesSubscription.unsubscribe();
+      this.formValueItemTitleChangesSubscription = null;
+    }
+
     this.cd.detach();
   }
 

@@ -1,15 +1,11 @@
 <div id='threeWrapper' *ngIf="tree" [style.font-size.px]='userConfig.setFontSize'>
-    <div class='root-title d-inline-flex pos-relative' *ngIf="!userConfig.options.edit;else onEdit">
+  
+    <div class='tree-title d-inline-flex pos-relative' *ngIf="!userConfig.options.edit;else onEdit">
       <div>
         {{userConfig.rootTitle}}
       </div>
       
       <div class='d-flex buttons-bar' *ngIf="userConfig.showActionButtons">
-        <div class='d-flex'>
-          <button class="tree-btn add-btn" *ngIf="userConfig.showAddButtons && userConfig.showRootAddButton" (click)="submitAdd()"  [matTooltip]="tgMessage">
-            <fa-icon [icon]="faPlus" [style.font-size.px]='userConfig.setIconSize'></fa-icon>
-          </button>
-        </div>
         <div class='d-flex'>
           <button class="tree-btn edit-btn" *ngIf="userConfig.showRenameButtons" (click)="enableRootRenameMode()" [matTooltip]="editMessage">
             <fa-icon [icon]="faEdit" [style.font-size.px]='userConfig.setIconSize'></fa-icon>
@@ -21,6 +17,7 @@
         <fa-icon [icon]="faArrowDown" [style.font-size.px]='userConfig.setIconSize'></fa-icon>
       </div>
     </div>
+
     <ng-template #onEdit>
       <div class='tree-title d-inline-flex'>
         <form [formGroup]="renameForm" class='d-flex' (submit)='submitRootRename()'>
@@ -36,9 +33,35 @@
         </div>
       </div>
     </ng-template>
+
+    <br />
+    
     <div class='tree-child'>
       <div class="tree-content-main">
+        
+        <div class="o-tree-header">
+          <div class="o-item-display-contents">
+            <div>Name</div>
+            <div>Start Date</div>
+            <div>End Date</div>
+            <div>Duration</div>
+            <div>Type</div>
+            <div>Include</div>
+          </div>
+        </div>
+
         <lib-ngx-tree-children [setItem]="child" *ngFor='let child of tree.getRoot().children'></lib-ngx-tree-children>
       </div>
+    </div>
+
+    <div class="bottom-ctrl-btn">
+
+      <div class='d-flex'>
+        <button class="tree-btn add-btn" *ngIf="userConfig.showAddButtons && userConfig.showRootAddButton"
+          (click)="submitAdd()" [matTooltip]="tgMessage">
+          <fa-icon [icon]="faPlus" [style.font-size.px]='userConfig.setIconSize'></fa-icon>
+        </button>
+      </div>
+      
     </div>
   </div>

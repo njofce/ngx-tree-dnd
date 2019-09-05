@@ -66,6 +66,13 @@ export class NgxTreeService {
 
   constructor() {}
 
+    private flatten = (children, getChildren, level) => Array.prototype.concat.apply(
+      children.map(x => ({ children: x.children, id: x.data.id, level: level || 1 })),
+      children.map(x => this.flatten(getChildren(x) || [], getChildren, (level || 1) + 1))
+    );
+
+  private extractChildren = x => x.children;
+
   public updateDefaultConfig(config:TreeConfig) {
     for (const key of Object.keys(config)) {
       this.setValue(key, config);
@@ -82,17 +89,12 @@ export class NgxTreeService {
   }
 
   public getNodeLevel(nodeId: number) {
-    let flatten = (children, getChildren, level) => Array.prototype.concat.apply(
-      children.map(x => ({ id: x.data.id, level: level || 1 })),
-      children.map(x => flatten(getChildren(x) || [], getChildren, (level || 1) + 1))
-    );
 
-    let extractChildren = x => x.children;
+    let flat = this.flatten(this.extractChildren(this._tree.getRoot()), this.extractChildren, 0)
+    .map(x => delete x.children && x)
+    .find(x => x.id == nodeId);
 
-    return flatten(extractChildren(this._tree), extractChildren, 0)
-      .map(x => delete x.children && x)
-      .find(x => x.id == nodeId)
-      .map(x => x.level);
+    return flat.level;
   }
 
   public updateItemDateConsistencyIndicators(itemIds: number[]) {
