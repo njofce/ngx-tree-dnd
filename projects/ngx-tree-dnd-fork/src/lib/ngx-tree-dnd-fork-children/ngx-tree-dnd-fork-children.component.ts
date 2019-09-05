@@ -103,6 +103,10 @@ export class NgxTreeChildrenComponent {
     private zone: NgZone
   ) {}
   
+  getNodeLevel() {
+    return this.treeService.getNodeLevel(this.treeNode.data.id);
+  }
+
   enableSubscribers() {
     this.treeService.config.subscribe(config => {
       if (config !== null) {

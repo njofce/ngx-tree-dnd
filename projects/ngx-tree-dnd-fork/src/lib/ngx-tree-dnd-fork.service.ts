@@ -81,6 +81,20 @@ export class NgxTreeService {
     return this._tree.getLevelItemCount();
   }
 
+  public getNodeLevel(nodeId: number) {
+    let flatten = (children, getChildren, level) => Array.prototype.concat.apply(
+      children.map(x => ({ id: x.data.id, level: level || 1 })),
+      children.map(x => flatten(getChildren(x) || [], getChildren, (level || 1) + 1))
+    );
+
+    let extractChildren = x => x.children;
+
+    return flatten(extractChildren(this._tree), extractChildren, 0)
+      .map(x => delete x.children && x)
+      .find(x => x.id == nodeId)
+      .map(x => x.level);
+  }
+
   public updateItemDateConsistencyIndicators(itemIds: number[]) {
     this.updateDateConsistency(this._tree.getRoot().children, itemIds);
   }
