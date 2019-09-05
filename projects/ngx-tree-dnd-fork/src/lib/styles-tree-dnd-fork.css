@@ -95,6 +95,18 @@ label{
     width: 100%;
 }
 
+.item-title-container {
+    width: 150px;
+}
+
+.mat-form-field-infix {
+    border-top: unset;
+}
+
+.inner-title {
+    border: 1px solid black;
+}
+
 .draggable-item {
     /* margin-right: 5px; */
 }
