@@ -133,7 +133,7 @@ export class NgxTreeService {
     });
 
     this.addTreeModelElementsToTree(this.tree.getRoot(), treeModel);
-
+    
     return this.tree;
   }
 
@@ -311,6 +311,7 @@ export class NgxTreeService {
   }
 
   public enterDropZone(eventObj) {
+    this.onDragOver(eventObj);
     this.onDragEnter.next(eventObj);
   }
 
@@ -436,7 +437,7 @@ export class NgxTreeService {
 
       let indexOfCurrentItem = item.parent.children.findIndex(i => i.data.id == item.data.id);
 
-      if(indexOfCurrentItem == 0)
+    if (indexOfCurrentItem == 0 || indexOfCurrentItem == -1)
         return false;
 
     if (item.parent.children[indexOfCurrentItem - 1].data.contents.type == TreeItemType.TaskGroup)

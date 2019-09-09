@@ -104,7 +104,7 @@ export class NgxTreeChildrenComponent {
     private cd: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    this.changesForm();
+    // this.changesForm();
   }
 
   ngDoCheck() {

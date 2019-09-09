@@ -87,6 +87,79 @@ export class AppComponent {
         showDeleteButton: true
       },
       childrens: []
+    },
+    {
+      name: 'Task Group - 4',
+      id: 125,
+      parentId: null,
+      contents: {
+        id: 125,
+        title: 'Task Group - 4',
+        type: TreeItemType.TaskGroup,
+        startDate: '2019-01-27',
+        endDate: '2019-02-12',
+        active: true,
+        duration: 17
+      },
+      options: {
+        showDeleteButton: true
+      },
+      childrens: []
+    },
+    {
+      name: 'Task Group - 6',
+      id: 126,
+      parentId: null,
+      contents: {
+        id: 126,
+        title: 'Task Group - 6',
+        type: TreeItemType.TaskGroup,
+        startDate: '2019-01-27',
+        endDate: '2019-02-12',
+        active: true,
+        duration: 17
+      },
+      options: {
+        showDeleteButton: true
+      },
+      childrens: []
+    },
+    {
+      name: 'Task Group - 7',
+      id: 1252351,
+      parentId: null,
+      contents: {
+        id: 1252351,
+        title: 'Task Group - 7',
+        type: TreeItemType.TaskGroup,
+        startDate: '2019-01-27',
+        endDate: '2019-02-12',
+        active: true,
+        duration: 17
+      },
+      options: {
+        showDeleteButton: true
+      },
+      childrens: [
+        {
+          name: 'Task Group - 7.1',
+          id: 12412441241,
+          parentId: 1252351,
+          contents: {
+            id: 12412441241,
+            title: 'Task Group - 7.1',
+            type: TreeItemType.TaskGroup,
+            startDate: '2019-01-27',
+            endDate: '2019-02-12',
+            active: true,
+            duration: 17
+          },
+          options: {
+            showDeleteButton: true
+          },
+          childrens: []
+        }
+      ]
     }
   ];
 

@@ -32,10 +32,15 @@ export class DropElementsDirective {
     }
 
     initSubscriptions(self, nativeElement) {
-        self.dropSubscription = fromEvent(self.el.nativeElement, 'drop', { passive: false }).subscribe(event => self.onDrop(event as Event));
+        self.dropSubscription = fromEvent(nativeElement, 'drop', { passive: false }).subscribe(event => self.onDrop(event as Event));
         self.dropSubscription.add(fromEvent(nativeElement, 'dragleave', { passive: false }).subscribe(event => self.onDragLeave(event as Event)));
         
-        self.dropSubscription.add(fromEvent(self.el.nativeElement, 'dragover', { passive: false }).subscribe(event => self.onDragOver(event as Event)));
+        self.dropSubscription.add(fromEvent(nativeElement, 'dragenter', { passive: false }).subscribe(event => self.onDragEnter(event as Event)));
+
+        this.zone.runOutsideAngular(() => {
+            fromEvent(nativeElement, 'dragover', { passive: false }).subscribe(event => self.onDragOver(event as Event));
+        })
+
     }
 
     /*

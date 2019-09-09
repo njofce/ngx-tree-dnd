@@ -28,14 +28,11 @@ export class DragElementsDirective {
 
     ngOnInit() {
       const self = this;
-      // this.zone.runOutsideAngular(() => {
-        self.initSubscriptions(self, self.el.nativeElement) ;
-      // });
+      self.initSubscriptions(self, self.el.nativeElement);
     }
 
     initSubscriptions(context, nativeElement) {
       context.dragSubscription = fromEvent(nativeElement, 'dragstart', { passive: false }).subscribe(event => context.onDragStart(event as Event));
-      // context.dragSubscription.add(fromEvent(nativeElement, 'drag', { passive: false }).subscribe(event => context.onDrag(event as Event)));
       context.dragSubscription.add(fromEvent(nativeElement, 'dragend', { passive: false }).subscribe(event => context.onDragEnd(event as Event)));
     }
 
