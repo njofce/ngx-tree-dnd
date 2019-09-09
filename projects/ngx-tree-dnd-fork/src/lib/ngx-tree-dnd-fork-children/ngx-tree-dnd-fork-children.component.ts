@@ -108,7 +108,7 @@ export class NgxTreeChildrenComponent {
   }
 
   ngDoCheck() {
-    console.log('check');
+    // console.log('check');
   }
   
   getNodeLevel() {
