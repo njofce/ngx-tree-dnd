@@ -335,15 +335,18 @@ export class NgxTreeService {
     this.onDragLeave.next(eventObj);
   }
 
-  public onDropItem(eventObj) {
+  public onDropItem(eventObj) {    
     const el = (eventObj.target as Node);
     if ( el != undefined ) {
       let elementIndex: number = el.parent.children.findIndex(c => c.data.id == el.data.id);
-      const elementHalfHeight = eventObj.event.toElement.offsetHeight / 2;
-      if (eventObj.event.offsetY < elementHalfHeight) {
-        this.changeItemParent(this.isDragging, el.parent, elementIndex);
+      let isDraggingIndex: number = this.isDragging.parent.children.findIndex(c => c.data.id == this.isDragging.data.id);
+      
+      let posY = eventObj.event.offsetY - eventObj.event.toElement.offsetHeight / 2;
+
+      if (posY < 0) {
+        this.changeItemParent(this.isDragging, el.parent, isDraggingIndex > elementIndex ? elementIndex : elementIndex - 1);
       } else {
-        this.changeItemParent(this.isDragging, el.parent, elementIndex + 1);
+        this.changeItemParent(this.isDragging, el.parent, isDraggingIndex > elementIndex ? elementIndex + 1 : elementIndex);
       }
     } 
     else {

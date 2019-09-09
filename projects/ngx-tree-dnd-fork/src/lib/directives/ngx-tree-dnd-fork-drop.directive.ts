@@ -7,6 +7,7 @@ import { Node } from './../util/tree';
 import { Directive, ElementRef, Input, Output, EventEmitter, NgZone } from '@angular/core';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { fromEvent, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Directive({
   selector: '[libDropElement]'
@@ -31,9 +32,9 @@ export class DropElementsDirective {
     }
 
     initSubscriptions(self, nativeElement) {
-        self.dropSubscription = fromEvent(nativeElement, 'dragenter', { passive: false }).subscribe(event => self.onDragEnter(event as Event));
+        self.dropSubscription = fromEvent(self.el.nativeElement, 'drop', { passive: false }).subscribe(event => self.onDrop(event as Event));
         self.dropSubscription.add(fromEvent(nativeElement, 'dragleave', { passive: false }).subscribe(event => self.onDragLeave(event as Event)));
-        self.dropSubscription.add(fromEvent(self.el.nativeElement, 'drop', { passive: false }).subscribe(event => self.onDrop(event as Event)));
+        
         self.dropSubscription.add(fromEvent(self.el.nativeElement, 'dragover', { passive: false }).subscribe(event => self.onDragOver(event as Event)));
     }
 
