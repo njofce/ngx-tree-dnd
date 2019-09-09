@@ -25,9 +25,9 @@ export class DropElementsDirective {
 
     ngOnInit() {
         const self = this;
-        this.zone.runOutsideAngular(() => {
+        // this.zone.runOutsideAngular(() => {
             self.initSubscriptions(self, self.el.nativeElement);
-        });
+        // });
     }
 
     initSubscriptions(self, nativeElement) {
