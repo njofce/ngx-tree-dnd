@@ -3,7 +3,7 @@ import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/mat
 import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
 import { Node } from './../util/tree';
 import { MILESTONE_CREATE_MESSAGE, EDIT_ITEM_MESSAGE, DELETE_ITEM_MESSAGE, TASK_GROUP_CREATE_MESSAGE, TASK_CREATE_MESSAGE, ITEM_INDENT_MESSAGE, ITEM_OUTDENT_MESSAGE } from './../messages';
-import { ChangeDetectorRef, NgZone, ViewChildren, QueryList } from '@angular/core';
+import { ChangeDetectorRef, NgZone, ViewChildren, QueryList, ChangeDetectionStrategy, SimpleChanges } from '@angular/core';
 import { Component, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
@@ -100,10 +100,16 @@ export class NgxTreeChildrenComponent {
 
   constructor(
     private treeService: NgxTreeService,
-    private fb: FormBuilder,
-    private cd: ChangeDetectorRef,
-    private zone: NgZone
-  ) {}
+    private fb: FormBuilder, 
+    private cd: ChangeDetectorRef) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.changesForm();
+  }
+
+  ngDoCheck() {
+    console.log('check');
+  }
   
   getNodeLevel() {
     return this.treeService.getNodeLevel(this.treeNode.data.id) - 1;
@@ -132,7 +138,7 @@ export class NgxTreeChildrenComponent {
     this.itemOptions[item] = options[item];
   }
 
-  createForm() {
+  private getElValues() {
     let itemType = this.treeNode.data.contents
       ? this.treeNode.data.contents.type
       : TreeItemType.TaskGroup;
@@ -144,19 +150,43 @@ export class NgxTreeChildrenComponent {
       : moment().add(1, "months");
     let active = this.treeNode.data.contents ? this.treeNode.data.contents.active : false;
 
+    return {
+      itemType: itemType,
+      startDate: startDate,
+      endDate: endDate,
+      active: active
+    }
+  }
+
+  changesForm() {
+    let vals = this.getElValues();
+
+    this.itemEditForm.patchValue({
+      name: this.treeNode.data.name || "",
+      duration: vals.endDate.diff(vals.startDate, "days"),
+      startDate: vals.startDate,
+      endDate: vals.endDate,
+      itemType: vals.itemType,
+      itemActive: vals.active
+    })
+  }
+
+  createForm() {
+    let vals = this.getElValues();
+
     this.itemEditForm = this.fb.group({
       name: [
         this.treeNode.data.name || "",
         [
           Validators.required,
-          Validators.minLength(this.config.minCharacterLength)
+          Validators.minLength(0)
         ]
       ],
-      duration: [endDate.diff(startDate, "days"), Validators.required],
-      startDate: [startDate, Validators.required],
-      endDate: [endDate, Validators.required],
-      itemType: [itemType, Validators.required],
-      itemActive: active
+      duration: [vals.endDate.diff(vals.startDate, "days"), Validators.required],
+      startDate: [vals.startDate, Validators.required],
+      endDate: [vals.endDate, Validators.required],
+      itemType: [vals.itemType, Validators.required],
+      itemActive: vals.active
     });
     this.onChanges();
   }
@@ -164,7 +194,9 @@ export class NgxTreeChildrenComponent {
   onChanges(): void {
     this.formValueItemTitleChangesSubscription = this.itemEditForm
       .get("name")
-      .valueChanges.subscribe(val =>this.submitEdit());
+      .valueChanges.subscribe(val => {
+        setTimeout(() => this.submitEdit());
+      });
     
     this.formValueItemTypeChangesSubscription = this.itemEditForm
       .get("itemType")
@@ -193,7 +225,7 @@ export class NgxTreeChildrenComponent {
             );
           }
         }
-        this.submitEdit();
+        setTimeout(() => this.submitEdit())
       });
 
     this.formValueStartDateChangesSubscription = this.itemEditForm
@@ -215,7 +247,7 @@ export class NgxTreeChildrenComponent {
             endDate: ed
           },
           { emitEvent: false });
-        this.submitEdit();
+        setTimeout(() => this.submitEdit())
       });
 
     this.formValueEndDateChangesSubscription = this.itemEditForm
@@ -244,13 +276,15 @@ export class NgxTreeChildrenComponent {
           },
           { emitEvent: false }
         );
-        this.submitEdit();
+        setTimeout(() => this.submitEdit())
 
       });
 
     this.formValueItemActiveChangesSubscription = this.itemEditForm
       .get("itemActive")
-      .valueChanges.subscribe(val => this.submitEdit());
+      .valueChanges.subscribe(val => {
+        setTimeout(() => this.submitEdit())
+      });
 
     this.formValueDurationChangesSubscription = this.itemEditForm
       .get("duration")
@@ -277,57 +311,43 @@ export class NgxTreeChildrenComponent {
             { emitEvent: false }
           );
         }
-        this.submitEdit();
+        setTimeout(() => this.submitEdit())
       });
   }
 
   enableRenameMode() {
     const self = this;
-    this.zone.run(() => {
-      self.treeNode.data.options.edit = true;
-      self.treeService.startRenameItem(self.treeNode);
-    })
+    self.treeNode.data.options.edit = true;
+    self.treeService.startRenameItem(self.treeNode);
   }
 
-  /*
-    Event: onadditem;
-    Generate id by new Date() by 'full year + day + time'.
-    Call addNewItem() from tree service.
-  */
   submitAdd(name: string, type: TreeItemType) {
-    this.zone.run(() => {
-      const d = `${new Date().getFullYear()}${new Date().getDay()}${new Date().getTime()}`;
-      const elemId = parseInt(d, null);
-      this.treeService.addNewItem(elemId, name, this.treeNode.data.id, type);
-      this.treeNode.data.options.hideChildrens = false;
-    })
+    const d = `${new Date().getFullYear()}${new Date().getDay()}${new Date().getTime()}`;
+    const elemId = parseInt(d, null);
+    this.treeService.addNewItem(elemId, name, this.treeNode.data.id, type);
+    this.treeNode.data.options.hideChildrens = false;
   }
 
   submitEdit() {
-    this.zone.run(() => {
-      if (this.itemEditForm.valid) {
-        this.showError = false;
-        this.treeService.finishEditItem(this.itemEditForm.value, this.treeNode.data.id);
-        this.treeNode.data.options.edit = false;
-      } else {
-        this.showError = true;
-      }
-    })
+    if (this.itemEditForm.valid) {
+      this.showError = false;
+      this.treeService.finishEditItem(this.itemEditForm.value, this.treeNode.data.id);
+      this.treeNode.data.options.edit = false;
+    } else {
+      this.showError = true;
+    }
   }
 
   onSubmitDelete() {
-    this.zone.run(() => {
-      if (!this.treeNode.data.options.edit) {
+    if (!this.treeNode.data.options.edit) {
+      this.treeService.deleteItem(this.treeNode.data.id);
+    } else {
+      if (this.treeNode.data.name === null) {
         this.treeService.deleteItem(this.treeNode.data.id);
       } else {
-        if (this.treeNode.data.name === null) {
-          this.treeService.deleteItem(this.treeNode.data.id);
-        } else {
-          this.treeNode.data.options.edit = false;
-          // this.cd.detectChanges();
-        }
+        this.treeNode.data.options.edit = false;
       }
-    })
+    }
   }
 
   canIndent() {
@@ -346,13 +366,10 @@ export class NgxTreeChildrenComponent {
     this.treeService.performOutdent(this.treeNode);
   }
 
-  // after view init
   ngAfterViewCheck() {
-    // console.log('check');
   }
 
   ngOnDestroy() {
-
     if (this.formValueItemTypeChangesSubscription) {
       this.formValueItemTypeChangesSubscription.unsubscribe();
       this.formValueItemTypeChangesSubscription = null;

@@ -117,7 +117,6 @@ export class NgxTreeParentComponent implements AfterViewInit {
   enableSubscribers() {
     this.treeService.onDrop.subscribe(
       (event) => {
-        this.cd.detectChanges();
         this.ondrop.emit(event);
       }
     );
@@ -126,15 +125,11 @@ export class NgxTreeParentComponent implements AfterViewInit {
         this.userConfig.options.showDropChildZone = true;
         this.ddCh = 1;
         this.ondragstart.emit(event);
-        this.cd.detectChanges();
+        // this.cd.detectChanges();
       }
     );
     this.treeService.onAllowDrop.subscribe(
       (event) => {
-        if(this.ddCh == 0) 
-          this.cd.detectChanges();
-        else
-          this.ddCh = 0;
         this.onallowdrop.emit(event);
       }
     );
@@ -142,7 +137,8 @@ export class NgxTreeParentComponent implements AfterViewInit {
       (event) => {
         this.userConfig.options.showDropChildZone = false;
         this.ddCh = 1;
-        this.cd.detectChanges();
+        
+        // this.cd.detectChanges();
         this.ondragend.emit(event);
       }
     );
@@ -153,13 +149,11 @@ export class NgxTreeParentComponent implements AfterViewInit {
     );
     this.treeService.onStartRenameItem.subscribe(
       (event) => {
-        this.cd.detectChanges();
         this.onStartRenameItem.emit(event);
       }
     );
     this.treeService.onFinishRenameItem.subscribe(
       (event) => {
-        this.cd.detectChanges();
         this.onFinishRenameItem.emit(event);
       }
     );
@@ -170,7 +164,6 @@ export class NgxTreeParentComponent implements AfterViewInit {
     );
     this.treeService.onDeleteEnd.subscribe(
       (event) => {
-        this.cd.detectChanges();
         this.onremoveend.emit(event);
       }
     )
@@ -181,20 +174,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
     );
     this.treeService.onDragLeave.subscribe(
       (event) => {
-        // this.cd.detectChanges();
         this.ondragleave.emit(event);
-      }
-    );
-
-    this.treeService.onIndent.subscribe(
-      (event) => {
-        this.cd.detectChanges();
-      }
-    );
-
-    this.treeService.onOutdent.subscribe(
-      (event) => {
-        this.cd.detectChanges();
       }
     );
   }
@@ -215,9 +195,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
   }
 
   enableRootRenameMode() {
-    this._zone.run(() => {
-      this.userConfig.options.edit = true;
-    })
+    this.userConfig.options.edit = true;
   }
 
   submitAdd() {
@@ -225,25 +203,21 @@ export class NgxTreeParentComponent implements AfterViewInit {
       this.treeService.displayErrorNotification("Maximum number of allowable task groups is reached");
       return;
     }
-    this._zone.run(() => {
-      const d = `${new Date().getFullYear()}${new Date().getDay()}${new Date().getTime()}`;
-      const elemId = parseInt(d, null);
-      this.treeService.addNewItem(elemId, null, 0, TreeItemType.TaskGroup);
-      this.cd.detectChanges();
-    })
+    const d = `${new Date().getFullYear()}${new Date().getDay()}${new Date().getTime()}`;
+    const elemId = parseInt(d, null);
+    this.treeService.addNewItem(elemId, null, 0, TreeItemType.TaskGroup);
   }
 
   submitRootRename() {
-    this._zone.run(() => {
-      if (this.renameForm.valid) {
-        this.showError = false;
-        this.userConfig.rootTitle = this.renameForm.value.name;
-        this.userConfig.options.edit = false;
-        this.treeService.updateRootTitle(this.userConfig.rootTitle);
-      } else {
-        this.showError = true;
-      }
-    })
+
+    if (this.renameForm.valid) {
+      this.showError = false;
+      this.userConfig.rootTitle = this.renameForm.value.name;
+      this.userConfig.options.edit = false;
+      this.treeService.updateRootTitle(this.userConfig.rootTitle);
+    } else {
+      this.showError = true;
+    }
   }
 
   ngOnDestroy() {
