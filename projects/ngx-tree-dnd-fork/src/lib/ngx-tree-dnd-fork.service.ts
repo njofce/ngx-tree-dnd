@@ -33,7 +33,7 @@ export class NgxTreeService {
   onDrag = new Subject<any>();
   onAllowDrop = new Subject<any>();
   onDragEnd = new Subject<any>();
-  onIndent = new Subject<any>();
+  onIndent = new Subject<number>();
   onOutdent = new Subject<any>();
   onAddItem = new Subject<any>();
   onRenameItem = new Subject<any>();
@@ -421,8 +421,9 @@ export class NgxTreeService {
 
   public performIndent(item: Node) {
     let indexOfCurrentItem = item.parent.children.findIndex(i => i.data.id == item.data.id);
-    this.changeItemParent(item, item.parent.children[indexOfCurrentItem - 1]);
-    this.onIndent.next();
+    let parent: Node = item.parent.children[indexOfCurrentItem - 1];
+    this.changeItemParent(item, parent);
+    this.onIndent.next(parent.data.id);
   }
 
   public performOutdent(item: Node) {

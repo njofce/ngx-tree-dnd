@@ -1,12 +1,15 @@
 import { Tree } from './../util/tree';
 import { NgxTreeChildrenComponent } from './../ngx-tree-dnd-fork-children/ngx-tree-dnd-fork-children.component';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Component, Input, Output, EventEmitter, AfterViewInit, ChangeDetectorRef, NgZone, ViewChildren, QueryList, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, AfterViewInit, ChangeDetectorRef, ViewChildren, QueryList, ApplicationRef } from '@angular/core';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { TreeModel, TreeConfig } from '../models/tree-view.model';
 import { TreeItemType } from '../models/tree-view.enum';
 import { faPlus, faEdit, faCheck, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { TASK_GROUP_CREATE_MESSAGE, EDIT_ITEM_MESSAGE } from '../messages';
+import * as _ from 'lodash';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'lib-ngx-tree-component',
@@ -56,17 +59,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
   showError: boolean;
   renameForm;
 
-  @Output() ondragstart: EventEmitter<any> = new EventEmitter();
-  @Output() ondragenter: EventEmitter<any> = new EventEmitter();
-  @Output() ondragleave: EventEmitter<any> = new EventEmitter();
-  @Output() ondrop: EventEmitter<any> = new EventEmitter();
-  @Output() onallowdrop: EventEmitter<any> = new EventEmitter();
-  @Output() ondragend: EventEmitter<any> = new EventEmitter();
-  @Output() onadditem: EventEmitter<any> = new EventEmitter();
-  @Output() onStartRenameItem: EventEmitter<any> = new EventEmitter();
-  @Output() onFinishRenameItem: EventEmitter<any> = new EventEmitter();
-  @Output() onremoveitem: EventEmitter<any> = new EventEmitter();
-  @Output() onremoveend: EventEmitter<any> = new EventEmitter();
+  private eventSub: Subscription;
 
   @Input()
   set config(config: TreeConfig) {
@@ -87,7 +80,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
     this.setTreeData(item);
   }
 
-  constructor(public treeService: NgxTreeService, private fb: FormBuilder, private cd: ChangeDetectorRef, private _zone: NgZone) {
+  constructor(public treeService: NgxTreeService, private fb: FormBuilder, private cd: ChangeDetectorRef, private _appRef: ApplicationRef) {
     this.enableSubscribers();
     this.createForm();
   }
@@ -115,68 +108,18 @@ export class NgxTreeParentComponent implements AfterViewInit {
 
   // subscribe to all events and emit them to user.
   enableSubscribers() {
-    this.treeService.onDrop.subscribe(
-      (event) => {
-        this.ondrop.emit(event);
-      }
-    );
-    this.treeService.onDragStart.subscribe(
+    this.eventSub = this.treeService.onDragStart.subscribe(
       (event) => {
         this.userConfig.options.showDropChildZone = true;
-        this.ddCh = 1;
-        this.ondragstart.emit(event);
-        // this.cd.detectChanges();
       }
     );
-    this.treeService.onAllowDrop.subscribe(
-      (event) => {
-        this.onallowdrop.emit(event);
-      }
-    );
-    this.treeService.onDragEnd.subscribe(
+
+    this.eventSub.add(this.treeService.onDragEnd.subscribe(
       (event) => {
         this.userConfig.options.showDropChildZone = false;
-        this.ddCh = 1;
-        
-        // this.cd.detectChanges();
-        this.ondragend.emit(event);
       }
-    );
-    this.treeService.onAddItem.subscribe(
-      (event) => {
-        this.onadditem.emit(event);
-      }
-    );
-    this.treeService.onStartRenameItem.subscribe(
-      (event) => {
-        this.onStartRenameItem.emit(event);
-      }
-    );
-    this.treeService.onFinishRenameItem.subscribe(
-      (event) => {
-        this.onFinishRenameItem.emit(event);
-      }
-    );
-    this.treeService.onRemoveItem.subscribe(
-      (event) => {
-        this.onremoveitem.emit(event);
-      }
-    );
-    this.treeService.onDeleteEnd.subscribe(
-      (event) => {
-        this.onremoveend.emit(event);
-      }
-    )
-    this.treeService.onDragEnter.subscribe(
-      (event) => {
-        this.ondragenter.emit(event);
-      }
-    );
-    this.treeService.onDragLeave.subscribe(
-      (event) => {
-        this.ondragleave.emit(event);
-      }
-    );
+    ));
+
   }
 
   // get tree data from treeService.

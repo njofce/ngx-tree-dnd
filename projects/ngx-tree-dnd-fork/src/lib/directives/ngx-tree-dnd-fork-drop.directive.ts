@@ -4,7 +4,7 @@ import { Node } from './../util/tree';
  This project is licensed under the terms of the MIT license.
  https://github.com/Zicrael/ngx-tree-dnd-fork
 */
-import { Directive, ElementRef, Input, Output, EventEmitter, NgZone } from '@angular/core';
+import { Directive, ElementRef, Input, Output, EventEmitter, NgZone, ChangeDetectorRef } from '@angular/core';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { fromEvent, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -16,7 +16,7 @@ export class DropElementsDirective {
 
     private dropSubscription: Subscription;
 
-    constructor(private el: ElementRef, private  treeService: NgxTreeService, private zone: NgZone) {
+    constructor(private el: ElementRef, private  treeService: NgxTreeService, private zone: NgZone, private cd: ChangeDetectorRef) {
         
     }
 
@@ -55,6 +55,7 @@ export class DropElementsDirective {
         };
         this.treeService.onDragOver(eventObj);
         event.preventDefault();
+        // this.cd.detectChanges();
     }
     /*
         Event: ondrop;
@@ -74,6 +75,7 @@ export class DropElementsDirective {
             this.treeService.onDropItem(eventObj);
         }
         event.preventDefault();
+        this.cd.detectChanges();
     }
 
     /*s
@@ -88,6 +90,7 @@ export class DropElementsDirective {
         target: this.item
         };
         this.treeService.enterDropZone(eventObj);
+        this.cd.detectChanges();
     }
 
     /*
@@ -104,6 +107,7 @@ export class DropElementsDirective {
         };
         // code
         this.treeService.leaveDropZone(eventObj);
+        this.cd.detectChanges();
     }
 
     ngOnDestroy() {

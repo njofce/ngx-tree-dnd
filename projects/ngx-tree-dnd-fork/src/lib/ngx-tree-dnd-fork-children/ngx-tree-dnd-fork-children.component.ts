@@ -22,7 +22,8 @@ const moment = moment_;
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgxTreeChildrenComponent {
 
@@ -59,6 +60,8 @@ export class NgxTreeChildrenComponent {
   private formValueEndDateChangesSubscription: Subscription;
   private formValueDurationChangesSubscription: Subscription;
   private formValueItemActiveChangesSubscription: Subscription;
+
+  private eventSub: Subscription;
 
   showError: boolean;
   config: TreeConfig;
@@ -101,7 +104,21 @@ export class NgxTreeChildrenComponent {
   constructor(
     private treeService: NgxTreeService,
     private fb: FormBuilder, 
-    private cd: ChangeDetectorRef) {}
+    private cd: ChangeDetectorRef) {
+    this.eventSub = this.treeService.onDragStart.subscribe(val => {
+      this.cd.detectChanges();
+    })
+
+    this.eventSub.add(this.treeService.onDragEnd.subscribe(val => {
+      this.cd.detectChanges();
+    }))
+
+    this.eventSub.add(this.treeService.onIndent.subscribe(
+      (event) => {
+        if(event == this.treeNode.data.id)
+          this.cd.markForCheck();
+      }));
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     // this.changesForm();
@@ -366,6 +383,7 @@ export class NgxTreeChildrenComponent {
   }
 
   ngOnDestroy() {
+
     if (this.formValueItemTypeChangesSubscription) {
       this.formValueItemTypeChangesSubscription.unsubscribe();
       this.formValueItemTypeChangesSubscription = null;
@@ -396,7 +414,13 @@ export class NgxTreeChildrenComponent {
       this.formValueItemTitleChangesSubscription = null;
     }
 
+    if (this.eventSub) {
+      this.eventSub.unsubscribe();
+      this.eventSub = null;
+    }
+
     this.cd.detach();
+    
   }
 
 }

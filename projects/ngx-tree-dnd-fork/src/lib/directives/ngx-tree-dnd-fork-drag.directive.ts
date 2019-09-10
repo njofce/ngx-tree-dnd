@@ -1,3 +1,4 @@
+import { ChangeDetectorRef } from '@angular/core';
 /*
  Copyright (C) 2018 Yaroslav Kikot
  This project is licensed under the terms of the MIT license.
@@ -16,7 +17,7 @@ export class DragElementsDirective {
 
   private dragSubscription: Subscription;
 
-    constructor(private el: ElementRef, private  treeService: NgxTreeService, private zone: NgZone) {}
+    constructor(private el: ElementRef, private  treeService: NgxTreeService, private zone: NgZone, private cd: ChangeDetectorRef) {}
 
     @Input() item: Node;
     @Input() draggableValue: boolean;
@@ -53,6 +54,7 @@ export class DragElementsDirective {
       // call service func
       this.treeService.startDragging(eventObj);
       event.stopPropagation();
+      this.cd.detectChanges();
     }
 
     /*
@@ -82,6 +84,7 @@ export class DragElementsDirective {
       this.item.data.options.currentlyDragging = false;
       this.treeService.dragEndAction(eventObj);
       event.stopPropagation();
+      this.cd.detectChanges();
     }
 
   ngOnDestroy() {
