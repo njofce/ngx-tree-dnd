@@ -255,9 +255,9 @@ label{
 }
 
 .o-item-invalid {
-    background-color: #dc3c3c;
-    color: white;
     border-color: #dc3c3c;
+    border: 1px solid #dc3c3c;
+    border-radius: 5px;
 }
 
 .mat-checkbox-label {

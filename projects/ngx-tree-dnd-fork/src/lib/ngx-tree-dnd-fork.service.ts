@@ -362,7 +362,7 @@ export class NgxTreeService {
     this.onDragEnd.next();
   }
 
-  displayErrorNotification(message: string) {
+  public displayErrorNotification(message: string) {
     this.errorNotification.next(message);
   }
 
@@ -375,7 +375,7 @@ export class NgxTreeService {
       newParent.moveChildToNewPosition(item.data.id, newIndex);
   }
 
-  getItemPosition(itemId: number) {
+  public getItemPosition(itemId: number) {
     let node: Node = this._tree.getNode(this._tree.getRoot(), itemId);
     if(node == null || node.parent == null)
       return 0;
@@ -453,6 +453,5 @@ export class NgxTreeService {
       return false;
     return true;
   }
-
 
 }

@@ -169,6 +169,10 @@ export class AppComponent {
     })
   }
 
+  updateDateConsistencyIndicators() {
+    this.treeService.updateItemDateConsistencyIndicators([1252351]);
+  }
+
   ngOnInit() {
     
   }
