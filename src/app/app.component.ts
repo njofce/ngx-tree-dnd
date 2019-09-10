@@ -160,8 +160,7 @@ export class AppComponent {
           childrens: []
         }
       ]
-    }
-  ];
+    }];
 
   getLocalData() {
     this.treeService.getTreeData().subscribe(val => {
@@ -173,31 +172,16 @@ export class AppComponent {
     this.treeService.updateItemDateConsistencyIndicators([1252351]);
   }
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() { }
 
-  onDrop(event) {
-    // console.log(this.myTree);
-    // console.log(event);
-  }
-  onDelete(event) {
-    // console.log(this.myTree);
-    // console.log(event);
-  }
-  onadditem(event) {
-    // console.log(this.myTree);
-    // console.log(event);
-  }
-  onStartRenameItem(event) {
-    // console.log('start rename');
-    // console.log(this.myTree);
-    // console.log(event);
-  }
-  onFinishRenameItem(event) {
-    // console.log('finish rename');
-    // console.log(this.myTree);
-    // console.log(event);
-  }
+  onDrop(event) { }
+
+  onDelete(event) { }
+
+  onadditem(event) { }
+
+  onStartRenameItem(event) { }
+
+  onFinishRenameItem(event) { }
    
 }

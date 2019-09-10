@@ -1,7 +1,7 @@
 import { Tree } from './../util/tree';
 import { NgxTreeChildrenComponent } from './../ngx-tree-dnd-fork-children/ngx-tree-dnd-fork-children.component';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Component, Input, Output, EventEmitter, AfterViewInit, ChangeDetectorRef, NgZone, ViewChildren, QueryList } from '@angular/core';
+import { Component, Input, Output, EventEmitter, AfterViewInit, ChangeDetectorRef, NgZone, ViewChildren, QueryList, ChangeDetectionStrategy } from '@angular/core';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { TreeModel, TreeConfig } from '../models/tree-view.model';
 import { TreeItemType } from '../models/tree-view.enum';
@@ -222,10 +222,6 @@ export class NgxTreeParentComponent implements AfterViewInit {
 
   ngOnDestroy() {
     this.cd.detach();
-  }
-
-  ngDoCheck() {
-    
   }
 
 }

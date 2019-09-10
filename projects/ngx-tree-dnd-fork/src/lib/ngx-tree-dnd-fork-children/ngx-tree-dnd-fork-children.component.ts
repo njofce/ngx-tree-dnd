@@ -106,10 +106,6 @@ export class NgxTreeChildrenComponent {
   ngOnChanges(changes: SimpleChanges) {
     // this.changesForm();
   }
-
-  ngDoCheck() {
-    // console.log('check');
-  }
   
   getNodeLevel() {
     return this.treeService.getNodeLevel(this.treeNode.data.id) - 1;
