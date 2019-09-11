@@ -2,7 +2,9 @@
   <div *ngIf="treeNode.data && treeNode.data.options" class='d-flex'>
     <div *ngIf='config' [ngClass]="{hidden : treeNode.data.options.hidden}">
 
-      <div class='tree-title d-inline-flex' [ngClass]="{destenationTop : treeNode.data.options.destenationTop, destenationBottom: treeNode.data.options.destenationBottom}">
+      <div class='tree-title d-inline-flex' 
+      [ngClass]="{destenationTop : treeNode.data.options.destenationTop, destenationBottom: treeNode.data.options.destenationBottom}"
+      [style.padding-left.px]="getNodeLevel() != 0 ? (getNodeLevel() <= 10 ? getNodeLevel() * 15 : 150) : 8">
         
         <div *ngIf="!config.setItemsAsLinks; else link" [ngClass]="{addOpacity : treeNode.data.options.currentlyDragging}"
           libDropElement [item]='treeNode' class='draggable-item'>
@@ -10,8 +12,8 @@
           <div [ngClass]="treeNode.data.contents.consistentDate == false ? 'o-item-invalid' : ''">
             
             <form [formGroup]="itemEditForm" class='d-flex edit-form' (submit)='submitEdit()'>
-              <div class="item-title-container" [style.padding-left.px]="getNodeLevel() * 15">
-                <mat-form-field class="input-material" [style.width.px]="195 - getNodeLevel() * 15">
+              <div class="item-title-container" [style.width.px]="getNodeLevel() != 0 ? (getNodeLevel() <= 10 ? 208 - getNodeLevel() * 15 : 58) : 200">
+                <mat-form-field class="input-material">
                   <input matInput formControlName="name">
                 </mat-form-field>
               </div>

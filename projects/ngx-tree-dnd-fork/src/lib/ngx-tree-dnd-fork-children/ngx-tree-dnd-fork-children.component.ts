@@ -105,13 +105,14 @@ export class NgxTreeChildrenComponent {
     private treeService: NgxTreeService,
     private fb: FormBuilder, 
     private cd: ChangeDetectorRef) {
+      
     this.eventSub = this.treeService.onDragStart.subscribe(val => {
       this.cd.detectChanges();
-    })
+    });
 
     this.eventSub.add(this.treeService.onDragEnd.subscribe(val => {
       this.cd.detectChanges();
-    }))
+    }));
 
     this.eventSub.add(this.treeService.onIndent.subscribe(
       (event) => {
@@ -120,9 +121,7 @@ export class NgxTreeChildrenComponent {
       }));
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    // this.changesForm();
-  }
+  ngOnChanges(changes: SimpleChanges) {}
   
   getNodeLevel() {
     return this.treeService.getNodeLevel(this.treeNode.data.id) - 1;
@@ -201,7 +200,7 @@ export class NgxTreeChildrenComponent {
       itemType: [vals.itemType, Validators.required],
       itemActive: vals.active
     });
-    this.onChanges();
+    // this.onChanges();
   }
 
   onChanges(): void {
@@ -345,10 +344,10 @@ export class NgxTreeChildrenComponent {
     if (this.itemEditForm.valid) {
       this.showError = false;
       this.treeService.finishEditItem(this.itemEditForm.value, this.treeNode.data.id);
-      this.treeNode.data.options.edit = false;
     } else {
       this.showError = true;
     }
+    this.cd.detectChanges();
   }
 
   onSubmitDelete() {
@@ -421,6 +420,10 @@ export class NgxTreeChildrenComponent {
 
     this.cd.detach();
     
+  }
+
+  ngAfterViewChecked() {
+    console.log('change: ' + this.treeNode.data.id);
   }
 
 }

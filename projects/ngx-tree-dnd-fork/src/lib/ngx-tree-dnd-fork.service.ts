@@ -452,6 +452,8 @@ export class NgxTreeService {
       return false;
     if(item.parent.data.id == 0)
       return false;
+    if (item.data.contents.type != TreeItemType.TaskGroup && item.parent.parent.data.id == 0)
+      return false
     return true;
   }
 

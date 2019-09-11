@@ -1,4 +1,3 @@
-import { MY_FORMATS } from './util/date-format';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -15,7 +14,6 @@ import { TreeItemTypeTransformPipe } from './pipes/tree-item-type-transform.pipe
 library.add(faCoffee, faPlus, faEdit, faMinus, faTimes, faCheck, faArrowDown );
 
 import { MatDatepickerModule, MatTooltipModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateFormatterPipe } from './pipes/date-formatter.pipe';
 
 @NgModule({
