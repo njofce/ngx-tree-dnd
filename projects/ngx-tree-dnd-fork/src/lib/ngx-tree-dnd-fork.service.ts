@@ -33,6 +33,7 @@ export class NgxTreeService {
   onDrag = new Subject<any>();
   onAllowDrop = new Subject<any>();
   onDragEnd = new Subject<any>();
+  onDragEndChildCheck = new Subject<any>();
   onIndent = new Subject<number>();
   onOutdent = new Subject<any>();
   onAddItem = new Subject<any>();

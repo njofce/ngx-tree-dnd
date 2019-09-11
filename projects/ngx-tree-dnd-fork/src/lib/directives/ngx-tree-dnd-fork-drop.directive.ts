@@ -7,7 +7,6 @@ import { Node } from './../util/tree';
 import { Directive, ElementRef, Input, Output, EventEmitter, NgZone, ChangeDetectorRef } from '@angular/core';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { fromEvent, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
 
 @Directive({
   selector: '[libDropElement]'

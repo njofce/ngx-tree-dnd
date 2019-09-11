@@ -9,7 +9,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { TreeConfig, TreeItemOptions } from '../models/tree-view.model';
 import { TreeItemType } from '../models/tree-view.enum';
-import { Subscription } from 'rxjs';
+import { Subscription, fromEvent } from 'rxjs';
 import { faPlus, faEdit, faTimes, faArrowDown, faMinus, faCheck, faThumbtack, faStickyNote, faIndent, faOutdent } from '@fortawesome/free-solid-svg-icons';
 
 import * as moment_ from 'moment';
@@ -98,12 +98,16 @@ export class NgxTreeChildrenComponent {
     // enable subscribers
     this.enableSubscribers();
     // create form
-    this.createForm();
+
+    this.zone.runOutsideAngular(() => {
+      this.createForm();
+    });
   }
 
   constructor(
     private treeService: NgxTreeService,
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
+    private zone: NgZone,
     private cd: ChangeDetectorRef) {
       
     this.eventSub = this.treeService.onDragStart.subscribe(val => {
@@ -111,7 +115,8 @@ export class NgxTreeChildrenComponent {
     });
 
     this.eventSub.add(this.treeService.onDragEnd.subscribe(val => {
-      this.cd.detectChanges();
+      this.cd.markForCheck();
+      this.treeService.onDragEndChildCheck.next();
     }));
 
     this.eventSub.add(this.treeService.onIndent.subscribe(
@@ -200,7 +205,7 @@ export class NgxTreeChildrenComponent {
       itemType: [vals.itemType, Validators.required],
       itemActive: vals.active
     });
-    // this.onChanges();
+    this.onChanges();
   }
 
   onChanges(): void {

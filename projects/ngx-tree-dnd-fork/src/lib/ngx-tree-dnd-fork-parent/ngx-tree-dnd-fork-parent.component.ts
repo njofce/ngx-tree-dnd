@@ -1,7 +1,7 @@
 import { Tree } from './../util/tree';
 import { NgxTreeChildrenComponent } from './../ngx-tree-dnd-fork-children/ngx-tree-dnd-fork-children.component';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Component, Input, Output, EventEmitter, AfterViewInit, ChangeDetectorRef, ViewChildren, QueryList, ApplicationRef } from '@angular/core';
+import { Component, Input, AfterViewInit, ChangeDetectorRef, ViewChildren, QueryList, NgZone, ChangeDetectionStrategy } from '@angular/core';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { TreeModel, TreeConfig } from '../models/tree-view.model';
 import { TreeItemType } from '../models/tree-view.enum';
@@ -13,7 +13,8 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'lib-ngx-tree-component',
-  templateUrl: './ngx-tree-dnd-fork-parent.component.html'
+  templateUrl: './ngx-tree-dnd-fork-parent.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgxTreeParentComponent implements AfterViewInit {
 
@@ -80,7 +81,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
     this.setTreeData(item);
   }
 
-  constructor(public treeService: NgxTreeService, private fb: FormBuilder, private cd: ChangeDetectorRef, private _appRef: ApplicationRef) {
+  constructor(public treeService: NgxTreeService, private fb: FormBuilder, private cd: ChangeDetectorRef, private zone: NgZone) {
     this.enableSubscribers();
     this.createForm();
   }
@@ -119,6 +120,10 @@ export class NgxTreeParentComponent implements AfterViewInit {
         this.userConfig.options.showDropChildZone = false;
       }
     ));
+
+    this.eventSub.add(this.treeService.onDragEndChildCheck.subscribe((ev) => {
+      this.cd.detectChanges();
+    }))
 
   }
 
