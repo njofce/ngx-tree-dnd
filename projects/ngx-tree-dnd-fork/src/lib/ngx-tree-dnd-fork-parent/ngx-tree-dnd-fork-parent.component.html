@@ -50,7 +50,11 @@
           </div>
         </div>
 
-        <lib-ngx-tree-children [setItem]="child" *ngFor='let child of tree.getRoot().children'></lib-ngx-tree-children>
+        <cdk-virtual-scroll-viewport style="height: 500px; width: 800px;" itemSize="40">
+          <ng-container *cdkVirtualFor="let child of treeNodes">
+            <lib-ngx-tree-children [setItem]="child"></lib-ngx-tree-children>
+          </ng-container>
+        </cdk-virtual-scroll-viewport>
       </div>
     </div>
 

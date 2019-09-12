@@ -117,6 +117,7 @@ export class NgxTreeChildrenComponent {
     this.eventSub.add(this.treeService.onDragEnd.subscribe(val => {
       this.cd.markForCheck();
       this.treeService.onDragEndChildCheck.next();
+      this.treeService.eventSubj.next();
     }));
 
     this.eventSub.add(this.treeService.onIndent.subscribe(
@@ -214,7 +215,7 @@ export class NgxTreeChildrenComponent {
     this.formValueItemTitleChangesSubscription = this.itemEditForm
       .get("name")
       .valueChanges.subscribe(val => {
-        setTimeout(() => this.submitEdit());
+        setTimeout(() => this.submitEdit())
       });
     
     this.formValueItemTypeChangesSubscription = this.itemEditForm
@@ -345,6 +346,10 @@ export class NgxTreeChildrenComponent {
     const elemId = parseInt(d, null);
     this.treeService.addNewItem(elemId, name, this.treeNode.data.id, type);
     this.treeNode.data.options.hideChildrens = false;
+  }
+
+  toggleChildrenVisibility(b: boolean) {
+    this.treeService.toggleChildrenVisibility(this.treeNode, b);
   }
 
   submitEdit() {

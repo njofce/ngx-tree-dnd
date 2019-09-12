@@ -1,7 +1,7 @@
 import { Tree } from './../util/tree';
 import { NgxTreeChildrenComponent } from './../ngx-tree-dnd-fork-children/ngx-tree-dnd-fork-children.component';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Component, Input, AfterViewInit, ChangeDetectorRef, ViewChildren, QueryList, NgZone, ChangeDetectionStrategy, isDevMode } from '@angular/core';
+import { Component, Input, AfterViewInit, ChangeDetectorRef, ViewChildren, QueryList, NgZone, ChangeDetectionStrategy, isDevMode, ViewChild } from '@angular/core';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { TreeModel, TreeConfig } from '../models/tree-view.model';
 import { TreeItemType } from '../models/tree-view.enum';
@@ -9,6 +9,7 @@ import { faPlus, faEdit, faCheck, faArrowDown } from '@fortawesome/free-solid-sv
 import { TASK_GROUP_CREATE_MESSAGE, EDIT_ITEM_MESSAGE } from '../messages';
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 
 @Component({
@@ -19,6 +20,7 @@ import { Subscription } from 'rxjs';
 export class NgxTreeParentComponent implements AfterViewInit {
 
   @ViewChildren(NgxTreeChildrenComponent) childrenElementList: QueryList<NgxTreeChildrenComponent>;
+  @ViewChild(CdkVirtualScrollViewport) viewPort: CdkVirtualScrollViewport;
 
   tgMessage = TASK_GROUP_CREATE_MESSAGE;
   editMessage = EDIT_ITEM_MESSAGE;
@@ -29,6 +31,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
   faArrowDown = faArrowDown;
   
   tree: Tree = null;
+  treeNodes: Node[] = [];
   ddCh: number = 1;
   
   userConfig: TreeConfig = {
@@ -123,13 +126,22 @@ export class NgxTreeParentComponent implements AfterViewInit {
 
     this.eventSub.add(this.treeService.onDragEndChildCheck.subscribe((ev) => {
       this.cd.detectChanges();
-    }))
+    }));
+
+    this.eventSub.add(this.treeService.eventSubj.subscribe((val) => {
+      this.setFlatTreeData();
+    }));
 
   }
 
   // get tree data from treeService.
   setTreeData(treeModel: TreeModel[]) {
     this.tree = this.treeService.transformLocalData(treeModel);
+    this.setFlatTreeData();
+  }
+
+  setFlatTreeData() {
+    this.treeNodes = this.treeService.flatTree(this.tree.getRoot());
   }
 
   // create edit form
@@ -154,10 +166,10 @@ export class NgxTreeParentComponent implements AfterViewInit {
     const d = `${new Date().getFullYear()}${new Date().getDay()}${new Date().getTime()}`;
     const elemId = parseInt(d, null);
     this.treeService.addNewItem(elemId, null, 0, TreeItemType.TaskGroup);
+    this.scrollToIndex(this.treeNodes.length);
   }
 
   submitRootRename() {
-
     if (this.renameForm.valid) {
       this.showError = false;
       this.userConfig.rootTitle = this.renameForm.value.name;
@@ -173,8 +185,10 @@ export class NgxTreeParentComponent implements AfterViewInit {
   }
 
   ngAfterViewChecked() {
-    if(isDevMode())
-      console.log('change');
+    // console.log('change');
   }
 
+  scrollToIndex(index: number) {
+    this.viewPort.scrollToIndex(index, "auto");
+  }
 }

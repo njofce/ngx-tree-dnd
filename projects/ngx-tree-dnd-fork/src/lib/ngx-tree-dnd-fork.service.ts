@@ -41,8 +41,9 @@ export class NgxTreeService {
   onStartRenameItem = new Subject<any>();
   onFinishRenameItem = new Subject<any>();
   onRemoveItem = new Subject<any>();
-  onDeleteEnd = new Subject<any>();
   config = new BehaviorSubject<any>(null);
+
+  eventSubj = new Subject<any>();
 
   defaulConfig: TreeConfig = {
     showActionButtons: true,
@@ -83,10 +84,11 @@ export class NgxTreeService {
 
   public flatTree(root: Node) {
     let res = [];
-
+    if(root.data.options.hideChildrens)
+      return [root];
     for(let c of root.children) {
-      res.push(c)
-      res = res.concat(this.flatTree(c))
+      res.push(c);
+      (!c.data.options.hideChildrens) && (res = res.concat(this.flatTree(c)))
     }
 
     return res;
@@ -105,11 +107,12 @@ export class NgxTreeService {
     .map(x => delete x.children && x)
     .find(x => x.id == nodeId);
 
-    return flat.level;
+    return flat ? flat.level : 0;
   }
 
   public updateItemDateConsistencyIndicators(itemIds: number[]) {
     this.updateDateConsistency(this._tree.getRoot().children, itemIds);
+    this.eventSubj.next();
   }
 
   private updateDateConsistency(children: Node[], itemIds: number[]) {
@@ -189,8 +192,6 @@ export class NgxTreeService {
   }
 
   public getTreeData(): Observable<TreeDto> {
-    this.autoSaveItems(this.childrenElementList);
-
     let treeModel: TreeModel[] = [];
     this.transformTreeToTreeModel(treeModel, this._tree.getRoot().children);
 
@@ -210,6 +211,14 @@ export class NgxTreeService {
         this.finishEditItem(ch.itemEditForm.value, ch.treeNode.data.id);
       }
     })
+    this.eventSubj.next();
+  }
+
+  public toggleChildrenVisibility(node: Node, b: boolean) {
+    if (node.data.options.hideChildrens != b) {
+      node.data.options.hideChildrens = b;
+      this.eventSubj.next();
+    }
   }
 
   public addNewItem(id: number, name: string = null, parentId: number = 0, type: TreeItemType = TreeItemType.TaskGroup) {
@@ -265,6 +274,7 @@ export class NgxTreeService {
 
     this.checkTreeLength();
     this.onAddItem.next(null);
+    this.eventSubj.next();
   }
 
   public deleteItem(id: number) {
@@ -272,7 +282,7 @@ export class NgxTreeService {
     this._tree.remove(node, node.parent.data.id);
 
     this.checkTreeLength();
-    this.onDeleteEnd.next(null);
+    this.eventSubj.next();
   }
 
   public startRenameItem(element) {
@@ -282,6 +292,7 @@ export class NgxTreeService {
   public updateRootTitle(newTitle: string) {
     this.rootTitle = newTitle;
     this._tree.getRoot().data.name = newTitle;
+    this.eventSubj.next();
   }
 
   public registerChildListReference(childrenElementList: QueryList<NgxTreeChildrenComponent>) {
@@ -303,7 +314,7 @@ export class NgxTreeService {
     node.data.options.edit = false;
 
     this.checkTreeLength();
-    this.onFinishRenameItem.next(null);
+    // this.eventSubj.next();
   }
 
   public startDragging(eventObj) {
@@ -319,6 +330,7 @@ export class NgxTreeService {
     this.removeDestenationBorders(this._tree.getRoot());
     this.switchDropButton(false, this._tree.getRoot());
     this.onDragEnd.next(eventObj);
+    this.eventSubj.next();
   }
 
   public enterDropZone(eventObj) {
@@ -371,6 +383,7 @@ export class NgxTreeService {
     this.switchDropButton(false, this._tree.getRoot());
     this.checkTreeLength();
     this.onDragEnd.next();
+    this.eventSubj.next();
   }
 
   public displayErrorNotification(message: string) {
@@ -416,6 +429,7 @@ export class NgxTreeService {
       
       this.switchDropButton(sw, n);
     });
+    this.eventSubj.next();
   }
 
   public checkTreeLength() {
@@ -435,12 +449,14 @@ export class NgxTreeService {
     let parent: Node = item.parent.children[indexOfCurrentItem - 1];
     this.changeItemParent(item, parent);
     this.onIndent.next(parent.data.id);
+    this.eventSubj.next();
   }
 
   public performOutdent(item: Node) {
     let parentIndex = item.parent.parent.children.findIndex(c => c.data.id == item.parent.data.id);
     this.changeItemParent(item, item.parent.parent, parentIndex + 1);
     this.onOutdent.next();
+    this.eventSubj.next();
   }
 
   public canIndent(item: Node): boolean {

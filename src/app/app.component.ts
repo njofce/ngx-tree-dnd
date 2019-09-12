@@ -31,7 +31,7 @@ export class AppComponent {
     setItemsAsLinks: false,
     setFontSize: 14,
     setIconSize: 12,
-    firstLevelLimit: 10,
+    firstLevelLimit: 20,
     autoInsert: false,
     autoInsertDefaultString: 'Task Group',
     autoDateInsert: true,

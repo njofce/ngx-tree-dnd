@@ -19,6 +19,7 @@
     border: 1px solid transparent;
     border-top: 3px solid transparent;
     border-bottom: 3px solid transparent;
+    margin-left: 10px;
 }
 
 .tree-title form {
@@ -97,7 +98,7 @@ label{
 }
 .tree-content-main {
     margin-left: 15px;
-    border-left: 1px solid #484747 ;
+    /* border-left: 1px solid #484747 ; */
     position: relative;
     width: 100%;
 }
@@ -279,8 +280,9 @@ label{
 
 .o-tree-header {
     width: 675px;
-    margin-left: 10px;
+    margin-left: 20px;
     margin-top: 5px;
+    padding-bottom: 10px;
     text-align: center;
     font-weight: bold;
 }

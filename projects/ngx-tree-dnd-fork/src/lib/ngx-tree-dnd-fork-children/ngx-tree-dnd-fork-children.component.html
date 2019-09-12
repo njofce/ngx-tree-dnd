@@ -106,12 +106,12 @@
         <div class='show-hide-switch'
           *ngIf="config.enableExpandButtons && treeNode.data.options.showExpandButton && treeNode.children.length > 0 && !treeNode.data.options.disabled">
           <div *ngIf="treeNode.data.options.hideChildrens; else visible">
-            <button class='tree-btn show-btn' (click)='treeNode.data.options.hideChildrens = false'>
+            <button class='tree-btn show-btn' (click)='toggleChildrenVisibility(false)'>
               <fa-icon [icon]="faPlus" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>
           <ng-template #visible>
-            <button class='tree-btn hide-btn' (click)='treeNode.data.options.hideChildrens = true'>
+            <button class='tree-btn hide-btn' (click)='toggleChildrenVisibility(true)'>
               <fa-icon [icon]="faMinus" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </ng-template>
@@ -119,9 +119,9 @@
 
       </div>
 
-      <div class="tree-content" *ngIf="treeNode.children && !treeNode.data.options.hideChildrens">
+      <!-- <div class="tree-content" *ngIf="treeNode.children && !treeNode.data.options.hideChildrens">
         <lib-ngx-tree-children [setItem]="child" *ngFor='let child of treeNode.children'></lib-ngx-tree-children>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
