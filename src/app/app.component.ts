@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { CONTENTS } from './content';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { TreeModel, NgxTreeService, TreeConfig, TreeItemType } from 'ngx-tree-dnd-fork';
 // import data from './test.json';
 
@@ -11,6 +12,10 @@ export class AppComponent {
   
   constructor(private treeService: NgxTreeService) {
     // this.myTree.push(data);
+  }
+
+  ngOnInit() {
+    this.myTree = JSON.parse(CONTENTS);
   }
 
   config: TreeConfig = {
@@ -172,16 +177,5 @@ export class AppComponent {
     this.treeService.updateItemDateConsistencyIndicators([1252351]);
   }
 
-  ngOnInit() { }
-
-  onDrop(event) { }
-
-  onDelete(event) { }
-
-  onadditem(event) { }
-
-  onStartRenameItem(event) { }
-
-  onFinishRenameItem(event) { }
    
 }

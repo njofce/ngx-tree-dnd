@@ -128,6 +128,8 @@ export class NgxTreeChildrenComponent {
 
   ngOnChanges(changes: SimpleChanges) {}
   
+  ngOnInit() {}
+
   getNodeLevel() {
     return this.treeService.getNodeLevel(this.treeNode.data.id) - 1;
   }
@@ -428,7 +430,7 @@ export class NgxTreeChildrenComponent {
   }
 
   ngAfterViewChecked() {
-    console.log('change: ' + this.treeNode.data.id);
+    // console.log('change: ' + this.treeNode.data.id);
   }
 
 }
