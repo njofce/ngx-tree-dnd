@@ -101,8 +101,6 @@ export class NgxTreeParentComponent implements AfterViewInit {
     this.renameForm.patchValue({
       name: this.userConfig.rootTitle
     });
-    this.treeService.updateRootTitle(this.userConfig.rootTitle);
-    this.treeService.updateDefaultConfig(this.userConfig);
   }
 
   // set value to keys of config
@@ -138,6 +136,8 @@ export class NgxTreeParentComponent implements AfterViewInit {
   setTreeData(treeModel: TreeModel[]) {
     this.tree = this.treeService.transformLocalData(treeModel);
     this.setFlatTreeData();
+    this.treeService.updateRootTitle(this.userConfig.rootTitle);
+    this.treeService.updateDefaultConfig(this.userConfig);
   }
 
   setFlatTreeData() {
