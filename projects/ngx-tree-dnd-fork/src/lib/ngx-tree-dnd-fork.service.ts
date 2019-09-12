@@ -43,6 +43,7 @@ export class NgxTreeService {
   onRemoveItem = new Subject<any>();
   onDeleteEnd = new Subject<any>();
   config = new BehaviorSubject<any>(null);
+
   defaulConfig: TreeConfig = {
     showActionButtons: true,
     showAddButtons: true,
@@ -67,10 +68,10 @@ export class NgxTreeService {
 
   constructor() {}
 
-    private flatten = (children, getChildren, level) => Array.prototype.concat.apply(
-      children.map(x => ({ children: x.children, id: x.data.id, level: level || 1 })),
-      children.map(x => this.flatten(getChildren(x) || [], getChildren, (level || 1) + 1))
-    );
+  private flatten = (children, getChildren, level) => Array.prototype.concat.apply(
+    children.map(x => ({ children: x.children, id: x.data.id, level: level || 1 })),
+    children.map(x => this.flatten(getChildren(x) || [], getChildren, (level || 1) + 1))
+  );
 
   private extractChildren = x => x.children;
 
@@ -80,8 +81,18 @@ export class NgxTreeService {
     }
   }
 
-  // set value to keys of config
-  setValue(item, config) {
+  public flatTree(root: Node) {
+    let res = [];
+
+    for(let c of root.children) {
+      res.push(c)
+      res = res.concat(this.flatTree(c))
+    }
+
+    return res;
+  }
+
+  public setValue(item, config) {
     this.defaulConfig[item] = config[item];
   }
 
@@ -90,7 +101,6 @@ export class NgxTreeService {
   }
 
   public getNodeLevel(nodeId: number) {
-
     let flat = this.flatten(this.extractChildren(this._tree.getRoot()), this.extractChildren, 0)
     .map(x => delete x.children && x)
     .find(x => x.id == nodeId);
