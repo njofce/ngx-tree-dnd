@@ -14,8 +14,7 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'lib-ngx-tree-component',
-  templateUrl: './ngx-tree-dnd-fork-parent.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './ngx-tree-dnd-fork-parent.component.html'
 })
 export class NgxTreeParentComponent implements AfterViewInit {
 

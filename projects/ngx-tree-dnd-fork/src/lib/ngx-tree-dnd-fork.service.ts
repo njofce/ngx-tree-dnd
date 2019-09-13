@@ -279,9 +279,11 @@ export class NgxTreeService {
 
   public deleteItem(id: number) {
     let node: Node = this._tree.getNode(this._tree.getRoot(), id);
+    let parentId: number = node.parent.data.id;
     this._tree.remove(node, node.parent.data.id);
 
     this.checkTreeLength();
+    this.onRemoveItem.next(parentId)
     this.eventSubj.next();
   }
 
@@ -453,9 +455,10 @@ export class NgxTreeService {
   }
 
   public performOutdent(item: Node) {
+    let currentParentId: number = item.parent.data.id;
     let parentIndex = item.parent.parent.children.findIndex(c => c.data.id == item.parent.data.id);
     this.changeItemParent(item, item.parent.parent, parentIndex + 1);
-    this.onOutdent.next();
+    this.onOutdent.next(currentParentId);
     this.eventSubj.next();
   }
 

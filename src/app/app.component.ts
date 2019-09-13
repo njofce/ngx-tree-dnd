@@ -15,7 +15,7 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.myTree = JSON.parse(CONTENTS);
+    // this.myTree = JSON.parse(CONTENTS);
   }
 
   config: TreeConfig = {

@@ -9,7 +9,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { TreeConfig, TreeItemOptions } from '../models/tree-view.model';
 import { TreeItemType } from '../models/tree-view.enum';
-import { Subscription, fromEvent } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { faPlus, faEdit, faTimes, faArrowDown, faMinus, faCheck, faThumbtack, faStickyNote, faIndent, faOutdent } from '@fortawesome/free-solid-svg-icons';
 
 import * as moment_ from 'moment';
@@ -123,6 +123,18 @@ export class NgxTreeChildrenComponent {
     this.eventSub.add(this.treeService.onIndent.subscribe(
       (event) => {
         if(event == this.treeNode.data.id)
+          this.cd.markForCheck();
+      }));
+
+    this.eventSub.add(this.treeService.onRemoveItem.subscribe(
+      (event) => {
+        if (event == this.treeNode.data.id)
+          this.cd.markForCheck();
+      }));
+
+    this.eventSub.add(this.treeService.onOutdent.subscribe(
+      (event) => {
+        if (event == this.treeNode.data.id)
           this.cd.markForCheck();
       }));
   }
