@@ -29,7 +29,7 @@
     box-shadow: 0 2px 3px -3px rgba(0, 0, 0, 0.2), 0 6px 7px 1px rgba(0, 0, 0, 0.14), 0 1px 8px 2px rgba(0, 0, 0, 0.12);
 }
 
-.tree-title::before {
+.tree-title>.h-line-levels{
     position: absolute;
     left: -1px;
     top: calc(50% - 0.5px);
@@ -89,6 +89,7 @@ label{
 .destenationTop {
     border-top: 3px solid rgba(255, 0, 0, 0.5);
 }
+
 .destenationBottom {
     border-bottom: 3px solid rgba(255, 0, 0, 0.5);
 }
@@ -96,6 +97,7 @@ label{
 .tree-content {
     position: relative;
 }
+
 .tree-content-main {
     margin-left: 15px;
     /* border-left: 1px solid #484747 ; */
@@ -142,6 +144,7 @@ label{
 .buttons-bar > div{
     align-items: center;
 }
+
 .tree-btn {
     width: 20px;
     height: 20px;
@@ -191,7 +194,6 @@ label{
     display: flex;
 }
 
-/* childrens styles */
 .input-rename {
     padding-left: 5px;
     padding-right: 5px;
@@ -202,36 +204,42 @@ label{
     outline: none;
     border: none;
 }
+
 .show-hide-switch {
     position: absolute;
     top: calc(50% - 7.5px);
     left: -10px;
 }
+
 .error-edit-wrap {
     margin-left: 5px;
     color: #d33;
 }
+
 .addOpacity {
     opacity: 0.5;
 }
+
 .hidden {
     display: none !important;
 }
-/* tool classes styles */
+
 .d-flex {
     display: flex;
 }
+
 .d-inline-flex {
     display: inline-flex;
 }
+
 .text-center {
     text-align: center;
 }
+
 .pos-relative {
     position: relative;
 }
 
-/* Material inputs */
 .input-material {
     padding: 5px 10px;
 }
@@ -276,6 +284,7 @@ label{
 
 .bottom-ctrl-btn {
     padding: 5px;
+    margin-left: 10px;
 }
 
 .o-tree-header {
@@ -311,6 +320,18 @@ label{
     width: 109px;
     border-right: 1px solid #aba9a9;
 }
+
 .o-tree-header div div:nth-child(6) {
     width: 56px;
+}
+
+.cdk-virtual-scroll-content-wrapper::before {
+    position: absolute;
+    left: 10px;
+    top: 0;
+    background-color: #484747;
+    bottom: 0;
+    width: 1px;
+    align-items: center;
+    content: '';
 }

@@ -316,7 +316,6 @@ export class NgxTreeService {
     node.data.options.edit = false;
 
     this.checkTreeLength();
-    // this.eventSubj.next();
   }
 
   public startDragging(eventObj) {
@@ -363,6 +362,7 @@ export class NgxTreeService {
 
   public onDropItem(eventObj) {    
     const el = (eventObj.target as Node);
+
     if ( el != undefined ) {
       let elementIndex: number = el.parent.children.findIndex(c => c.data.id == el.data.id);
       let isDraggingIndex: number = this.isDragging.parent.children.findIndex(c => c.data.id == this.isDragging.data.id);
@@ -374,18 +374,17 @@ export class NgxTreeService {
       } else {
         this.changeItemParent(this.isDragging, el.parent, isDraggingIndex > elementIndex ? elementIndex + 1 : elementIndex);
       }
-    } 
+    }
     else {
       const dropZoneId = parseInt(eventObj.event.target.getAttribute('data-id'), null);
       let parentNode: Node = this._tree.getNode(this._tree.getRoot(), dropZoneId);
       this.changeItemParent(this.isDragging, parentNode);
     }
-    this.onDrop.next(eventObj);
+
     this.removeDestenationBorders(this._tree.getRoot());
     this.switchDropButton(false, this._tree.getRoot());
     this.checkTreeLength();
     this.onDragEnd.next();
-    this.eventSubj.next();
   }
 
   public displayErrorNotification(message: string) {
@@ -475,6 +474,10 @@ export class NgxTreeService {
       return true;
 
     return false;
+  }
+
+  public canAdd(item: Node) {
+    return item.data.contents.type == TreeItemType.TaskGroup;
   }
 
   public canOutdent(item: Node): boolean {

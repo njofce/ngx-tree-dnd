@@ -7,10 +7,8 @@ import { TreeModel, TreeConfig } from '../models/tree-view.model';
 import { TreeItemType } from '../models/tree-view.enum';
 import { faPlus, faEdit, faCheck, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { TASK_GROUP_CREATE_MESSAGE, EDIT_ITEM_MESSAGE } from '../messages';
-import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-
 
 @Component({
   selector: 'lib-ngx-tree-component',
@@ -31,7 +29,6 @@ export class NgxTreeParentComponent implements AfterViewInit {
   
   tree: Tree = null;
   treeNodes: Node[] = [];
-  ddCh: number = 1;
   
   userConfig: TreeConfig = {
     showActionButtons: true,
@@ -83,7 +80,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
     this.setTreeData(item);
   }
 
-  constructor(public treeService: NgxTreeService, private fb: FormBuilder, private cd: ChangeDetectorRef, private zone: NgZone) {
+  constructor(public treeService: NgxTreeService, private fb: FormBuilder, private cd: ChangeDetectorRef) {
     this.enableSubscribers();
     this.createForm();
   }
@@ -131,7 +128,6 @@ export class NgxTreeParentComponent implements AfterViewInit {
 
   }
 
-  // get tree data from treeService.
   setTreeData(treeModel: TreeModel[]) {
     this.tree = this.treeService.transformLocalData(treeModel);
     this.setFlatTreeData();
@@ -143,7 +139,6 @@ export class NgxTreeParentComponent implements AfterViewInit {
     this.treeNodes = this.treeService.flatTree(this.tree.getRoot());
   }
 
-  // create edit form
   createForm() {
     this.renameForm = this.fb.group({
       name: [this.userConfig.rootTitle || '', [
@@ -190,4 +185,5 @@ export class NgxTreeParentComponent implements AfterViewInit {
   scrollToIndex(index: number) {
     this.viewPort.scrollToIndex(index, "auto");
   }
+  
 }

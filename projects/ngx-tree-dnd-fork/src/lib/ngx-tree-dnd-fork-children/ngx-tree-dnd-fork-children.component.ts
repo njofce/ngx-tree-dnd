@@ -207,17 +207,11 @@ export class NgxTreeChildrenComponent {
     let vals = this.getElValues();
 
     this.itemEditForm = this.fb.group({
-      name: [
-        this.treeNode.data.name || "",
-        [
-          Validators.required,
-          Validators.minLength(0)
-        ]
-      ],
-      duration: [vals.endDate.diff(vals.startDate, "days"), Validators.required],
-      startDate: [vals.startDate, Validators.required],
-      endDate: [vals.endDate, Validators.required],
-      itemType: [vals.itemType, Validators.required],
+      name: this.treeNode.data.name,
+      duration: [ vals.endDate.diff(vals.startDate, "days"), Validators.required ],
+      startDate: [ vals.startDate, Validators.required ],
+      endDate: [ vals.endDate, Validators.required ],
+      itemType: [ vals.itemType, Validators.required ],
       itemActive: vals.active
     });
     this.onChanges();
@@ -257,6 +251,7 @@ export class NgxTreeChildrenComponent {
             );
           }
         }
+
         setTimeout(() => this.submitEdit())
       });
 
@@ -364,7 +359,7 @@ export class NgxTreeChildrenComponent {
     this.treeService.toggleChildrenVisibility(this.treeNode, b);
   }
 
-  submitEdit() {
+  submitEdit() {    
     if (this.itemEditForm.valid) {
       this.showError = false;
       this.treeService.finishEditItem(this.itemEditForm.value, this.treeNode.data.id);
@@ -375,15 +370,7 @@ export class NgxTreeChildrenComponent {
   }
 
   onSubmitDelete() {
-    if (!this.treeNode.data.options.edit) {
-      this.treeService.deleteItem(this.treeNode.data.id);
-    } else {
-      if (this.treeNode.data.name === null) {
-        this.treeService.deleteItem(this.treeNode.data.id);
-      } else {
-        this.treeNode.data.options.edit = false;
-      }
-    }
+    this.treeService.deleteItem(this.treeNode.data.id);
   }
 
   canIndent() {
@@ -392,6 +379,10 @@ export class NgxTreeChildrenComponent {
 
   canOutdent() {
     return this.treeService.canOutdent(this.treeNode);
+  }
+
+  canAdd() {
+    return this.treeService.canAdd(this.treeNode);
   }
 
   submitIndent() {
