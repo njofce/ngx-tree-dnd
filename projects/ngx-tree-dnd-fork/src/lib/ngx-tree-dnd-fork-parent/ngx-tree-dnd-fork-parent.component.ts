@@ -159,7 +159,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
     }
     const d = `${new Date().getFullYear()}${new Date().getDay()}${new Date().getTime()}`;
     const elemId = parseInt(d, null);
-    this.treeService.addNewItem(elemId, null, 0, TreeItemType.TaskGroup);
+    this.treeService.addNewItem(elemId, "", 0, TreeItemType.TaskGroup);
     this.scrollToIndex(this.treeNodes.length);
   }
 

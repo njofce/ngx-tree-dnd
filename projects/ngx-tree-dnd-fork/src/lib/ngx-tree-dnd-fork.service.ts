@@ -221,7 +221,7 @@ export class NgxTreeService {
     }
   }
 
-  public addNewItem(id: number, name: string = null, parentId: number = 0, type: TreeItemType = TreeItemType.TaskGroup) {
+  public addNewItem(id: number, name: string = "", parentId: number = 0, type: TreeItemType = TreeItemType.TaskGroup) {
     let text = null;
     let startDate = moment().format(this.defaulConfig.dateFormat);
     let endDate = moment().add(type == TreeItemType.Milestone ? 0 : 1, "d").format(this.defaulConfig.dateFormat);
@@ -303,10 +303,10 @@ export class NgxTreeService {
 
   public finishEditItem(formValue, id: number) {
     let node: Node = this._tree.getNode(this._tree.getRoot(), id);
-    node.data.name = formValue.name;
+    node.data.name = formValue.name != null ? formValue.name : "";
     node.data.contents = {
       id: id,
-      title: formValue.name,
+      title: node.data.name,
       startDate: formValue.startDate.format(this.defaulConfig.dateFormat),
       endDate: formValue.endDate.format(this.defaulConfig.dateFormat),
       duration: formValue.duration,

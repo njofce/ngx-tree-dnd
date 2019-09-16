@@ -207,7 +207,7 @@ export class NgxTreeChildrenComponent {
     let vals = this.getElValues();
 
     this.itemEditForm = this.fb.group({
-      name: this.treeNode.data.name,
+      name: [ this.treeNode.data.name || ""],
       duration: [ vals.endDate.diff(vals.startDate, "days"), Validators.required ],
       startDate: [ vals.startDate, Validators.required ],
       endDate: [ vals.endDate, Validators.required ],

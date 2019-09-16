@@ -1,7 +1,6 @@
 import { CONTENTS } from './content';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { TreeModel, NgxTreeService, TreeConfig, TreeItemType } from 'ngx-tree-dnd-fork';
-// import data from './test.json';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +14,7 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    // this.myTree = JSON.parse(CONTENTS);
+    this.myTree = JSON.parse(CONTENTS);
   }
 
   config: TreeConfig = {

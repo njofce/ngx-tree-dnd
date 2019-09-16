@@ -87,7 +87,7 @@
           </div>
 
           <div class='d-flex'>
-            <button class="tree-btn add-btn" *ngIf="canAdd()" (click)="submitAdd(null, treeItemType.Task)" [title]="tMessage">
+            <button class="tree-btn add-btn" *ngIf="canAdd()" (click)="submitAdd('', treeItemType.Task)" [title]="tMessage">
               <fa-icon [icon]="faPlus" [style.font-size.px]='config.setIconSize'></fa-icon>
             </button>
           </div>
