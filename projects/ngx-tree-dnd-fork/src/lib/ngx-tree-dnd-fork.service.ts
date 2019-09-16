@@ -166,7 +166,7 @@ export class NgxTreeService {
           duration: t.contents.duration,
           startDate: t.contents.startDate,
           endDate: t.contents.endDate,
-          active: true
+          active: t.contents.active
         },
       }
       let parent = t.parentId != null ? this._tree.getNode(this._tree.getRoot(), t.parentId) : this._tree.getRoot();

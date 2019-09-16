@@ -14,7 +14,7 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.myTree = JSON.parse(CONTENTS);
+    // this.myTree = JSON.parse(CONTENTS);
   }
 
   config: TreeConfig = {
@@ -51,7 +51,7 @@ export class AppComponent {
         type: TreeItemType.Task,
         startDate: '2019-01-27',
         endDate: '2019-08-16',
-        active: true,
+        active: false,
         duration: 250
       },
       childrens: []
