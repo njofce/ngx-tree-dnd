@@ -137,9 +137,12 @@ export class NgxTreeChildrenComponent {
         if (event == this.treeNode.data.id)
           this.cd.markForCheck();
       }));
-  }
 
-  ngOnChanges(changes: SimpleChanges) {}
+    this.eventSub.add(this.treeService.onItemUpdate.subscribe(
+      (event) => {
+        this.changesForm();
+      }));
+  }
   
   ngOnInit() {}
 

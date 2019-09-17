@@ -13,7 +13,7 @@ import { TreeItemTypeTransformPipe } from './pipes/tree-item-type-transform.pipe
 
 library.add(faCoffee, faPlus, faEdit, faMinus, faTimes, faCheck, faArrowDown );
 
-import { MatDatepickerModule, MatTooltipModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
+import { MatDatepickerModule, MatTooltipModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatCheckboxModule } from '@angular/material';
 import { DateFormatterPipe } from './pipes/date-formatter.pipe';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 

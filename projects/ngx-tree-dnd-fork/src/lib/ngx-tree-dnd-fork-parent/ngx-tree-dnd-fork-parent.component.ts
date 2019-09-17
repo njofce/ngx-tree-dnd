@@ -1,7 +1,7 @@
-import { Tree } from './../util/tree';
+import { Tree, Node } from './../util/tree';
 import { NgxTreeChildrenComponent } from './../ngx-tree-dnd-fork-children/ngx-tree-dnd-fork-children.component';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Component, Input, AfterViewInit, ChangeDetectorRef, ViewChildren, QueryList, NgZone, ChangeDetectionStrategy, isDevMode, ViewChild } from '@angular/core';
+import { Component, Input, AfterViewInit, ChangeDetectorRef, ViewChildren, QueryList, ViewChild } from '@angular/core';
 import { NgxTreeService } from '../ngx-tree-dnd-fork.service';
 import { TreeModel, TreeConfig } from '../models/tree-view.model';
 import { TreeItemType } from '../models/tree-view.enum';
@@ -9,6 +9,7 @@ import { faPlus, faEdit, faCheck, faArrowDown } from '@fortawesome/free-solid-sv
 import { TASK_GROUP_CREATE_MESSAGE, EDIT_ITEM_MESSAGE } from '../messages';
 import { Subscription } from 'rxjs';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { MatCheckboxChange, MatCheckbox } from '@angular/material';
 
 @Component({
   selector: 'lib-ngx-tree-component',
@@ -184,6 +185,12 @@ export class NgxTreeParentComponent implements AfterViewInit {
 
   scrollToIndex(index: number) {
     this.viewPort.scrollToIndex(index, "auto");
+  }
+
+  toggleIncludeAll(e: MatCheckboxChange) {
+    this.treeService.toggleIncludeAll(e.checked);
+    this.setFlatTreeData();
+    this.treeService.onItemUpdate.next();
   }
   
 }

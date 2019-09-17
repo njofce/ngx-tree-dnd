@@ -120,8 +120,15 @@ export class Tree {
     }
 
     getLevelItemCount(level: number = 0): number {
-        // For now, returns only first level item count
         return this._root.children.length;
+    }
+
+    toggleActive(node: Node, toggle) {
+        if(node.data && node.data.contents)
+            node.data.contents.active = toggle;
+        for (let c of node.children) {
+            this.toggleActive(c, toggle);
+        }
     }
 
 }

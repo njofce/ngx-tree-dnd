@@ -36,6 +36,7 @@ export class NgxTreeService {
   onDragEndChildCheck = new Subject<any>();
   onIndent = new Subject<number>();
   onOutdent = new Subject<any>();
+  onItemUpdate = new Subject<any>();
   onAddItem = new Subject<any>();
   onRenameItem = new Subject<any>();
   onStartRenameItem = new Subject<any>();
@@ -488,6 +489,10 @@ export class NgxTreeService {
     if (item.data.contents.type != TreeItemType.TaskGroup && item.parent.parent.data.id == 0)
       return false
     return true;
+  }
+
+  public toggleIncludeAll(toggle: boolean) {
+    this._tree.toggleActive(this._tree.getRoot(), toggle);
   }
 
 }

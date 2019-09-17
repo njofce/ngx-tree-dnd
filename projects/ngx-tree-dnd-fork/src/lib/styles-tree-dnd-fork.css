@@ -100,7 +100,6 @@ label{
 
 .tree-content-main {
     margin-left: 15px;
-    /* border-left: 1px solid #484747 ; */
     position: relative;
     width: 100%;
 }
@@ -288,7 +287,7 @@ label{
 }
 
 .o-tree-header {
-    width: 675px;
+    width: 699px;
     margin-left: 20px;
     margin-top: 5px;
     padding-bottom: 10px;
@@ -296,33 +295,33 @@ label{
     font-weight: bold;
 }
 
-.o-tree-header div div:nth-child(1) {
+.o-tree-header>div>div:nth-child(1) {
     width: 200px;
     border-right: 1px solid #aba9a9;
 }
 
-.o-tree-header div div:nth-child(2) {
+.o-tree-header>div>div:nth-child(2) {
     width: 120px;
     border-right: 1px solid #aba9a9;
 }
 
-.o-tree-header div div:nth-child(3) {
+.o-tree-header>div>div:nth-child(3) {
     width: 120px;
     border-right: 1px solid #aba9a9;
 }
 
-.o-tree-header div div:nth-child(4) {
+.o-tree-header>div>div:nth-child(4) {
     width: 70px;
     border-right: 1px solid #aba9a9;
 }
 
-.o-tree-header div div:nth-child(5) {
+.o-tree-header>div>div:nth-child(5) {
     width: 109px;
     border-right: 1px solid #aba9a9;
 }
 
-.o-tree-header div div:nth-child(6) {
-    width: 56px;
+.o-tree-header>div>div:nth-child(6) {
+    width: 80px;
 }
 
 .cdk-virtual-scroll-content-wrapper::before {
@@ -334,4 +333,9 @@ label{
     width: 1px;
     align-items: center;
     content: '';
+}
+
+.child-include-option-container {
+    padding: 6px 30px 0 30px;
+    width: 80px;
 }

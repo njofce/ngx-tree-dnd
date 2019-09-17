@@ -1,4 +1,4 @@
-<div id='threeWrapper' *ngIf="tree" [style.font-size.px]='userConfig.setFontSize'>
+<div id='treeWrapper' *ngIf="tree" [style.font-size.px]='userConfig.setFontSize'>
   
     <div class='tree-title d-inline-flex pos-relative' *ngIf="!userConfig.options.edit;else onEdit">
       <div>
@@ -46,7 +46,9 @@
             <div>End Date</div>
             <div>Duration</div>
             <div>Type</div>
-            <div>Include</div>
+            <div>
+              <mat-checkbox [color]="'primary'" (change)="toggleIncludeAll($event)">Include</mat-checkbox>
+            </div>
           </div>
         </div>
 
