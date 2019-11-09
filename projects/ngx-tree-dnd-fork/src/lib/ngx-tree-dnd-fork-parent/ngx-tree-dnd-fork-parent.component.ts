@@ -138,6 +138,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
 
   setFlatTreeData() {
     this.treeNodes = this.treeService.flatTree(this.tree.getRoot());
+    this.updateViewportSize();
   }
 
   createForm() {
@@ -162,6 +163,7 @@ export class NgxTreeParentComponent implements AfterViewInit {
     const elemId = parseInt(d, null);
     this.treeService.addNewItem(elemId, "", 0, TreeItemType.TaskGroup);
     this.scrollToIndex(this.treeNodes.length);
+    this.updateViewportSize();
   }
 
   submitRootRename() {
@@ -185,6 +187,10 @@ export class NgxTreeParentComponent implements AfterViewInit {
 
   scrollToIndex(index: number) {
     this.viewPort.scrollToIndex(index, "auto");
+  }
+
+  updateViewportSize() {
+    this.viewPort.checkViewportSize();
   }
 
   toggleIncludeAll(e: MatCheckboxChange) {
